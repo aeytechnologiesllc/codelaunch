@@ -563,22 +563,13 @@ export default function PricingPage() {
                   </div>
                   <p className="text-text-muted text-sm mb-6">Green = free. Click features to add. Expand for automation options.</p>
 
-                  {/* Included */}
-                  <div className="mb-6">
-                    <h3 className="flex items-center gap-2 text-sm font-semibold text-accent uppercase tracking-wider mb-3">
-                      <Check className="w-4 h-4" /> Included Free
-                    </h3>
-                    <div className="space-y-1.5">
-                      {includedFeatures.map((f) => (
-                        <div key={f.id} className="glass-card p-3 flex items-center gap-3 border-accent/10 bg-accent/[0.03]">
-                          <div className="w-4 h-4 rounded border-2 border-accent bg-accent flex items-center justify-center flex-shrink-0">
-                            <Check className="w-2.5 h-2.5 text-bg-primary" />
-                          </div>
-                          <span className="font-medium text-sm flex-1">{f.label}</span>
-                          <span className="text-accent text-xs font-semibold">FREE</span>
-                        </div>
-                      ))}
-                    </div>
+                  {/* Included - compact inline */}
+                  <div className="mb-6 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-text-muted">
+                    <Check className="w-3.5 h-3.5 text-accent" />
+                    <span className="text-accent font-medium mr-0.5">Included:</span>
+                    {includedFeatures.map((f, idx) => (
+                      <span key={f.id}>{f.label}{idx < includedFeatures.length - 1 ? "," : ""}</span>
+                    ))}
                   </div>
 
                   {/* Standard */}
