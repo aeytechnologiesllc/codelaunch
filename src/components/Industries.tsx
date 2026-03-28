@@ -82,7 +82,7 @@ export function Industries() {
                 </ul>
 
                 <div className="bg-gradient-to-r from-accent/10 to-accent-secondary/10 rounded-xl p-5 mb-8">
-                  <div className="text-2xl font-bold gradient-text-gold">{ind.stat}</div>
+                  <div className="text-2xl font-bold gradient-text-green">{ind.stat}</div>
                   <div className="text-text-muted text-sm">{ind.statLabel}</div>
                 </div>
 

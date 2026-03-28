@@ -91,7 +91,7 @@ export default function IndustriesPage() {
                     {/* Stats */}
                     <div className="grid grid-cols-3 gap-4">
                       <div className="bg-accent/5 rounded-xl p-4 border border-accent/10">
-                        <div className="text-xl font-bold gradient-text-gold">{ind.savings}</div>
+                        <div className="text-xl font-bold gradient-text-green">{ind.savings}</div>
                         <div className="text-text-muted text-xs mt-1">Estimated Savings</div>
                       </div>
                       <div className="bg-accent-secondary/5 rounded-xl p-4 border border-accent-secondary/10">
@@ -115,7 +115,7 @@ export default function IndustriesPage() {
                         </li>
                       ))}
                     </ul>
-                    <Link href="/pricing" className="group inline-flex items-center gap-2 px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-gold hover:bg-accent-hover transition-all text-sm">
+                    <Link href="/pricing" className="group inline-flex items-center gap-2 px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all text-sm">
                       Get Exact Pricing <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </div>

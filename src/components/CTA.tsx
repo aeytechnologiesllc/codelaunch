@@ -7,7 +7,7 @@ import Link from "next/link";
 export function CTA() {
   return (
     <section id="contact" className="relative py-28 sm:py-32 overflow-hidden">
-      <div className="absolute inset-0 radial-glow-gold" />
+      <div className="absolute inset-0 radial-glow-green" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/3 rounded-full blur-[150px]" />
 
       <div className="relative max-w-4xl mx-auto px-6 text-center">

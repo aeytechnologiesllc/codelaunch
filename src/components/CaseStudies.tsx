@@ -135,7 +135,7 @@ const caseStudies = [
 export function CaseStudies() {
   return (
     <section id="work" className="relative py-28 sm:py-32 bg-bg-secondary">
-      <div className="absolute inset-0 radial-glow-gold opacity-30" />
+      <div className="absolute inset-0 radial-glow-green opacity-30" />
       <div className="relative max-w-7xl mx-auto px-6">
         <ScrollReveal>
           <div className="text-center max-w-3xl mx-auto mb-16">

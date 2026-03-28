@@ -4,25 +4,23 @@
   --color-background: #09090b;
   --color-foreground: #fafafa;
   --color-bg-primary: #09090b;
-  --color-bg-secondary: #0f0f13;
-  --color-bg-elevated: #18181f;
+  --color-bg-secondary: #0c0c10;
+  --color-bg-elevated: #16161d;
   --color-text-primary: #fafafa;
   --color-text-secondary: #a1a1aa;
   --color-text-muted: #63637a;
-  --color-accent: #d4a017;
-  --color-accent-hover: #e6b52a;
+  --color-accent: #10b981;
+  --color-accent-hover: #34d399;
   --color-accent-secondary: #8b5cf6;
-  --color-accent-dim: rgba(212, 160, 23, 0.15);
-  --color-purple-dim: rgba(139, 92, 246, 0.15);
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-glass: rgba(255, 255, 255, 0.04);
-  --color-glass-border: rgba(255, 255, 255, 0.08);
+  --color-accent-dim: rgba(16, 185, 129, 0.12);
+  --color-purple-dim: rgba(139, 92, 246, 0.12);
+  --color-border: rgba(255, 255, 255, 0.07);
+  --color-glass: rgba(255, 255, 255, 0.03);
+  --color-glass-border: rgba(255, 255, 255, 0.07);
   --font-sans: var(--font-inter);
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   background: var(--color-bg-primary);
@@ -31,7 +29,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Glassmorphism card */
 .glass-card {
   background: var(--color-glass);
   backdrop-filter: blur(20px);
@@ -40,83 +37,56 @@ body {
   border-radius: 1rem;
 }
 
-/* Glow effects */
-.glow-gold {
-  box-shadow: 0 0 30px rgba(212, 160, 23, 0.25);
+.glow-green {
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.2);
 }
-.glow-gold:hover {
-  box-shadow: 0 0 50px rgba(212, 160, 23, 0.4);
+.glow-green:hover {
+  box-shadow: 0 0 40px rgba(16, 185, 129, 0.35);
 }
 .glow-purple {
-  box-shadow: 0 0 30px rgba(139, 92, 246, 0.25);
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.2);
 }
 
-/* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #d4a017, #8b5cf6);
+  background: linear-gradient(135deg, #10b981, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.gradient-text-green {
+  background: linear-gradient(135deg, #10b981, #6ee7b7);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.gradient-text-gold {
-  background: linear-gradient(135deg, #d4a017, #f0c94d);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Animated gradient */
 @keyframes gradient-shift {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
 }
-.animate-gradient {
-  background-size: 200% 200%;
-  animation: gradient-shift 8s ease infinite;
-}
+.animate-gradient { background-size: 200% 200%; animation: gradient-shift 8s ease infinite; }
 
-/* Float */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-20px); }
 }
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
+.animate-float { animation: float 6s ease-in-out infinite; }
 
-/* Pulse glow */
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
-}
-.animate-pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
-}
-
-/* Grid background */
 .grid-bg {
   background-image:
-    linear-gradient(rgba(212, 160, 23, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(212, 160, 23, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(16, 185, 129, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 185, 129, 0.02) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
-/* Radial glow */
 .radial-glow {
-  background: radial-gradient(ellipse at 50% 0%, rgba(139, 92, 246, 0.12) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 50% 0%, rgba(139, 92, 246, 0.1) 0%, transparent 60%);
 }
-.radial-glow-gold {
-  background: radial-gradient(ellipse at 50% 50%, rgba(212, 160, 23, 0.08) 0%, transparent 60%);
-}
-
-/* Selection */
-::selection {
-  background: rgba(212, 160, 23, 0.3);
-  color: #ffffff;
+.radial-glow-green {
+  background: radial-gradient(ellipse at 50% 50%, rgba(16, 185, 129, 0.06) 0%, transparent 60%);
 }
 
-/* Scrollbar */
+::selection { background: rgba(16, 185, 129, 0.3); color: #fff; }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #09090b; }
 ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }

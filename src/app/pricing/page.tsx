@@ -544,7 +544,7 @@ export default function PricingPage() {
                 <motion.div key="s1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
                   <div className="flex items-center justify-between mb-2">
                     <h2 className="text-xl font-bold">Choose Your Features</h2>
-                    <button onClick={() => setStep(0)} className="text-text-muted text-sm hover:text-text-primary">&larr; Change type</button>
+                    <button onClick={() => setStep(0)} className="inline-flex items-center gap-1.5 px-4 py-2 bg-white/5 border border-border rounded-lg text-text-secondary text-sm hover:bg-white/10 hover:text-text-primary transition-all"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/></svg>Back</button>
                   </div>
                   <p className="text-text-muted text-sm mb-6">Green = free. Click features to add. Expand for automation options.</p>
 
@@ -625,7 +625,7 @@ export default function PricingPage() {
                               </div>
                               <span className="text-sm text-text-secondary">~{customEstimate.timeWeeks} week{customEstimate.timeWeeks !== 1 ? "s" : ""} additional</span>
                             </div>
-                            <div className="text-xl font-bold gradient-text-gold">
+                            <div className="text-xl font-bold gradient-text-green">
                               ${customEstimate.priceMin.toLocaleString()} – ${customEstimate.priceMax.toLocaleString()}
                             </div>
                             <p className="text-text-muted text-xs leading-relaxed">{customEstimate.explanation}</p>
@@ -647,7 +647,7 @@ export default function PricingPage() {
                     </div>
                   </div>
 
-                  <button onClick={() => setStep(2)} className="px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-gold hover:bg-accent-hover transition-all text-sm">
+                  <button onClick={() => setStep(2)} className="px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all text-sm">
                     Next: Design & Extras &rarr;
                   </button>
                 </motion.div>
@@ -658,7 +658,7 @@ export default function PricingPage() {
                 <motion.div key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-bold">Design, Delivery & Support</h2>
-                    <button onClick={() => setStep(1)} className="text-text-muted text-sm hover:text-text-primary">&larr; Back</button>
+                    <button onClick={() => setStep(1)} className="inline-flex items-center gap-1.5 px-4 py-2 bg-white/5 border border-border rounded-lg text-text-secondary text-sm hover:bg-white/10 hover:text-text-primary transition-all"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/></svg>Back</button>
                   </div>
 
                   {/* Design */}
@@ -725,7 +725,7 @@ export default function PricingPage() {
                     ))}
                   </div>
 
-                  <button onClick={() => setStep(3)} className="px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-gold hover:bg-accent-hover transition-all text-sm">
+                  <button onClick={() => setStep(3)} className="px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all text-sm">
                     View Summary &rarr;
                   </button>
                 </motion.div>
@@ -736,7 +736,7 @@ export default function PricingPage() {
                 <motion.div key="s3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-bold">Your Quote</h2>
-                    <button onClick={() => setStep(2)} className="text-text-muted text-sm hover:text-text-primary">&larr; Back</button>
+                    <button onClick={() => setStep(2)} className="inline-flex items-center gap-1.5 px-4 py-2 bg-white/5 border border-border rounded-lg text-text-secondary text-sm hover:bg-white/10 hover:text-text-primary transition-all"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/></svg>Back</button>
                   </div>
 
                   <div className="glass-card p-6 space-y-4">
@@ -810,7 +810,7 @@ export default function PricingPage() {
                     <div className="pt-2 space-y-3">
                       <div className="flex justify-between items-center">
                         <div>
-                          <div className="text-3xl font-bold gradient-text-gold">${pricing.total.toLocaleString()}</div>
+                          <div className="text-3xl font-bold gradient-text-green">${pricing.total.toLocaleString()}</div>
                           <p className="text-text-muted text-xs">One-time project cost</p>
                         </div>
                         <div className="text-right">
@@ -834,7 +834,7 @@ export default function PricingPage() {
                   </div>
 
                   <div className="mt-6 flex flex-wrap gap-4">
-                    <Link href="/contact" className="group inline-flex items-center gap-2 px-7 py-3.5 bg-accent text-bg-primary font-semibold rounded-xl glow-gold hover:bg-accent-hover transition-all">
+                    <Link href="/contact" className="group inline-flex items-center gap-2 px-7 py-3.5 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all">
                       Get This Built <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                     <button onClick={() => { setStep(0); setProjectType(null); setSelectedFeatures([]); setSelectedAutomations([]); setDesign("standard"); setRevisions("2"); setMaintenance("none"); setRushDelivery(false); setCustomEstimate(null); setCustomAdded(false); setCustomText(""); }}
@@ -853,7 +853,7 @@ export default function PricingPage() {
               <div className="glass-card p-6 space-y-4">
                 <div className="flex items-center gap-2 text-accent"><Sparkles className="w-5 h-5" /><h3 className="font-semibold">Live Estimate</h3></div>
                 <div>
-                  <div className="text-4xl font-bold gradient-text-gold">${pricing.total.toLocaleString()}</div>
+                  <div className="text-4xl font-bold gradient-text-green">${pricing.total.toLocaleString()}</div>
                   <p className="text-text-muted text-sm mt-1">One-time cost</p>
                 </div>
                 <div className="space-y-2 text-sm text-text-secondary">
@@ -871,7 +871,7 @@ export default function PricingPage() {
                 <div className="pt-4 border-t border-border">
                   <p className="text-text-muted text-xs">Estimate only. Exact price confirmed after free call.</p>
                 </div>
-                <Link href="/contact" className="block w-full text-center px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-gold hover:bg-accent-hover transition-all text-sm">
+                <Link href="/contact" className="block w-full text-center px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all text-sm">
                   Book Free Call
                 </Link>
               </div>

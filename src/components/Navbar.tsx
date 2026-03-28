@@ -56,7 +56,7 @@ export function Navbar() {
             ))}
             <Link
               href="/contact"
-              className="px-5 py-2.5 bg-accent text-bg-primary font-semibold text-sm rounded-xl glow-gold hover:bg-accent-hover transition-all"
+              className="px-5 py-2.5 bg-accent text-bg-primary font-semibold text-sm rounded-xl glow-green hover:bg-accent-hover transition-all"
             >
               Get a Quote
             </Link>
@@ -94,7 +94,7 @@ export function Navbar() {
               <Link
                 href="/contact"
                 onClick={() => setMobileOpen(false)}
-                className="px-8 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-gold text-lg"
+                className="px-8 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-green text-lg"
               >
                 Get a Quote
               </Link>

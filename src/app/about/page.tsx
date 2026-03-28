@@ -86,7 +86,7 @@ export default function AboutPage() {
               We take on a limited number of projects at a time so we can give each one our full attention.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link href="/contact" className="px-7 py-3.5 bg-accent text-bg-primary font-semibold rounded-xl glow-gold hover:bg-accent-hover transition-all">
+              <Link href="/contact" className="px-7 py-3.5 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all">
                 Start a Project
               </Link>
               <Link href="/pricing" className="px-7 py-3.5 bg-glass border border-glass-border rounded-xl text-text-secondary hover:text-text-primary transition-all font-medium">

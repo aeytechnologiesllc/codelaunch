@@ -56,7 +56,7 @@ export function Hero() {
             >
               <Link
                 href="/contact"
-                className="group inline-flex items-center gap-2 px-7 py-3.5 bg-accent text-bg-primary font-semibold rounded-xl glow-gold hover:bg-accent-hover transition-all text-base"
+                className="group inline-flex items-center gap-2 px-7 py-3.5 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all text-base"
               >
                 Book a Free Strategy Call
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -82,7 +82,7 @@ export function Hero() {
                 { value: "3x", label: "Avg. ROI for Clients" },
               ].map((stat) => (
                 <div key={stat.label}>
-                  <div className="text-2xl sm:text-3xl font-bold gradient-text-gold">{stat.value}</div>
+                  <div className="text-2xl sm:text-3xl font-bold gradient-text-green">{stat.value}</div>
                   <div className="text-text-muted text-xs sm:text-sm mt-1">{stat.label}</div>
                 </div>
               ))}
