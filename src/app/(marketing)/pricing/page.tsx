@@ -8,7 +8,7 @@ import {
   Check, ArrowRight, Calculator, Clock, RefreshCw, Sparkles,
   Zap, Shield, AlertTriangle, ChevronDown, ChevronUp, Users,
   UtensilsCrossed, Wrench, Lightbulb, MessageSquare, Loader2,
-  TrendingUp, Star,
+  TrendingUp, Star, Upload,
 } from "lucide-react";
 import Link from "next/link";
 import { getTemplatesForContext, type DesignTemplate } from "@/components/DesignTemplates";
@@ -241,6 +241,8 @@ export default function PricingPage() {
   const [paymentPlan, setPaymentPlan] = useState<"full" | "5050" | "3mo" | "6mo">("full");
 
   // Save quote
+  const [saveNotes, setSaveNotes] = useState("");
+  const [saveFiles, setSaveFiles] = useState<File[]>([]);
   const [saveName, setSaveName] = useState("");
   const [saveEmail, setSaveEmail] = useState("");
   const [savePhone, setSavePhone] = useState("");
@@ -1092,6 +1094,45 @@ export default function PricingPage() {
                           <input value={saveCompany} onChange={(e) => setSaveCompany(e.target.value)} placeholder="Company name" className="px-3 py-2.5 bg-bg-primary/50 border border-border rounded-lg text-sm placeholder:text-text-muted focus:outline-none focus:border-accent/30" />
                           <input value={savePhone} onChange={(e) => setSavePhone(e.target.value)} placeholder="Phone (optional)" className="px-3 py-2.5 bg-bg-primary/50 border border-border rounded-lg text-sm placeholder:text-text-muted focus:outline-none focus:border-accent/30" />
                         </div>
+                        {/* Optional notes + file upload */}
+                        <div className="space-y-3 pt-2">
+                          <div>
+                            <label className="text-xs text-text-muted mb-1.5 block">Additional details (optional)</label>
+                            <textarea
+                              value={saveNotes}
+                              onChange={(e) => setSaveNotes(e.target.value)}
+                              rows={3}
+                              placeholder="Anything else you'd like us to know? Describe your vision, mention competitors you like, specific features you need..."
+                              className="w-full px-3 py-2.5 bg-bg-primary/50 border border-border rounded-lg text-sm placeholder:text-text-muted focus:outline-none focus:border-accent/30 resize-none"
+                            />
+                          </div>
+                          <div>
+                            <label className="text-xs text-text-muted mb-1.5 block">Reference files (optional)</label>
+                            <label className="flex items-center gap-3 px-3 py-3 bg-bg-primary/50 border border-dashed border-border rounded-lg cursor-pointer hover:border-accent/20 transition-colors">
+                              <Upload className="w-4 h-4 text-text-muted" />
+                              <span className="text-xs text-text-muted">
+                                {saveFiles.length > 0 ? `${saveFiles.length} file${saveFiles.length > 1 ? "s" : ""} selected` : "Drop files or click — logos, screenshots, inspiration"}
+                              </span>
+                              <input
+                                type="file"
+                                multiple
+                                className="hidden"
+                                onChange={(e) => setSaveFiles(Array.from(e.target.files || []))}
+                                accept="image/*,.pdf,.doc,.docx,.fig,.sketch,.zip"
+                              />
+                            </label>
+                            {saveFiles.length > 0 && (
+                              <div className="mt-2 space-y-1">
+                                {saveFiles.map((f, i) => (
+                                  <div key={i} className="flex items-center justify-between text-xs text-text-muted bg-bg-primary/30 rounded px-2 py-1">
+                                    <span className="truncate">{f.name}</span>
+                                    <button onClick={() => setSaveFiles((prev) => prev.filter((_, j) => j !== i))} className="text-text-muted hover:text-text-primary ml-2 flex-shrink-0">&times;</button>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
                         <div className="flex gap-3">
                           <button
                             onClick={saveQuote}
@@ -1121,7 +1162,7 @@ export default function PricingPage() {
                   </div>
 
                   <div className="mt-4 text-center">
-                    <button onClick={() => { setStep(0); setProjectType(null); setSelectedFeatures([]); setSelectedAutomations([]); setSelectedTemplate(null); setDesign("standard"); setRevisions("2"); setMaintenance("none"); setRushDelivery(false); setPaymentPlan("full"); setCustomEstimate(null); setCustomAdded(false); setCustomText(""); setSavedQuoteNumber(null); setSaveName(""); setSaveEmail(""); setSavePhone(""); setSaveCompany(""); }}
+                    <button onClick={() => { setStep(0); setProjectType(null); setSelectedFeatures([]); setSelectedAutomations([]); setSelectedTemplate(null); setDesign("standard"); setRevisions("2"); setMaintenance("none"); setRushDelivery(false); setPaymentPlan("full"); setCustomEstimate(null); setCustomAdded(false); setCustomText(""); setSavedQuoteNumber(null); setSaveName(""); setSaveEmail(""); setSavePhone(""); setSaveCompany(""); setSaveNotes(""); setSaveFiles([]); }}
                       className="inline-flex items-center gap-2 text-text-muted text-sm hover:text-text-primary transition-all">
                       <RefreshCw className="w-3.5 h-3.5" /> Start Over
                     </button>
