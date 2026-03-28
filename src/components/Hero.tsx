@@ -147,7 +147,7 @@ function DesktopMockup() {
         </div>
 
         {/* Floating cards */}
-        <div className="absolute -bottom-6 -left-10 w-48 glass-card p-3 rounded-xl shadow-2xl shadow-accent/10">
+        <div className="absolute bottom-4 left-4 w-44 glass-card p-3 rounded-xl shadow-2xl shadow-accent/10">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
               <TrendingUp className="w-4 h-4 text-accent" />
@@ -159,7 +159,7 @@ function DesktopMockup() {
           </div>
         </div>
 
-        <div className="absolute -top-4 -right-6 w-44 glass-card p-3 rounded-xl shadow-2xl shadow-accent/10">
+        <div className="absolute top-4 right-4 w-44 glass-card p-3 rounded-xl shadow-2xl shadow-accent/10">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
               <Sparkles className="w-4 h-4 text-accent" />

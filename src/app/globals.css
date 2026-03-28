@@ -1,25 +1,25 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #0B0B0F;
-  --color-foreground: #E4E4E7;
-  --color-bg-primary: #0B0B0F;
-  --color-bg-secondary: #0E0E12;
-  --color-bg-elevated: #151519;
-  --color-text-primary: #E4E4E7;
-  --color-text-secondary: #9494A3;
-  --color-text-muted: #5A5A6B;
-  --color-accent: #7B93DB;
-  --color-accent-hover: #95ABE8;
-  --color-accent-secondary: #7B93DB;
-  --color-accent-dim: rgba(123, 147, 219, 0.08);
-  --color-purple-dim: rgba(123, 147, 219, 0.08);
-  --color-cta: #E2D5C3;
-  --color-cta-hover: #EDE2D3;
-  --color-cta-text: #0B0B0F;
+  --color-background: #09090b;
+  --color-foreground: #fafafa;
+  --color-bg-primary: #09090b;
+  --color-bg-secondary: #0c0c0e;
+  --color-bg-elevated: #141418;
+  --color-text-primary: #fafafa;
+  --color-text-secondary: #a1a1aa;
+  --color-text-muted: #52525b;
+  --color-accent: #a78bfa;
+  --color-accent-hover: #c4b5fd;
+  --color-accent-secondary: #a78bfa;
+  --color-accent-dim: rgba(167, 139, 250, 0.1);
+  --color-purple-dim: rgba(167, 139, 250, 0.1);
+  --color-cta: #a78bfa;
+  --color-cta-hover: #c4b5fd;
+  --color-cta-text: #09090b;
   --color-border: rgba(255, 255, 255, 0.06);
   --color-glass: rgba(255, 255, 255, 0.02);
-  --color-glass-border: rgba(255, 255, 255, 0.05);
+  --color-glass-border: rgba(255, 255, 255, 0.06);
   --font-sans: var(--font-inter);
 }
 
@@ -40,26 +40,24 @@ body {
   border-radius: 1rem;
 }
 
-/* CTA button glow — warm champagne */
 .glow-accent {
-  box-shadow: 0 0 20px rgba(226, 213, 195, 0.12);
+  box-shadow: 0 0 20px rgba(167, 139, 250, 0.15);
 }
 .glow-accent:hover {
-  box-shadow: 0 0 30px rgba(226, 213, 195, 0.2);
+  box-shadow: 0 0 35px rgba(167, 139, 250, 0.25);
 }
-.glow-green { box-shadow: 0 0 20px rgba(226, 213, 195, 0.12); }
-.glow-green:hover { box-shadow: 0 0 30px rgba(226, 213, 195, 0.2); }
-.glow-purple { box-shadow: 0 0 15px rgba(123, 147, 219, 0.12); }
+.glow-green { box-shadow: 0 0 20px rgba(167, 139, 250, 0.15); }
+.glow-green:hover { box-shadow: 0 0 35px rgba(167, 139, 250, 0.25); }
+.glow-purple { box-shadow: 0 0 20px rgba(167, 139, 250, 0.15); }
 
-/* Gradient text — blue to champagne */
 .gradient-text {
-  background: linear-gradient(135deg, #7B93DB, #B8A590);
+  background: linear-gradient(135deg, #c4b5fd, #818cf8);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 .gradient-text-green {
-  background: linear-gradient(135deg, #95ABE8, #7B93DB);
+  background: linear-gradient(135deg, #c4b5fd, #a78bfa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -73,16 +71,16 @@ body {
 
 .grid-bg {
   background-image:
-    linear-gradient(rgba(123, 147, 219, 0.012) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(123, 147, 219, 0.012) 1px, transparent 1px);
+    linear-gradient(rgba(167, 139, 250, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(167, 139, 250, 0.015) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
 .radial-glow {
-  background: radial-gradient(ellipse at 50% 0%, rgba(123, 147, 219, 0.04) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 50% 0%, rgba(167, 139, 250, 0.06) 0%, transparent 60%);
 }
 .radial-glow-green {
-  background: radial-gradient(ellipse at 50% 50%, rgba(123, 147, 219, 0.03) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 50% 50%, rgba(167, 139, 250, 0.04) 0%, transparent 60%);
 }
 
 a, button, [role="button"], select,
@@ -90,8 +88,8 @@ input[type="submit"], input[type="button"] {
   cursor: pointer;
 }
 
-::selection { background: rgba(123, 147, 219, 0.25); color: #fff; }
+::selection { background: rgba(167, 139, 250, 0.3); color: #fff; }
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #0B0B0F; }
-::-webkit-scrollbar-thumb { background: #222230; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #33334A; }
+::-webkit-scrollbar-track { background: #09090b; }
+::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
