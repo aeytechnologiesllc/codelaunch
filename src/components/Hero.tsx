@@ -10,11 +10,11 @@ export function Hero() {
       {/* Background */}
       <div className="absolute inset-0 grid-bg" />
       <div className="absolute inset-0 radial-glow" />
-      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-accent-secondary/8 rounded-full blur-[120px] animate-float" />
-      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-accent/6 rounded-full blur-[120px] animate-float" style={{ animationDelay: "3s" }} />
+      <div className="absolute top-1/4 -left-32 w-48 sm:w-72 lg:w-96 h-48 sm:h-72 lg:h-96 bg-accent-secondary/8 rounded-full blur-[120px] animate-float" />
+      <div className="absolute bottom-1/4 -right-32 w-48 sm:w-72 lg:w-96 h-48 sm:h-72 lg:h-96 bg-accent/6 rounded-full blur-[120px] animate-float" style={{ animationDelay: "3s" }} />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-16 sm:pb-20">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Content */}
           <div className="space-y-8">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
@@ -28,7 +28,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.08] tracking-tight"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.08] tracking-tight"
             >
               We Don&apos;t Build
               <br />

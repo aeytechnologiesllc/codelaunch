@@ -86,6 +86,17 @@ body {
   background: radial-gradient(ellipse at 50% 50%, rgba(16, 185, 129, 0.06) 0%, transparent 60%);
 }
 
+/* Cursor pointer on all interactive elements */
+a, button, [role="button"], select, input[type="submit"], input[type="button"],
+.glass-card[class*="hover:"], [class*="cursor-pointer"] {
+  cursor: pointer;
+}
+
+/* Ensure all links and buttons have pointer */
+a:not([disabled]), button:not([disabled]) {
+  cursor: pointer;
+}
+
 ::selection { background: rgba(16, 185, 129, 0.3); color: #fff; }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #09090b; }

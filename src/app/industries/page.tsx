@@ -89,7 +89,7 @@ export default function IndustriesPage() {
                     </div>
 
                     {/* Stats */}
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       <div className="bg-accent/5 rounded-xl p-4 border border-accent/10">
                         <div className="text-xl font-bold gradient-text-green">{ind.savings}</div>
                         <div className="text-text-muted text-xs mt-1">Estimated Savings</div>
