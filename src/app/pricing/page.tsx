@@ -11,6 +11,7 @@ import {
   TrendingUp, Star,
 } from "lucide-react";
 import Link from "next/link";
+import { getTemplatesForContext, type DesignTemplate } from "@/components/DesignTemplates";
 
 /* ───────────────────────── Types ───────────────────────── */
 
@@ -232,6 +233,7 @@ export default function PricingPage() {
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   const [selectedAutomations, setSelectedAutomations] = useState<string[]>([]);
   const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
+  const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
   const [design, setDesign] = useState("standard");
   const [revisions, setRevisions] = useState("2");
   const [maintenance, setMaintenance] = useState("none");
@@ -485,7 +487,7 @@ export default function PricingPage() {
 
         {/* Progress */}
         <div className="flex gap-2 mb-10 max-w-lg mx-auto">
-          {["Project Type", "Features", "Design & Extras", "Summary"].map((label, i) => (
+          {["Project", "Features", "Look & Feel", "Extras", "Summary"].map((label, i) => (
             <button key={label} onClick={() => { if (i <= step && (i === 0 || projectType)) setStep(i); }} className="flex-1">
               <div className={`h-1.5 rounded-full transition-colors ${i <= step ? "bg-accent" : "bg-border"}`} />
               <div className={`text-[10px] mt-1.5 text-center ${i <= step ? "text-accent" : "text-text-muted"}`}>{label}</div>
@@ -648,33 +650,115 @@ export default function PricingPage() {
                   </div>
 
                   <button onClick={() => setStep(2)} className="px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all text-sm">
-                    Next: Design & Extras &rarr;
+                    Next: Choose Your Look &rarr;
                   </button>
                 </motion.div>
               )}
 
-              {/* ── Step 2: Design, Rush, Maintenance ── */}
-              {step === 2 && (
+              {/* ── Step 2: Template Selection (NEW) ── */}
+              {step === 2 && projectType && (
                 <motion.div key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                  <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl font-bold">Design, Delivery & Support</h2>
+                  <div className="flex items-center justify-between mb-2">
+                    <h2 className="text-xl font-bold">Choose Your Look</h2>
                     <button onClick={() => setStep(1)} className="inline-flex items-center gap-1.5 px-4 py-2 bg-white/5 border border-border rounded-lg text-text-secondary text-sm hover:bg-white/10 hover:text-text-primary transition-all"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/></svg>Back</button>
                   </div>
+                  <p className="text-text-muted text-sm mb-6">Pick a pre-built design to keep costs down, or go custom for a one-of-a-kind look.</p>
 
-                  {/* Design */}
-                  <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wider mb-3">Design Level</h3>
-                  <div className="space-y-2 mb-8">
-                    {designOptions.map((d) => (
-                      <button key={d.id} onClick={() => setDesign(d.id)} className={`w-full glass-card p-4 text-left flex items-center gap-3 transition-all ${design === d.id ? "border-accent/30 bg-accent/5" : "hover:bg-white/[0.03]"}`}>
-                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${design === d.id ? "border-accent" : "border-border"}`}>
-                          {design === d.id && <div className="w-2.5 h-2.5 rounded-full bg-accent" />}
+                  {/* Pre-built templates */}
+                  <h3 className="flex items-center gap-2 text-sm font-semibold text-accent uppercase tracking-wider mb-4">
+                    <Check className="w-4 h-4" /> Pre-Built Templates — Included Free
+                  </h3>
+                  <div className="grid sm:grid-cols-2 gap-4 mb-8">
+                    {getTemplatesForContext(projectType, selectedFeatures).map((tmpl) => (
+                      <button
+                        key={tmpl.id}
+                        onClick={() => { setSelectedTemplate(tmpl.id); setDesign("standard"); }}
+                        className={`glass-card overflow-hidden text-left transition-all ${
+                          selectedTemplate === tmpl.id ? "border-accent/40 ring-1 ring-accent/20" : "hover:border-white/15"
+                        }`}
+                      >
+                        {/* Live preview */}
+                        <div className="p-3 pb-0">
+                          <div className="transform scale-100 origin-top">
+                            <tmpl.Component />
+                          </div>
                         </div>
-                        <div className="flex-1">
-                          <div className="flex justify-between"><span className="font-medium text-sm">{d.label}</span><span className="text-accent text-sm font-semibold">{d.price === 0 ? "Included" : `+$${d.price.toLocaleString()}`}</span></div>
-                          <p className="text-text-muted text-xs mt-0.5">{d.description}</p>
+                        {/* Info */}
+                        <div className="p-4">
+                          <div className="flex items-center justify-between mb-1">
+                            <h4 className="font-semibold text-sm">{tmpl.name}</h4>
+                            {selectedTemplate === tmpl.id && (
+                              <span className="flex items-center gap-1 px-2 py-0.5 bg-accent/15 rounded-full text-[9px] text-accent font-semibold">
+                                <Check className="w-3 h-3" /> Selected
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-text-muted text-xs">{tmpl.description}</p>
+                          <span className="inline-block mt-2 text-[10px] text-accent font-medium bg-accent/10 px-2 py-0.5 rounded-full">{tmpl.style}</span>
                         </div>
                       </button>
                     ))}
+                  </div>
+
+                  {/* Custom design option */}
+                  <h3 className="flex items-center gap-2 text-sm font-semibold text-accent-secondary uppercase tracking-wider mb-3">
+                    <Sparkles className="w-4 h-4" /> Or Go Custom
+                  </h3>
+                  <div className="space-y-2 mb-8">
+                    <button
+                      onClick={() => { setSelectedTemplate("custom"); setDesign("custom"); }}
+                      className={`w-full glass-card p-5 text-left flex items-center gap-4 transition-all ${
+                        selectedTemplate === "custom" ? "border-accent-secondary/40 bg-accent-secondary/5" : "hover:bg-white/[0.03]"
+                      }`}
+                    >
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedTemplate === "custom" ? "border-accent-secondary" : "border-border"}`}>
+                        {selectedTemplate === "custom" && <div className="w-2.5 h-2.5 rounded-full bg-accent-secondary" />}
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between">
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium text-sm">Custom Branded Design</span>
+                            <span className="px-1.5 py-0.5 bg-accent-secondary/15 rounded text-[9px] text-accent-secondary font-semibold">PREMIUM</span>
+                          </div>
+                          <span className="text-accent-secondary text-sm font-semibold">+$1,200</span>
+                        </div>
+                        <p className="text-text-muted text-xs mt-0.5">Unique to your brand. We create 2 design concepts, you pick your favorite.</p>
+                      </div>
+                    </button>
+                    <button
+                      onClick={() => { setSelectedTemplate("premium"); setDesign("premium"); }}
+                      className={`w-full glass-card p-5 text-left flex items-center gap-4 transition-all ${
+                        selectedTemplate === "premium" ? "border-accent-secondary/40 bg-accent-secondary/5" : "hover:bg-white/[0.03]"
+                      }`}
+                    >
+                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedTemplate === "premium" ? "border-accent-secondary" : "border-border"}`}>
+                        {selectedTemplate === "premium" && <div className="w-2.5 h-2.5 rounded-full bg-accent-secondary" />}
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between">
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium text-sm">Premium Award-Level Design</span>
+                            <span className="px-1.5 py-0.5 bg-accent-secondary/15 rounded text-[9px] text-accent-secondary font-semibold">PREMIUM</span>
+                          </div>
+                          <span className="text-accent-secondary text-sm font-semibold">+$3,000</span>
+                        </div>
+                        <p className="text-text-muted text-xs mt-0.5">Animations, micro-interactions, scroll effects, 3D elements. The kind of site people screenshot.</p>
+                      </div>
+                    </button>
+                  </div>
+
+                  <button onClick={() => setStep(3)} disabled={!selectedTemplate} className="px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all text-sm disabled:opacity-40 disabled:cursor-not-allowed">
+                    Next: Delivery & Support &rarr;
+                  </button>
+                </motion.div>
+              )}
+
+              {/* ── Step 3: Rush, Revisions, Maintenance ── */}
+              {step === 3 && (
+                <motion.div key="s3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-xl font-bold">Delivery & Support</h2>
+                    <button onClick={() => setStep(2)} className="inline-flex items-center gap-1.5 px-4 py-2 bg-white/5 border border-border rounded-lg text-text-secondary text-sm hover:bg-white/10 hover:text-text-primary transition-all"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/></svg>Back</button>
                   </div>
 
                   {/* Revisions */}
@@ -725,18 +809,18 @@ export default function PricingPage() {
                     ))}
                   </div>
 
-                  <button onClick={() => setStep(3)} className="px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all text-sm">
+                  <button onClick={() => setStep(4)} className="px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all text-sm">
                     View Summary &rarr;
                   </button>
                 </motion.div>
               )}
 
-              {/* ── Step 3: Summary ── */}
-              {step === 3 && currentType && (
-                <motion.div key="s3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+              {/* ── Step 4: Summary ── */}
+              {step === 4 && currentType && (
+                <motion.div key="s4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="text-xl font-bold">Your Quote</h2>
-                    <button onClick={() => setStep(2)} className="inline-flex items-center gap-1.5 px-4 py-2 bg-white/5 border border-border rounded-lg text-text-secondary text-sm hover:bg-white/10 hover:text-text-primary transition-all"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/></svg>Back</button>
+                    <button onClick={() => setStep(3)} className="inline-flex items-center gap-1.5 px-4 py-2 bg-white/5 border border-border rounded-lg text-text-secondary text-sm hover:bg-white/10 hover:text-text-primary transition-all"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/></svg>Back</button>
                   </div>
 
                   <div className="glass-card p-6 space-y-4">
@@ -837,7 +921,7 @@ export default function PricingPage() {
                     <Link href="/contact" className="group inline-flex items-center gap-2 px-7 py-3.5 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all">
                       Get This Built <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
-                    <button onClick={() => { setStep(0); setProjectType(null); setSelectedFeatures([]); setSelectedAutomations([]); setDesign("standard"); setRevisions("2"); setMaintenance("none"); setRushDelivery(false); setCustomEstimate(null); setCustomAdded(false); setCustomText(""); }}
+                    <button onClick={() => { setStep(0); setProjectType(null); setSelectedFeatures([]); setSelectedAutomations([]); setSelectedTemplate(null); setDesign("standard"); setRevisions("2"); setMaintenance("none"); setRushDelivery(false); setCustomEstimate(null); setCustomAdded(false); setCustomText(""); }}
                       className="inline-flex items-center gap-2 px-7 py-3.5 bg-glass border border-glass-border rounded-xl text-text-secondary hover:text-text-primary transition-all font-medium">
                       <RefreshCw className="w-4 h-4" /> Start Over
                     </button>
