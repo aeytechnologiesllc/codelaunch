@@ -4,19 +4,19 @@
   --color-background: #09090b;
   --color-foreground: #fafafa;
   --color-bg-primary: #09090b;
-  --color-bg-secondary: #0c0c10;
-  --color-bg-elevated: #16161d;
+  --color-bg-secondary: #0c0c0e;
+  --color-bg-elevated: #141418;
   --color-text-primary: #fafafa;
   --color-text-secondary: #a1a1aa;
-  --color-text-muted: #63637a;
-  --color-accent: #10b981;
-  --color-accent-hover: #34d399;
-  --color-accent-secondary: #8b5cf6;
-  --color-accent-dim: rgba(16, 185, 129, 0.12);
-  --color-purple-dim: rgba(139, 92, 246, 0.12);
-  --color-border: rgba(255, 255, 255, 0.07);
-  --color-glass: rgba(255, 255, 255, 0.03);
-  --color-glass-border: rgba(255, 255, 255, 0.07);
+  --color-text-muted: #52525b;
+  --color-accent: #a78bfa;
+  --color-accent-hover: #c4b5fd;
+  --color-accent-secondary: #a78bfa;
+  --color-accent-dim: rgba(167, 139, 250, 0.1);
+  --color-purple-dim: rgba(167, 139, 250, 0.1);
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-glass: rgba(255, 255, 255, 0.02);
+  --color-glass-border: rgba(255, 255, 255, 0.06);
   --font-sans: var(--font-inter);
 }
 
@@ -37,24 +37,25 @@ body {
   border-radius: 1rem;
 }
 
-.glow-green {
-  box-shadow: 0 0 25px rgba(16, 185, 129, 0.2);
+.glow-accent {
+  box-shadow: 0 0 20px rgba(167, 139, 250, 0.15);
 }
-.glow-green:hover {
-  box-shadow: 0 0 40px rgba(16, 185, 129, 0.35);
+.glow-accent:hover {
+  box-shadow: 0 0 35px rgba(167, 139, 250, 0.25);
 }
-.glow-purple {
-  box-shadow: 0 0 25px rgba(139, 92, 246, 0.2);
-}
+/* Keep old class names working */
+.glow-green { box-shadow: 0 0 20px rgba(167, 139, 250, 0.15); }
+.glow-green:hover { box-shadow: 0 0 35px rgba(167, 139, 250, 0.25); }
+.glow-purple { box-shadow: 0 0 20px rgba(167, 139, 250, 0.15); }
 
 .gradient-text {
-  background: linear-gradient(135deg, #10b981, #8b5cf6);
+  background: linear-gradient(135deg, #c4b5fd, #818cf8);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 .gradient-text-green {
-  background: linear-gradient(135deg, #10b981, #6ee7b7);
+  background: linear-gradient(135deg, #c4b5fd, #a78bfa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -74,31 +75,26 @@ body {
 
 .grid-bg {
   background-image:
-    linear-gradient(rgba(16, 185, 129, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(16, 185, 129, 0.02) 1px, transparent 1px);
+    linear-gradient(rgba(167, 139, 250, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(167, 139, 250, 0.015) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
 .radial-glow {
-  background: radial-gradient(ellipse at 50% 0%, rgba(139, 92, 246, 0.1) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 50% 0%, rgba(167, 139, 250, 0.06) 0%, transparent 60%);
 }
 .radial-glow-green {
-  background: radial-gradient(ellipse at 50% 50%, rgba(16, 185, 129, 0.06) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 50% 50%, rgba(167, 139, 250, 0.04) 0%, transparent 60%);
 }
 
 /* Cursor pointer on all interactive elements */
-a, button, [role="button"], select, input[type="submit"], input[type="button"],
-.glass-card[class*="hover:"], [class*="cursor-pointer"] {
+a, button, [role="button"], select,
+input[type="submit"], input[type="button"] {
   cursor: pointer;
 }
 
-/* Ensure all links and buttons have pointer */
-a:not([disabled]), button:not([disabled]) {
-  cursor: pointer;
-}
-
-::selection { background: rgba(16, 185, 129, 0.3); color: #fff; }
-::-webkit-scrollbar { width: 6px; }
+::selection { background: rgba(167, 139, 250, 0.3); color: #fff; }
+::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: #09090b; }
 ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }

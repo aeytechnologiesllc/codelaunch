@@ -55,10 +55,10 @@ export function Hero() {
               className="flex flex-wrap gap-4"
             >
               <Link
-                href="/contact"
-                className="group inline-flex items-center gap-2 px-7 py-3.5 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all text-base"
+                href="/pricing"
+                className="group inline-flex items-center gap-2 px-7 py-3.5 bg-accent text-bg-primary font-semibold rounded-xl glow-accent hover:bg-accent-hover transition-all text-base"
               >
-                Book a Free Strategy Call
+                Get Your Exact Price
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
@@ -149,7 +149,7 @@ export function Hero() {
                     {/* Recent activity */}
                     <div className="space-y-2">
                       {[
-                        { text: "New order #1284", time: "2 min ago", color: "bg-green-400" },
+                        { text: "New order #1284", time: "2 min ago", color: "bg-accent" },
                         { text: "AI bot resolved inquiry", time: "8 min ago", color: "bg-accent-secondary" },
                         { text: "Invoice #892 paid", time: "15 min ago", color: "bg-accent" },
                       ].map((item) => (
@@ -167,12 +167,12 @@ export function Hero() {
               {/* Floating notification card */}
               <div className="absolute -bottom-6 -left-10 w-48 glass-card p-3 rounded-xl shadow-2xl shadow-accent/10">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-green-400/15 flex items-center justify-center">
-                    <span className="text-green-400 text-xs font-bold">$</span>
+                  <div className="w-8 h-8 rounded-lg bg-accent/15 flex items-center justify-center">
+                    <span className="text-accent text-xs font-bold">$</span>
                   </div>
                   <div>
                     <div className="text-[10px] text-text-muted">New Payment</div>
-                    <div className="text-sm font-bold text-green-400">+$1,247.00</div>
+                    <div className="text-sm font-bold text-accent">+$1,247.00</div>
                   </div>
                 </div>
               </div>

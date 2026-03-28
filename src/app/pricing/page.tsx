@@ -546,7 +546,7 @@ export default function PricingPage() {
                         <h3 className="font-semibold mb-1">{p.label}</h3>
                         <p className="text-accent text-sm font-semibold mb-2">From ${p.basePrice.toLocaleString()}</p>
                         <p className="text-text-muted text-xs leading-relaxed">
-                          <span className="text-green-400 font-medium">Included free:</span> {p.included}
+                          <span className="text-accent font-medium">Included free:</span> {p.included}
                         </p>
                       </button>
                     ))}
@@ -565,17 +565,17 @@ export default function PricingPage() {
 
                   {/* Included */}
                   <div className="mb-6">
-                    <h3 className="flex items-center gap-2 text-sm font-semibold text-green-400 uppercase tracking-wider mb-3">
+                    <h3 className="flex items-center gap-2 text-sm font-semibold text-accent uppercase tracking-wider mb-3">
                       <Check className="w-4 h-4" /> Included Free
                     </h3>
                     <div className="space-y-1.5">
                       {includedFeatures.map((f) => (
-                        <div key={f.id} className="glass-card p-3 flex items-center gap-3 border-green-400/10 bg-green-400/[0.03]">
-                          <div className="w-4 h-4 rounded border-2 border-green-400 bg-green-400 flex items-center justify-center flex-shrink-0">
+                        <div key={f.id} className="glass-card p-3 flex items-center gap-3 border-accent/10 bg-accent/[0.03]">
+                          <div className="w-4 h-4 rounded border-2 border-accent bg-accent flex items-center justify-center flex-shrink-0">
                             <Check className="w-2.5 h-2.5 text-bg-primary" />
                           </div>
                           <span className="font-medium text-sm flex-1">{f.label}</span>
-                          <span className="text-green-400 text-xs font-semibold">FREE</span>
+                          <span className="text-accent text-xs font-semibold">FREE</span>
                         </div>
                       ))}
                     </div>
@@ -632,7 +632,7 @@ export default function PricingPage() {
                           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-3 pt-3 border-t border-border">
                             <div className="flex items-center gap-3">
                               <div className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
-                                customEstimate.complexity === "simple" ? "bg-green-400/15 text-green-400" :
+                                customEstimate.complexity === "simple" ? "bg-accent/15 text-green-400" :
                                 customEstimate.complexity === "moderate" ? "bg-accent/15 text-accent" :
                                 "bg-accent-secondary/15 text-accent-secondary"
                               }`}>
@@ -652,7 +652,7 @@ export default function PricingPage() {
                                 <Check className="w-3.5 h-3.5" /> Add to Quote
                               </button>
                             ) : (
-                              <div className="flex items-center gap-2 text-green-400 text-sm font-medium">
+                              <div className="flex items-center gap-2 text-accent text-sm font-medium">
                                 <Check className="w-4 h-4" /> Added to your quote
                               </div>
                             )}
@@ -1039,10 +1039,10 @@ export default function PricingPage() {
                     </p>
                   </div>
 
-                  <div className="glass-card p-4 mt-4 flex items-start gap-3 border-amber-400/10 bg-amber-400/[0.03]">
-                    <AlertTriangle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+                  <div className="glass-card p-4 mt-4 flex items-start gap-3 border-accent/10 bg-accent/[0.02]">
+                    <Shield className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
                     <p className="text-text-muted text-xs leading-relaxed">
-                      This is an estimate. Final price is locked after a free strategy call. No surprises.
+                      <span className="text-text-secondary font-medium">Price locked.</span> This is your exact price for the current configuration. Change features and the price adjusts. No hidden fees.
                     </p>
                   </div>
 
@@ -1064,7 +1064,7 @@ export default function PricingPage() {
           <div className="hidden lg:block">
             <div className="sticky top-28">
               <div className="glass-card p-6 space-y-4">
-                <div className="flex items-center gap-2 text-accent"><Sparkles className="w-5 h-5" /><h3 className="font-semibold">Live Estimate</h3></div>
+                <div className="flex items-center gap-2 text-accent"><Sparkles className="w-5 h-5" /><h3 className="font-semibold">Your Price</h3></div>
                 <div>
                   <div className="text-4xl font-bold gradient-text-green">${pricing.total.toLocaleString()}</div>
                   <p className="text-text-muted text-sm mt-1">One-time cost</p>
@@ -1073,7 +1073,7 @@ export default function PricingPage() {
                   <div className="flex items-center gap-2"><Clock className="w-4 h-4 text-accent-secondary" />~{pricing.weeks} weeks</div>
                   <div className="flex items-center gap-2"><RefreshCw className="w-4 h-4 text-accent" />{revisionOptions.find((r) => r.id === revisions)?.label} revisions</div>
                   {rushDelivery && <div className="flex items-center gap-2 text-orange-400"><Zap className="w-4 h-4" />Rush delivery</div>}
-                  {pricing.monthly > 0 && <div className="flex items-center gap-2"><Shield className="w-4 h-4 text-green-400" />+${pricing.monthly}/mo maintenance</div>}
+                  {pricing.monthly > 0 && <div className="flex items-center gap-2"><Shield className="w-4 h-4 text-accent" />+${pricing.monthly}/mo maintenance</div>}
                   {selectedFeatures.filter((id) => !features.find((f) => f.id === id)?.included).length > 0 && (
                     <div className="flex items-center gap-2"><Check className="w-4 h-4 text-accent" />{selectedFeatures.filter((id) => !features.find((f) => f.id === id)?.included).length} add-ons selected</div>
                   )}
@@ -1098,9 +1098,9 @@ export default function PricingPage() {
                 )}
 
                 <div className="pt-3 border-t border-border">
-                  <p className="text-text-muted text-xs">Estimate only. Exact price after free call.</p>
+                  <p className="text-text-muted text-xs">Price locked for this configuration.</p>
                 </div>
-                <Link href="/contact" className="block w-full text-center px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all text-sm">
+                <Link href="/contact" className="block w-full text-center px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-accent hover:bg-accent-hover transition-all text-sm">
                   Book Free Call
                 </Link>
               </div>

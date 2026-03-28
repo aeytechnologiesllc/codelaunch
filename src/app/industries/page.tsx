@@ -98,8 +98,8 @@ export default function IndustriesPage() {
                         <div className="text-xl font-bold text-accent-secondary">{ind.timeline}</div>
                         <div className="text-text-muted text-xs mt-1">Build Time</div>
                       </div>
-                      <div className="bg-green-400/5 rounded-xl p-4 border border-green-400/10">
-                        <div className="text-xl font-bold text-green-400">{ind.startingAt}</div>
+                      <div className="bg-accent/5 rounded-xl p-4 border border-accent/10">
+                        <div className="text-xl font-bold text-accent">{ind.startingAt}</div>
                         <div className="text-text-muted text-xs mt-1">Starting At</div>
                       </div>
                     </div>

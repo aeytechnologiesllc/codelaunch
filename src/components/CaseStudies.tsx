@@ -97,7 +97,7 @@ function FinanceDashMockup() {
           {[
             { label: "Payroll", pct: 42, color: "bg-accent-secondary" },
             { label: "Marketing", pct: 23, color: "bg-accent" },
-            { label: "Operations", pct: 19, color: "bg-green-400" },
+            { label: "Operations", pct: 19, color: "bg-accent" },
           ].map((e) => (
             <div key={e.label} className="bg-bg-primary/60 rounded p-2">
               <div className="text-[8px] text-text-muted mb-1">{e.label}</div>
@@ -177,7 +177,7 @@ export function CaseStudies() {
                     <div className="space-y-2 mb-5">
                       {study.results.map((r) => (
                         <div key={r} className="flex items-center gap-2 text-sm">
-                          <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
+                          <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                           <span className="text-text-secondary">{r}</span>
                         </div>
                       ))}

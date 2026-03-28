@@ -63,7 +63,7 @@ const projects = [
     solution: "AI chatbot trained on company-specific FAQs, pricing, and service areas. Deployed on WhatsApp Business and website widget. Complex issues auto-escalate to human with full context.",
     results: ["80% auto-resolution rate", "24/7 customer support", "90% customer satisfaction", "Response time: instant (was 4hrs)"],
     tags: ["Claude API", "WhatsApp Business", "Node.js", "NLP"],
-    color: "from-green-500/20 to-accent/20",
+    color: "from-accent/20 to-accent/20",
     timeline: "3 weeks",
   },
   {
@@ -116,7 +116,7 @@ export default function WorkPage() {
                   <div className="space-y-2 mb-5">
                     {p.results.slice(0, 3).map((r) => (
                       <div key={r} className="flex items-center gap-2 text-sm">
-                        <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                         <span className="text-text-secondary">{r}</span>
                       </div>
                     ))}
@@ -202,8 +202,8 @@ export default function WorkPage() {
                     <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wider mb-4">Results</h3>
                     <div className="grid sm:grid-cols-2 gap-3">
                       {selectedProject.results.map((r) => (
-                        <div key={r} className="flex items-center gap-3 bg-green-400/5 border border-green-400/10 rounded-lg p-3">
-                          <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
+                        <div key={r} className="flex items-center gap-3 bg-accent/5 border border-accent/10 rounded-lg p-3">
+                          <Check className="w-4 h-4 text-accent flex-shrink-0" />
                           <span className="text-text-secondary text-sm">{r}</span>
                         </div>
                       ))}
