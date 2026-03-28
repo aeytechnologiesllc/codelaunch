@@ -62,7 +62,7 @@ export function Navbar() {
             </Link>
             <Link
               href="/pricing"
-              className="px-5 py-2.5 bg-accent text-bg-primary font-semibold text-sm rounded-xl glow-accent hover:bg-accent-hover transition-all"
+              className="px-5 py-2.5 bg-cta text-cta-text font-semibold text-sm rounded-xl glow-accent hover:bg-cta-hover transition-all"
             >
               Get a Quote
             </Link>
@@ -100,7 +100,7 @@ export function Navbar() {
               <Link
                 href="/contact"
                 onClick={() => setMobileOpen(false)}
-                className="px-8 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-green text-lg"
+                className="px-8 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-green text-lg"
               >
                 Get a Quote
               </Link>

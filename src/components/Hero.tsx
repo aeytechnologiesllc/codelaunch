@@ -230,7 +230,7 @@ export function Hero() {
             >
               <Link
                 href="/pricing"
-                className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-accent text-bg-primary font-semibold rounded-xl glow-accent hover:bg-accent-hover transition-all text-base"
+                className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-cta text-cta-text font-semibold rounded-xl glow-accent hover:bg-cta-hover transition-all text-base"
               >
                 Get Your Exact Price
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

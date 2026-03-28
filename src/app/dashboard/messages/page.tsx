@@ -56,8 +56,8 @@ export default function MessagesPage() {
           placeholder="Type a message..."
           className="flex-1 bg-transparent text-sm text-text-primary placeholder:text-text-muted focus:outline-none px-2"
         />
-        <button className="w-9 h-9 rounded-lg bg-accent flex items-center justify-center hover:bg-accent-hover transition-colors">
-          <Send className="w-4 h-4 text-bg-primary" />
+        <button className="w-9 h-9 rounded-lg bg-cta flex items-center justify-center hover:bg-cta-hover transition-colors">
+          <Send className="w-4 h-4 text-cta-text" />
         </button>
       </div>
     </div>

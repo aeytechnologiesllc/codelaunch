@@ -214,7 +214,7 @@ export default function WorkPage() {
                   <div className="pt-6 border-t border-border flex flex-wrap gap-4">
                     <a
                       href="/contact"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all text-sm"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-green hover:bg-cta-hover transition-all text-sm"
                     >
                       Want Something Like This? <ExternalLink className="w-4 h-4" />
                     </a>

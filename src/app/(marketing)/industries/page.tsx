@@ -115,7 +115,7 @@ export default function IndustriesPage() {
                         </li>
                       ))}
                     </ul>
-                    <Link href="/pricing" className="group inline-flex items-center gap-2 px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all text-sm">
+                    <Link href="/pricing" className="group inline-flex items-center gap-2 px-6 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-green hover:bg-cta-hover transition-all text-sm">
                       Get Exact Pricing <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </div>

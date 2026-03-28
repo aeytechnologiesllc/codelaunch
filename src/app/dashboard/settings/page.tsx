@@ -32,7 +32,7 @@ export default function SettingsPage() {
             <input defaultValue="+1 (555) 987-6543" className="w-full px-3 py-2.5 bg-bg-primary/50 border border-border rounded-lg text-sm focus:outline-none focus:border-accent/30" />
           </div>
         </div>
-        <button className="px-5 py-2 bg-accent text-bg-primary text-sm font-semibold rounded-lg hover:bg-accent-hover transition-colors">
+        <button className="px-5 py-2 bg-cta text-cta-text text-sm font-semibold rounded-lg hover:bg-cta-hover transition-colors">
           Save Changes
         </button>
       </motion.div>

@@ -128,7 +128,7 @@ export default function ServicesPage() {
           <div className="text-center mt-20">
             <p className="text-text-secondary text-lg mb-6">Not sure what you need? Most people aren&apos;t.</p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link href="/pricing" className="px-7 py-3.5 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all">
+              <Link href="/pricing" className="px-7 py-3.5 bg-cta text-cta-text font-semibold rounded-xl glow-green hover:bg-cta-hover transition-all">
                 Try the Pricing Calculator
               </Link>
               <Link href="/contact" className="px-7 py-3.5 bg-glass border border-glass-border rounded-xl text-text-secondary hover:text-text-primary transition-all font-medium">

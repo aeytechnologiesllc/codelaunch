@@ -631,7 +631,7 @@ export default function PricingPage() {
                             {!customAdded ? (
                               <button
                                 onClick={() => setCustomAdded(true)}
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-accent text-bg-primary rounded-lg text-sm font-semibold hover:bg-accent-hover transition-all"
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-cta text-cta-text rounded-lg text-sm font-semibold hover:bg-cta-hover transition-all"
                               >
                                 <Check className="w-3.5 h-3.5" /> Add to Quote
                               </button>
@@ -646,7 +646,7 @@ export default function PricingPage() {
                     </div>
                   </div>
 
-                  <button onClick={() => setStep(2)} className="px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all text-sm">
+                  <button onClick={() => setStep(2)} className="px-6 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-green hover:bg-cta-hover transition-all text-sm">
                     Next: Choose Your Look &rarr;
                   </button>
                 </motion.div>
@@ -744,7 +744,7 @@ export default function PricingPage() {
                     </button>
                   </div>
 
-                  <button onClick={() => setStep(3)} disabled={!selectedTemplate} className="px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all text-sm disabled:opacity-40 disabled:cursor-not-allowed">
+                  <button onClick={() => setStep(3)} disabled={!selectedTemplate} className="px-6 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-green hover:bg-cta-hover transition-all text-sm disabled:opacity-40 disabled:cursor-not-allowed">
                     Next: Delivery & Support &rarr;
                   </button>
                 </motion.div>
@@ -806,7 +806,7 @@ export default function PricingPage() {
                     ))}
                   </div>
 
-                  <button onClick={() => setStep(4)} className="px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all text-sm">
+                  <button onClick={() => setStep(4)} className="px-6 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-green hover:bg-cta-hover transition-all text-sm">
                     View Summary &rarr;
                   </button>
                 </motion.div>
@@ -1031,7 +1031,7 @@ export default function PricingPage() {
                   </div>
 
                   <div className="mt-6 flex flex-wrap gap-4">
-                    <Link href="/contact" className="group inline-flex items-center gap-2 px-7 py-3.5 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all">
+                    <Link href="/contact" className="group inline-flex items-center gap-2 px-7 py-3.5 bg-cta text-cta-text font-semibold rounded-xl glow-green hover:bg-cta-hover transition-all">
                       Get This Built <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                     <button onClick={() => { setStep(0); setProjectType(null); setSelectedFeatures([]); setSelectedAutomations([]); setSelectedTemplate(null); setDesign("standard"); setRevisions("2"); setMaintenance("none"); setRushDelivery(false); setPaymentPlan("full"); setCustomEstimate(null); setCustomAdded(false); setCustomText(""); }}
@@ -1099,7 +1099,7 @@ export default function PricingPage() {
                 <div className="pt-3 border-t border-border">
                   <p className="text-text-muted text-xs">Price locked for this configuration.</p>
                 </div>
-                <Link href="/contact" className="block w-full text-center px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-accent hover:bg-accent-hover transition-all text-sm">
+                <Link href="/contact" className="block w-full text-center px-6 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-accent hover:bg-cta-hover transition-all text-sm">
                   Book Free Call
                 </Link>
               </div>

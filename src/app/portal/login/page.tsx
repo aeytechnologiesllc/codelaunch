@@ -58,7 +58,7 @@ export default function LoginPage() {
             </div>
             <Link
               href="/dashboard"
-              className="group w-full inline-flex items-center justify-center gap-2 px-7 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-accent hover:bg-accent-hover transition-all text-sm"
+              className="group w-full inline-flex items-center justify-center gap-2 px-7 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-accent hover:bg-cta-hover transition-all text-sm"
             >
               Log In
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

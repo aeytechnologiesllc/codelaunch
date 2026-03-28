@@ -182,7 +182,7 @@ export default function DashboardPage() {
                 <div className="flex flex-col items-center">
                   <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
                     m.status === "completed"
-                      ? "bg-accent text-bg-primary"
+                      ? "bg-cta text-cta-text"
                       : m.status === "in_progress"
                       ? "bg-accent/20 border-2 border-accent"
                       : "bg-bg-elevated border-2 border-border"
@@ -221,7 +221,7 @@ export default function DashboardPage() {
                       {m.subTasks.map((task) => (
                         <div key={task.label} className="flex items-center gap-2">
                           <div className={`w-3.5 h-3.5 rounded flex items-center justify-center flex-shrink-0 ${
-                            task.done ? "bg-accent text-bg-primary" : "border border-border"
+                            task.done ? "bg-cta text-cta-text" : "border border-border"
                           }`}>
                             {task.done && <CheckCircle2 className="w-2.5 h-2.5" />}
                           </div>

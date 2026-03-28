@@ -59,7 +59,7 @@ export default function ContactPage() {
                   <label className="block text-sm font-medium text-text-secondary mb-2">Tell us more</label>
                   <textarea rows={4} placeholder="What's the biggest problem in your business right now?" className="w-full px-4 py-3 bg-bg-primary/50 border border-border rounded-xl text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent/50 transition-all resize-none" />
                 </div>
-                <button type="submit" className="group w-full inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all">
+                <button type="submit" className="group w-full inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-cta text-cta-text font-semibold rounded-xl glow-green hover:bg-cta-hover transition-all">
                   Send Message <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
               </form>
