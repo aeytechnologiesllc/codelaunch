@@ -219,10 +219,10 @@ const revisionOptions = [
 ];
 
 const maintenancePlans = [
-  { id: "none", label: "No Maintenance", description: "You handle it", price: 0 },
-  { id: "basic", label: "Basic — $149/mo", description: "Hosting, SSL, security, monitoring, 2hrs support/mo", price: 149 },
-  { id: "standard", label: "Standard — $299/mo", description: "Basic + bug fixes, tweaks, weekly backups, 5hrs/mo", price: 299 },
-  { id: "premium", label: "Premium — $499/mo", description: "Standard + priority, new features, analytics, 10hrs/mo", price: 499 },
+  { id: "none", label: "No Maintenance", description: "You handle updates and hosting yourself", price: 0, badge: null },
+  { id: "basic", label: "Basic — $149/mo", description: "Hosting, SSL, security updates, uptime monitoring, 2hrs support/mo", price: 149, badge: "Recommended" },
+  { id: "standard", label: "Standard — $299/mo", description: "Basic + bug fixes, minor tweaks, weekly backups, 5hrs support/mo", price: 299, badge: null },
+  { id: "premium", label: "Premium — $499/mo", description: "Standard + priority support, new features, analytics review, 10hrs/mo", price: 499, badge: null },
 ];
 
 /* ───────────────────────── Component ───────────────────────── */
@@ -843,7 +843,10 @@ export default function PricingPage() {
                           {maintenance === m.id && <div className="w-2.5 h-2.5 rounded-full bg-accent" />}
                         </div>
                         <div className="flex-1">
-                          <span className="font-medium text-sm">{m.label}</span>
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium text-sm">{m.label}</span>
+                            {m.badge && <span className="text-[9px] bg-accent/10 text-accent px-1.5 py-0.5 rounded font-semibold">{m.badge}</span>}
+                          </div>
                           <p className="text-text-muted text-xs mt-0.5">{m.description}</p>
                         </div>
                       </button>
@@ -1039,7 +1042,7 @@ export default function PricingPage() {
                   <div className="glass-card p-6 mt-4 border-accent/10 bg-accent/[0.02]">
                     <h3 className="flex items-center gap-2 text-sm font-semibold mb-4">
                       <TrendingUp className="w-4 h-4 text-accent" />
-                      This Isn&apos;t an Expense — It&apos;s an Investment
+                      What This Pays You Back
                     </h3>
                     <div className="grid grid-cols-3 gap-3 sm:gap-4">
                       <div className="text-center">
