@@ -240,6 +240,14 @@ export default function PricingPage() {
   const [rushDelivery, setRushDelivery] = useState(false);
   const [paymentPlan, setPaymentPlan] = useState<"full" | "5050" | "3mo" | "6mo">("full");
 
+  // Save quote
+  const [saveName, setSaveName] = useState("");
+  const [saveEmail, setSaveEmail] = useState("");
+  const [savePhone, setSavePhone] = useState("");
+  const [saveCompany, setSaveCompany] = useState("");
+  const [saveLoading, setSaveLoading] = useState(false);
+  const [savedQuoteNumber, setSavedQuoteNumber] = useState<string | null>(null);
+
   // AI custom feature
   const [customText, setCustomText] = useState("");
   const [customEstimate, setCustomEstimate] = useState<CustomFeatureEstimate | null>(null);
@@ -357,6 +365,42 @@ export default function PricingPage() {
     const monthly = maintenancePlans.find((m) => m.id === maintenance)?.price || 0;
     return { total: subtotal, weeks, monthly };
   }, [currentType, selectedFeatures, selectedAutomations, features, design, revisions, rushDelivery, maintenance, customAdded, customEstimate]);
+
+  const saveQuote = async () => {
+    if (!saveName.trim() || !saveEmail.trim() || !currentType) return;
+    setSaveLoading(true);
+    try {
+      const res = await fetch("/api/save-quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          clientName: saveName,
+          clientEmail: saveEmail,
+          clientPhone: savePhone,
+          companyName: saveCompany,
+          projectType: currentType.id,
+          selectedFeatures,
+          selectedAutomations,
+          customFeatureDescription: customText || null,
+          customFeaturePrice: customAdded && customEstimate ? Math.round((customEstimate.priceMin + customEstimate.priceMax) / 2) : 0,
+          designLevel: design,
+          selectedTemplate,
+          revisionRounds: revisions,
+          rushDelivery,
+          maintenancePlan: maintenance,
+          paymentPlan,
+          totalPrice: pricing.total,
+          monthlyPrice: pricing.monthly,
+          estimatedWeeks: pricing.weeks,
+        }),
+      });
+      const data = await res.json();
+      if (data.quoteNumber) setSavedQuoteNumber(data.quoteNumber);
+    } catch (e) {
+      console.error("Failed to save quote:", e);
+    }
+    setSaveLoading(false);
+  };
 
   /* ── Render helpers ── */
 
@@ -1030,13 +1074,56 @@ export default function PricingPage() {
                     </p>
                   </div>
 
-                  <div className="mt-6 flex flex-wrap gap-4">
-                    <Link href="/contact" className="group inline-flex items-center gap-2 px-7 py-3.5 bg-cta text-cta-text font-semibold rounded-xl glow-green hover:bg-cta-hover transition-all">
-                      Get This Built <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                    <button onClick={() => { setStep(0); setProjectType(null); setSelectedFeatures([]); setSelectedAutomations([]); setSelectedTemplate(null); setDesign("standard"); setRevisions("2"); setMaintenance("none"); setRushDelivery(false); setPaymentPlan("full"); setCustomEstimate(null); setCustomAdded(false); setCustomText(""); }}
-                      className="inline-flex items-center gap-2 px-7 py-3.5 bg-glass border border-glass-border rounded-xl text-text-secondary hover:text-text-primary transition-all font-medium">
-                      <RefreshCw className="w-4 h-4" /> Start Over
+                  {/* Save Quote */}
+                  <div className="glass-card p-6 mt-4">
+                    {!savedQuoteNumber ? (
+                      <div className="space-y-4">
+                        <h3 className="text-sm font-semibold flex items-center gap-2">
+                          <Shield className="w-4 h-4 text-accent" />
+                          Save Your Quote
+                        </h3>
+                        <p className="text-text-muted text-xs">Enter your details and we&apos;ll lock this price with a quote number you can reference anytime.</p>
+                        <div className="grid sm:grid-cols-2 gap-3">
+                          <input value={saveName} onChange={(e) => setSaveName(e.target.value)} placeholder="Your name *" className="px-3 py-2.5 bg-bg-primary/50 border border-border rounded-lg text-sm placeholder:text-text-muted focus:outline-none focus:border-accent/30" />
+                          <input value={saveEmail} onChange={(e) => setSaveEmail(e.target.value)} placeholder="Email address *" type="email" className="px-3 py-2.5 bg-bg-primary/50 border border-border rounded-lg text-sm placeholder:text-text-muted focus:outline-none focus:border-accent/30" />
+                          <input value={saveCompany} onChange={(e) => setSaveCompany(e.target.value)} placeholder="Company name" className="px-3 py-2.5 bg-bg-primary/50 border border-border rounded-lg text-sm placeholder:text-text-muted focus:outline-none focus:border-accent/30" />
+                          <input value={savePhone} onChange={(e) => setSavePhone(e.target.value)} placeholder="Phone (optional)" className="px-3 py-2.5 bg-bg-primary/50 border border-border rounded-lg text-sm placeholder:text-text-muted focus:outline-none focus:border-accent/30" />
+                        </div>
+                        <div className="flex gap-3">
+                          <button
+                            onClick={saveQuote}
+                            disabled={!saveName.trim() || !saveEmail.trim() || saveLoading}
+                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-cta text-cta-text font-semibold rounded-lg hover:bg-cta-hover transition-all text-sm disabled:opacity-40"
+                          >
+                            {saveLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                            {saveLoading ? "Saving..." : "Save & Get Quote Number"}
+                          </button>
+                          <Link href="/contact" className="inline-flex items-center gap-2 px-5 py-2.5 bg-glass border border-glass-border rounded-lg text-text-secondary hover:text-text-primary transition-all text-sm font-medium">
+                            Book a Call Instead
+                          </Link>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-center space-y-3">
+                        <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center mx-auto">
+                          <Check className="w-6 h-6 text-accent" />
+                        </div>
+                        <h3 className="text-lg font-bold">Quote Saved!</h3>
+                        <div className="text-2xl font-bold gradient-text">{savedQuoteNumber}</div>
+                        <p className="text-text-muted text-sm">
+                          Reference this number when you book a call. Your configuration and price are locked.
+                        </p>
+                        <Link href="/contact" className="group inline-flex items-center gap-2 px-7 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-accent hover:bg-cta-hover transition-all text-sm">
+                          Book Your Free Call <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="mt-4 text-center">
+                    <button onClick={() => { setStep(0); setProjectType(null); setSelectedFeatures([]); setSelectedAutomations([]); setSelectedTemplate(null); setDesign("standard"); setRevisions("2"); setMaintenance("none"); setRushDelivery(false); setPaymentPlan("full"); setCustomEstimate(null); setCustomAdded(false); setCustomText(""); setSavedQuoteNumber(null); setSaveName(""); setSaveEmail(""); setSavePhone(""); setSaveCompany(""); }}
+                      className="inline-flex items-center gap-2 text-text-muted text-sm hover:text-text-primary transition-all">
+                      <RefreshCw className="w-3.5 h-3.5" /> Start Over
                     </button>
                   </div>
                 </motion.div>
