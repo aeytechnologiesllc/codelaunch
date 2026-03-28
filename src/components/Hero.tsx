@@ -146,28 +146,26 @@ function DesktopMockup() {
           </div>
         </div>
 
-        {/* Floating cards */}
-        <div className="absolute bottom-4 left-4 w-44 glass-card p-3 rounded-xl shadow-2xl shadow-accent/10">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
-              <TrendingUp className="w-4 h-4 text-accent" />
-            </div>
-            <div>
-              <div className="text-[10px] text-text-muted">New Payment</div>
-              <div className="text-sm font-bold text-accent">+$1,247.00</div>
-            </div>
+      </div>
+
+      {/* Notification cards — positioned outside the mockup, below it */}
+      <div className="flex gap-3 mt-4 justify-center">
+        <div className="glass-card px-4 py-2.5 rounded-xl flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-lg bg-accent/10 flex items-center justify-center">
+            <TrendingUp className="w-3.5 h-3.5 text-accent" />
+          </div>
+          <div>
+            <div className="text-[9px] text-text-muted">New Payment</div>
+            <div className="text-xs font-bold text-accent">+$1,247.00</div>
           </div>
         </div>
-
-        <div className="absolute top-4 right-4 w-44 glass-card p-3 rounded-xl shadow-2xl shadow-accent/10">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-accent" />
-            </div>
-            <div>
-              <div className="text-[10px] text-text-muted">AI Assistant</div>
-              <div className="text-[11px] font-medium text-text-secondary">3 replies sent</div>
-            </div>
+        <div className="glass-card px-4 py-2.5 rounded-xl flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-lg bg-accent/10 flex items-center justify-center">
+            <Sparkles className="w-3.5 h-3.5 text-accent" />
+          </div>
+          <div>
+            <div className="text-[9px] text-text-muted">AI Assistant</div>
+            <div className="text-[10px] font-medium text-text-secondary">3 replies sent</div>
           </div>
         </div>
       </div>
