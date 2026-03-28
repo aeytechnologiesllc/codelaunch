@@ -1098,9 +1098,6 @@ export default function PricingPage() {
                             {saveLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                             {saveLoading ? "Saving..." : "Save & Get Quote Number"}
                           </button>
-                          <Link href="/contact" className="inline-flex items-center gap-2 px-5 py-2.5 bg-glass border border-glass-border rounded-lg text-text-secondary hover:text-text-primary transition-all text-sm font-medium">
-                            Book a Call Instead
-                          </Link>
                         </div>
                       </div>
                     ) : (
@@ -1186,9 +1183,21 @@ export default function PricingPage() {
                 <div className="pt-3 border-t border-border">
                   <p className="text-text-muted text-xs">Price locked for this configuration.</p>
                 </div>
-                <Link href="/contact" className="block w-full text-center px-6 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-accent hover:bg-cta-hover transition-all text-sm">
-                  Book Free Call
-                </Link>
+                {savedQuoteNumber ? (
+                  <>
+                    <div className="pt-3 border-t border-border text-center">
+                      <div className="text-[10px] text-text-muted mb-1">Your Quote</div>
+                      <div className="text-sm font-bold text-accent">{savedQuoteNumber}</div>
+                    </div>
+                    <Link href="/contact" className="block w-full text-center px-6 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-accent hover:bg-cta-hover transition-all text-sm">
+                      Book Free Call
+                    </Link>
+                  </>
+                ) : (
+                  <div className="pt-3 border-t border-border text-center">
+                    <p className="text-text-muted text-[10px]">Save your quote to book a call</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
