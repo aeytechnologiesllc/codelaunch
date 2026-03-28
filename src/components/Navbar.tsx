@@ -55,8 +55,14 @@ export function Navbar() {
               </Link>
             ))}
             <Link
-              href="/contact"
-              className="px-5 py-2.5 bg-accent text-bg-primary font-semibold text-sm rounded-xl glow-green hover:bg-accent-hover transition-all"
+              href="/portal/login"
+              className="text-text-muted hover:text-text-primary transition-colors text-sm font-medium"
+            >
+              Client Portal
+            </Link>
+            <Link
+              href="/pricing"
+              className="px-5 py-2.5 bg-accent text-bg-primary font-semibold text-sm rounded-xl glow-accent hover:bg-accent-hover transition-all"
             >
               Get a Quote
             </Link>
