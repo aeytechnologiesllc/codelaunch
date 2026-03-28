@@ -238,6 +238,7 @@ export default function PricingPage() {
   const [revisions, setRevisions] = useState("2");
   const [maintenance, setMaintenance] = useState("none");
   const [rushDelivery, setRushDelivery] = useState(false);
+  const [paymentPlan, setPaymentPlan] = useState<"full" | "5050" | "3mo" | "6mo">("full");
 
   // AI custom feature
   const [customText, setCustomText] = useState("");
@@ -922,6 +923,90 @@ export default function PricingPage() {
                     </div>
                   </div>
 
+                  {/* Payment Plan */}
+                  <div className="glass-card p-6 mt-4">
+                    <h3 className="text-sm font-semibold mb-4">How would you like to pay?</h3>
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      {[
+                        {
+                          id: "full" as const,
+                          label: "Pay in Full",
+                          detail: `$${pricing.total.toLocaleString()}`,
+                          sub: "One payment, best value",
+                          badge: null,
+                        },
+                        {
+                          id: "5050" as const,
+                          label: "50/50 Split",
+                          detail: `$${Math.ceil(pricing.total / 2).toLocaleString()} × 2`,
+                          sub: "50% to start, 50% on delivery",
+                          badge: null,
+                        },
+                        {
+                          id: "3mo" as const,
+                          label: "3 Monthly Payments",
+                          detail: `$${Math.ceil(pricing.total / 3).toLocaleString()}/mo`,
+                          sub: "Start → mid-project → delivery",
+                          badge: "Popular",
+                        },
+                        {
+                          id: "6mo" as const,
+                          label: "6 Monthly Payments",
+                          detail: `$${Math.ceil(pricing.total * 1.1 / 6).toLocaleString()}/mo`,
+                          sub: "10% financing fee applies",
+                          badge: "Lowest monthly",
+                        },
+                      ].map((plan) => (
+                        <button
+                          key={plan.id}
+                          onClick={() => setPaymentPlan(plan.id)}
+                          className={`glass-card p-4 text-left transition-all ${
+                            paymentPlan === plan.id ? "border-accent/30 bg-accent/5" : "hover:bg-white/[0.03]"
+                          }`}
+                        >
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="font-medium text-sm">{plan.label}</span>
+                            {plan.badge && (
+                              <span className="text-[9px] bg-accent/10 text-accent px-1.5 py-0.5 rounded font-semibold">{plan.badge}</span>
+                            )}
+                          </div>
+                          <div className="text-lg font-bold text-accent">{plan.detail}</div>
+                          <div className="text-text-muted text-xs mt-0.5">{plan.sub}</div>
+                        </button>
+                      ))}
+                    </div>
+                    {paymentPlan === "6mo" && (
+                      <p className="text-text-muted text-xs mt-3">
+                        6-month total: ${Math.ceil(pricing.total * 1.1).toLocaleString()} (${pricing.total.toLocaleString()} + 10% financing). First payment starts the project, remaining 5 payments monthly.
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Trust Guarantees */}
+                  <div className="grid sm:grid-cols-3 gap-3 mt-4">
+                    <div className="glass-card p-4 text-center">
+                      <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-2">
+                        <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                      </div>
+                      <h4 className="text-xs font-semibold mb-1">Free Project Brief</h4>
+                      <p className="text-text-muted text-[10px] leading-relaxed">After our call, you get a detailed project brief with wireframes — free, even if you don&apos;t proceed.</p>
+                    </div>
+                    <div className="glass-card p-4 text-center">
+                      <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-2">
+                        <Shield className="w-4 h-4 text-accent" />
+                      </div>
+                      <h4 className="text-xs font-semibold mb-1">Design Guarantee</h4>
+                      <p className="text-text-muted text-[10px] leading-relaxed">Don&apos;t love the design? Full deposit refunded. We take the risk, not you.</p>
+                    </div>
+                    <div className="glass-card p-4 text-center">
+                      <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-2">
+                        <Zap className="w-4 h-4 text-accent" />
+                      </div>
+                      <h4 className="text-xs font-semibold mb-1">1 Month Free Support</h4>
+                      <p className="text-text-muted text-[10px] leading-relaxed">Every project includes 1 month of free maintenance after launch. No strings.</p>
+                    </div>
+                  </div>
+
                   {/* ROI / Investment Justification */}
                   <div className="glass-card p-6 mt-4 border-accent/10 bg-accent/[0.02]">
                     <h3 className="flex items-center gap-2 text-sm font-semibold mb-4">
@@ -965,7 +1050,7 @@ export default function PricingPage() {
                     <Link href="/contact" className="group inline-flex items-center gap-2 px-7 py-3.5 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all">
                       Get This Built <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
-                    <button onClick={() => { setStep(0); setProjectType(null); setSelectedFeatures([]); setSelectedAutomations([]); setSelectedTemplate(null); setDesign("standard"); setRevisions("2"); setMaintenance("none"); setRushDelivery(false); setCustomEstimate(null); setCustomAdded(false); setCustomText(""); }}
+                    <button onClick={() => { setStep(0); setProjectType(null); setSelectedFeatures([]); setSelectedAutomations([]); setSelectedTemplate(null); setDesign("standard"); setRevisions("2"); setMaintenance("none"); setRushDelivery(false); setPaymentPlan("full"); setCustomEstimate(null); setCustomAdded(false); setCustomText(""); }}
                       className="inline-flex items-center gap-2 px-7 py-3.5 bg-glass border border-glass-border rounded-xl text-text-secondary hover:text-text-primary transition-all font-medium">
                       <RefreshCw className="w-4 h-4" /> Start Over
                     </button>
@@ -996,8 +1081,24 @@ export default function PricingPage() {
                     <div className="flex items-center gap-2"><Zap className="w-4 h-4 text-accent" />{selectedAutomations.length} automation{selectedAutomations.length > 1 ? "s" : ""}</div>
                   )}
                 </div>
-                <div className="pt-4 border-t border-border">
-                  <p className="text-text-muted text-xs">Estimate only. Exact price confirmed after free call.</p>
+
+                {paymentPlan !== "full" && (
+                  <div className="pt-3 border-t border-border">
+                    <div className="text-[10px] text-text-muted mb-0.5">
+                      {paymentPlan === "5050" ? "50/50 Split" : paymentPlan === "3mo" ? "3 Payments" : "6 Payments"}
+                    </div>
+                    <div className="text-lg font-bold text-accent">
+                      {paymentPlan === "5050"
+                        ? `$${Math.ceil(pricing.total / 2).toLocaleString()} × 2`
+                        : paymentPlan === "3mo"
+                        ? `$${Math.ceil(pricing.total / 3).toLocaleString()}/mo`
+                        : `$${Math.ceil(pricing.total * 1.1 / 6).toLocaleString()}/mo`}
+                    </div>
+                  </div>
+                )}
+
+                <div className="pt-3 border-t border-border">
+                  <p className="text-text-muted text-xs">Estimate only. Exact price after free call.</p>
                 </div>
                 <Link href="/contact" className="block w-full text-center px-6 py-3 bg-accent text-bg-primary font-semibold rounded-xl glow-green hover:bg-accent-hover transition-all text-sm">
                   Book Free Call
