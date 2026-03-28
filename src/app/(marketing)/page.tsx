@@ -5,6 +5,7 @@ import { Industries } from "@/components/Industries";
 import { CaseStudies } from "@/components/CaseStudies";
 import { Process } from "@/components/Process";
 import { Testimonials } from "@/components/Testimonials";
+import { LeadMagnet } from "@/components/LeadMagnet";
 import { CTA } from "@/components/CTA";
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
       <CaseStudies />
       <Process />
       <Testimonials />
+      <LeadMagnet />
       <CTA />
     </>
   );

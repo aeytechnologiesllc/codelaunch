@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { FloatingChat } from "@/components/FloatingChat";
 
 export default function MarketingLayout({
   children,
@@ -11,6 +12,7 @@ export default function MarketingLayout({
       <Navbar />
       <main className="flex-1">{children}</main>
       <Footer />
+      <FloatingChat />
     </>
   );
 }
