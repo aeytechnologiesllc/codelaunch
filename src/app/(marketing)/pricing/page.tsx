@@ -563,14 +563,7 @@ export default function PricingPage() {
                   </div>
                   <p className="text-text-muted text-sm mb-6">Green = free. Click features to add. Expand for automation options.</p>
 
-                  {/* Included - compact inline */}
-                  <div className="mb-6 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-text-muted">
-                    <Check className="w-3.5 h-3.5 text-accent" />
-                    <span className="text-accent font-medium mr-0.5">Included:</span>
-                    {includedFeatures.map((f, idx) => (
-                      <span key={f.id}>{f.label}{idx < includedFeatures.length - 1 ? "," : ""}</span>
-                    ))}
-                  </div>
+                  {/* Included features moved to sidebar */}
 
                   {/* Standard */}
                   {standardAddons.length > 0 && (
@@ -1060,6 +1053,21 @@ export default function PricingPage() {
                   <div className="text-4xl font-bold gradient-text-green">${pricing.total.toLocaleString()}</div>
                   <p className="text-text-muted text-sm mt-1">One-time cost</p>
                 </div>
+                {/* Included features table */}
+                {includedFeatures.length > 0 && (
+                  <div className="pt-3 border-t border-border">
+                    <div className="text-[10px] text-text-muted uppercase tracking-wider mb-2">Included free</div>
+                    <div className="space-y-1.5">
+                      {includedFeatures.map((f) => (
+                        <div key={f.id} className="flex items-center gap-2">
+                          <Check className="w-3 h-3 text-accent flex-shrink-0" />
+                          <span className="text-[11px] text-text-secondary">{f.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <div className="space-y-2 text-sm text-text-secondary">
                   <div className="flex items-center gap-2"><Clock className="w-4 h-4 text-accent-secondary" />~{pricing.weeks} weeks</div>
                   <div className="flex items-center gap-2"><RefreshCw className="w-4 h-4 text-accent" />{revisionOptions.find((r) => r.id === revisions)?.label} revisions</div>
