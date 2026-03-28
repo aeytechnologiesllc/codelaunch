@@ -495,6 +495,18 @@ export default function PricingPage() {
           ))}
         </div>
 
+        {/* Project type indicator - shows after selection */}
+        {step > 0 && currentType && (
+          <div className="flex items-center gap-3 mb-8 px-4 py-3 bg-white/[0.02] border border-border rounded-xl max-w-5xl mx-auto">
+            <currentType.icon className="w-5 h-5 text-accent" />
+            <div className="flex-1">
+              <span className="text-sm font-medium">{currentType.label}</span>
+              <span className="text-text-muted text-xs ml-2">from ${currentType.basePrice.toLocaleString()}</span>
+            </div>
+            <button onClick={() => setStep(0)} className="text-text-muted text-xs hover:text-text-primary transition-colors">Change</button>
+          </div>
+        )}
+
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <AnimatePresence mode="wait">
@@ -544,9 +556,9 @@ export default function PricingPage() {
               {/* ── Step 1: Features ── */}
               {step === 1 && projectType && (
                 <motion.div key="s1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                  <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-4 mb-2">
+                    <button onClick={() => setStep(0)} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/5 border border-border rounded-lg text-text-secondary text-xs hover:bg-white/10 hover:text-text-primary transition-all"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/></svg></button>
                     <h2 className="text-xl font-bold">Choose Your Features</h2>
-                    <button onClick={() => setStep(0)} className="inline-flex items-center gap-1.5 px-4 py-2 bg-white/5 border border-border rounded-lg text-text-secondary text-sm hover:bg-white/10 hover:text-text-primary transition-all"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/></svg>Back</button>
                   </div>
                   <p className="text-text-muted text-sm mb-6">Green = free. Click features to add. Expand for automation options.</p>
 
@@ -658,9 +670,9 @@ export default function PricingPage() {
               {/* ── Step 2: Template Selection (NEW) ── */}
               {step === 2 && projectType && (
                 <motion.div key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                  <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-4 mb-2">
+                    <button onClick={() => setStep(1)} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/5 border border-border rounded-lg text-text-secondary text-xs hover:bg-white/10 hover:text-text-primary transition-all"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/></svg></button>
                     <h2 className="text-xl font-bold">Choose Your Look</h2>
-                    <button onClick={() => setStep(1)} className="inline-flex items-center gap-1.5 px-4 py-2 bg-white/5 border border-border rounded-lg text-text-secondary text-sm hover:bg-white/10 hover:text-text-primary transition-all"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/></svg>Back</button>
                   </div>
                   <p className="text-text-muted text-sm mb-6">Pick a pre-built design to keep costs down, or go custom for a one-of-a-kind look.</p>
 
@@ -756,9 +768,9 @@ export default function PricingPage() {
               {/* ── Step 3: Rush, Revisions, Maintenance ── */}
               {step === 3 && (
                 <motion.div key="s3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                  <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-4 mb-6">
+                    <button onClick={() => setStep(2)} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/5 border border-border rounded-lg text-text-secondary text-xs hover:bg-white/10 hover:text-text-primary transition-all"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/></svg></button>
                     <h2 className="text-xl font-bold">Delivery & Support</h2>
-                    <button onClick={() => setStep(2)} className="inline-flex items-center gap-1.5 px-4 py-2 bg-white/5 border border-border rounded-lg text-text-secondary text-sm hover:bg-white/10 hover:text-text-primary transition-all"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/></svg>Back</button>
                   </div>
 
                   {/* Revisions */}
@@ -818,9 +830,9 @@ export default function PricingPage() {
               {/* ── Step 4: Summary ── */}
               {step === 4 && currentType && (
                 <motion.div key="s4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                  <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-4 mb-6">
+                    <button onClick={() => setStep(3)} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/5 border border-border rounded-lg text-text-secondary text-xs hover:bg-white/10 hover:text-text-primary transition-all"><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/></svg></button>
                     <h2 className="text-xl font-bold">Your Quote</h2>
-                    <button onClick={() => setStep(3)} className="inline-flex items-center gap-1.5 px-4 py-2 bg-white/5 border border-border rounded-lg text-text-secondary text-sm hover:bg-white/10 hover:text-text-primary transition-all"><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/></svg>Back</button>
                   </div>
 
                   <div className="glass-card p-6 space-y-4">
@@ -908,6 +920,38 @@ export default function PricingPage() {
                         </div>
                       )}
                     </div>
+                  </div>
+
+                  {/* ROI / Investment Justification */}
+                  <div className="glass-card p-6 mt-4 border-accent/10 bg-accent/[0.02]">
+                    <h3 className="flex items-center gap-2 text-sm font-semibold mb-4">
+                      <TrendingUp className="w-4 h-4 text-accent" />
+                      This Isn&apos;t an Expense — It&apos;s an Investment
+                    </h3>
+                    <div className="grid sm:grid-cols-3 gap-4">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-accent">
+                          {pricing.total > 0 ? `${Math.ceil(pricing.total / 2000)} mo` : "—"}
+                        </div>
+                        <div className="text-text-muted text-xs mt-1">Estimated payback period</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-accent">
+                          ${pricing.total > 0 ? Math.round(pricing.total * 0.5).toLocaleString() : "—"}
+                        </div>
+                        <div className="text-text-muted text-xs mt-1">Potential monthly savings</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-accent">
+                          ${pricing.total > 0 ? Math.round(pricing.total * 0.5 * 12 - pricing.total).toLocaleString() : "—"}
+                        </div>
+                        <div className="text-text-muted text-xs mt-1">Year 1 net return</div>
+                      </div>
+                    </div>
+                    <p className="text-text-muted text-xs mt-4 leading-relaxed">
+                      Businesses using custom software save an average of $2,000-5,000/mo by eliminating third-party fees,
+                      reducing manual work, and increasing order volume. Most clients see full ROI within 2-4 months.
+                    </p>
                   </div>
 
                   <div className="glass-card p-4 mt-4 flex items-start gap-3 border-amber-400/10 bg-amber-400/[0.03]">
