@@ -1,4 +1,4 @@
-import { Rocket, Mail, Phone, MapPin } from "lucide-react";
+import { Rocket, Mail, MapPin, Building } from "lucide-react";
 import Link from "next/link";
 
 export function Footer() {
@@ -16,6 +16,10 @@ export function Footer() {
             <p className="text-text-muted text-sm leading-relaxed">
               AI-powered software for growing businesses. Custom apps that make you money, not drain it.
             </p>
+            <div className="flex items-center gap-2 text-text-muted text-xs">
+              <Building className="w-3 h-3" />
+              <span>A Southern Digital Technologies LLC company</span>
+            </div>
           </div>
           <div>
             <h4 className="text-sm font-semibold uppercase tracking-wider text-text-secondary mb-4">Services</h4>
@@ -32,6 +36,7 @@ export function Footer() {
                 { label: "Our Work", href: "/work" },
                 { label: "About Us", href: "/about" },
                 { label: "Pricing", href: "/pricing" },
+                { label: "Book a Call", href: "/book" },
                 { label: "Contact", href: "/contact" },
               ].map((l) => (
                 <li key={l.label}><Link href={l.href} className="text-text-muted hover:text-text-primary transition-colors text-sm">{l.label}</Link></li>
@@ -42,16 +47,15 @@ export function Footer() {
             <h4 className="text-sm font-semibold uppercase tracking-wider text-text-secondary mb-4">Contact</h4>
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-text-muted text-sm"><Mail className="w-4 h-4 text-accent" />hello@codelaunch.dev</li>
-              <li className="flex items-center gap-2 text-text-muted text-sm"><Phone className="w-4 h-4 text-accent" />+1 (555) 123-4567</li>
-              <li className="flex items-center gap-2 text-text-muted text-sm"><MapPin className="w-4 h-4 text-accent" />Remote-first, worldwide</li>
+              <li className="flex items-start gap-2 text-text-muted text-sm"><MapPin className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />55 W 14th St, Suite 101<br />Helena, MT 59601</li>
             </ul>
           </div>
         </div>
-        <div className="mt-16 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-text-muted text-xs">&copy; {new Date().getFullYear()} CodeLaunch. All rights reserved.</p>
+        <div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-text-muted text-xs">&copy; {new Date().getFullYear()} Southern Digital Technologies LLC. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link href="#" className="text-text-muted hover:text-text-primary text-xs transition-colors">Privacy Policy</Link>
-            <Link href="#" className="text-text-muted hover:text-text-primary text-xs transition-colors">Terms of Service</Link>
+            <Link href="/privacy" className="text-text-muted hover:text-text-primary text-xs transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="text-text-muted hover:text-text-primary text-xs transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>
