@@ -93,7 +93,7 @@ export function Hero() {
             </motion.div>
           </div>
 
-          {/* Right: Real product image */}
+          {/* Right: Real product image — fades into background */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -101,16 +101,31 @@ export function Hero() {
             className="relative"
           >
             <div className="relative">
+              {/* Edge fade masks — dissolves image into the dark background */}
+              <div className="absolute inset-0 z-10 pointer-events-none" style={{
+                maskImage: "radial-gradient(ellipse 80% 70% at 50% 45%, black 40%, transparent 100%)",
+                WebkitMaskImage: "radial-gradient(ellipse 80% 70% at 50% 45%, black 40%, transparent 100%)",
+              }}>
+                <Image
+                  src="/images/hero-laptop-phone.png"
+                  alt="CodeLaunch dashboard on laptop and mobile"
+                  width={800}
+                  height={533}
+                  className="w-full h-auto"
+                  priority
+                />
+              </div>
+              {/* Invisible version for layout sizing */}
               <Image
                 src="/images/hero-laptop-phone.png"
-                alt="CodeLaunch dashboard on laptop and mobile"
+                alt=""
                 width={800}
                 height={533}
-                className="w-full h-auto rounded-lg"
-                priority
+                className="w-full h-auto invisible"
+                aria-hidden="true"
               />
-              {/* Subtle glow behind the image */}
-              <div className="absolute inset-0 -z-10 bg-accent/5 blur-[60px] rounded-full scale-75" />
+              {/* Subtle glow behind */}
+              <div className="absolute inset-0 -z-10 bg-accent/5 blur-[80px] rounded-full scale-75" />
             </div>
           </motion.div>
         </div>
