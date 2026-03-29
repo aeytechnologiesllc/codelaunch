@@ -71,9 +71,9 @@ const projectTypes = [
     id: "ai" as const,
     icon: Brain,
     label: "AI & Automation",
-    basePrice: 3400,
-    baseWeeks: 3,
-    included: "AI model setup, basic chatbot or automation, testing & training, API integration, monitoring dashboard",
+    basePrice: 1900,
+    baseWeeks: 2,
+    included: "Simple chatbot OR one automation, trained on your data, embedded on your site, monitoring dashboard",
   },
   {
     id: "integration" as const,
@@ -179,17 +179,23 @@ const featuresByType: Record<ProjectType, Feature[]> = {
     { id: "ai_mobile", label: "AI Features", description: "Smart suggestions, voice commands, auto-categorization", price: 1200, timeWeeks: 1, premium: true },
   ],
   ai: [
-    { id: "setup", label: "AI Model Setup & Config", description: "Set up and fine-tune for your use case", price: 0, timeWeeks: 0, included: true },
-    { id: "testing", label: "Testing & Training", description: "Train on your data, test edge cases", price: 0, timeWeeks: 0, included: true },
-    { id: "monitor", label: "Monitoring Dashboard", description: "Track performance, accuracy, usage", price: 0, timeWeeks: 0, included: true },
-    { id: "chatbot", label: "Customer Service Chatbot", description: "24/7 FAQ answering, appointment booking, inquiry handling", price: 800, timeWeeks: 1, popular: true, popularPct: 82 },
-    { id: "workflow", label: "Workflow Automation", description: "Auto-assign tasks, follow-ups, event triggers", price: 600, timeWeeks: 0.5, popular: true, popularPct: 71 },
-    { id: "emailai", label: "AI Email Responses", description: "Draft and send intelligent replies automatically", price: 500, timeWeeks: 0.5 },
-    { id: "scheduling_ai", label: "Smart Scheduling Optimizer", description: "AI optimizes your calendar, reduces gaps", price: 1000, timeWeeks: 1, premium: true },
-    { id: "analytics_ai", label: "Predictive Analytics", description: "Forecast demand, revenue, inventory", price: 1400, timeWeeks: 1, premium: true },
-    { id: "docprocess", label: "Document Processing (OCR)", description: "Auto-extract data from invoices, receipts", price: 1100, timeWeeks: 1, premium: true },
-    { id: "voice", label: "Voice AI / Phone Bot", description: "AI answers phone calls, handles inquiries", price: 2000, timeWeeks: 1.5, premium: true },
-    { id: "custom_model", label: "Custom Trained Model", description: "AI trained on YOUR business data", price: 2500, timeWeeks: 2, premium: true },
+    // Included in $1,900 base (AI Starter)
+    { id: "ai_setup", label: "AI Model Setup & Configuration", description: "Set up, configure, and fine-tune for your use case", price: 0, timeWeeks: 0, included: true },
+    { id: "ai_training", label: "Training on Your Data", description: "Feed it your FAQs, docs, pricing — AI learns your business", price: 0, timeWeeks: 0, included: true },
+    { id: "ai_embed", label: "Website Embed / Deployment", description: "Chatbot or automation live on your site or platform", price: 0, timeWeeks: 0, included: true },
+    { id: "ai_monitor", label: "Monitoring Dashboard", description: "Track conversations, accuracy, usage stats", price: 0, timeWeeks: 0, included: true },
+    // Standard add-ons
+    { id: "ai_extra_channel", label: "Additional AI Channel", description: "Add AI to a second platform (e.g., chatbot on site + WhatsApp bot)", price: 500, timeWeeks: 0.5, popular: true, popularPct: 68 },
+    { id: "ai_workflow", label: "Workflow Automation", description: "Auto-assign tasks, send follow-ups, trigger actions on events", price: 600, timeWeeks: 0.5, popular: true, popularPct: 71 },
+    { id: "ai_email", label: "AI Email Responses", description: "Draft and send intelligent replies to customer emails automatically", price: 500, timeWeeks: 0.5 },
+    { id: "ai_booking", label: "AI Appointment Booking", description: "Chatbot books appointments directly into your calendar", price: 400, timeWeeks: 0.5 },
+    // Premium add-ons (complex integrations)
+    { id: "ai_integration", label: "Connect to Your Existing Software", description: "Integrate AI with your CRM, POS, or any existing system via API", price: 1200, timeWeeks: 1, premium: true, popular: true, popularPct: 58 },
+    { id: "ai_scheduling", label: "Smart Scheduling Optimizer", description: "AI optimizes your calendar, reduces gaps, suggests best times", price: 1000, timeWeeks: 1, premium: true },
+    { id: "ai_analytics", label: "Predictive Analytics & Forecasting", description: "Forecast demand, revenue, inventory using your historical data", price: 1400, timeWeeks: 1, premium: true },
+    { id: "ai_ocr", label: "Document Processing (OCR)", description: "Auto-extract data from invoices, receipts, forms", price: 1100, timeWeeks: 1, premium: true },
+    { id: "ai_voice", label: "Voice AI / Phone Bot", description: "AI answers phone calls and handles basic inquiries", price: 2000, timeWeeks: 1.5, premium: true },
+    { id: "ai_custom_model", label: "Custom Trained Model", description: "AI model trained specifically on YOUR business data for maximum accuracy", price: 2500, timeWeeks: 2, premium: true },
   ],
   integration: [
     { id: "one_platform", label: "One Platform Integration", description: "Connect one service of your choice", price: 0, timeWeeks: 0, included: true },
@@ -858,6 +864,16 @@ export default function PricingPage() {
                       </button>
                     ))}
                   </div>
+
+                  {/* AI-specific note about API costs */}
+                  {projectType === "ai" && (
+                    <div className="glass-card p-4 mb-8 flex items-start gap-3 border-accent/10 bg-accent/[0.02]">
+                      <Brain className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
+                      <div className="text-xs text-text-secondary leading-relaxed">
+                        <span className="font-medium text-text-primary">About AI hosting costs:</span> AI features use API tokens (OpenAI/Claude) that have ongoing costs. With a maintenance plan, we manage the API key and usage is included up to reasonable limits. Without a plan, you provide your own API key and manage costs directly. We recommend at least the Basic plan for AI projects.
+                      </div>
+                    </div>
+                  )}
 
                   <button onClick={() => setStep(4)} className="px-6 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-green hover:bg-cta-hover transition-all text-sm">
                     View Summary &rarr;
