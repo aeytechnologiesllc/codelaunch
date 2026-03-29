@@ -1,177 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, TrendingUp, Zap, Bot } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
-
-function MobileMockup() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, delay: 0.4 }}
-      className="lg:hidden mt-10"
-    >
-      {/* Compact phone-style mockup for mobile */}
-      <div className="max-w-sm mx-auto glass-card p-3 rounded-2xl">
-        <div className="bg-bg-elevated rounded-xl overflow-hidden">
-          {/* Status bar */}
-          <div className="flex items-center justify-between px-4 py-2 border-b border-border">
-            <span className="text-[10px] font-semibold text-text-secondary">Business Dashboard</span>
-            <span className="text-[9px] text-accent bg-accent/10 px-2 py-0.5 rounded-full">Live</span>
-          </div>
-          {/* Stats row */}
-          <div className="grid grid-cols-3 gap-2 p-3">
-            {[
-              { label: "Revenue", value: "$48.2K", icon: TrendingUp },
-              { label: "Orders", value: "1,284", icon: Zap },
-              { label: "AI Replies", value: "847", icon: Bot },
-            ].map((s) => (
-              <div key={s.label} className="bg-bg-primary/50 rounded-lg p-2.5 text-center">
-                <s.icon className="w-3.5 h-3.5 text-accent mx-auto mb-1" />
-                <div className="text-xs font-bold">{s.value}</div>
-                <div className="text-[8px] text-text-muted">{s.label}</div>
-              </div>
-            ))}
-          </div>
-          {/* Mini chart */}
-          <div className="px-3 pb-3">
-            <div className="bg-bg-primary/50 rounded-lg p-3">
-              <div className="h-12 flex items-end gap-1">
-                {[35, 50, 40, 65, 55, 80, 70, 90, 60, 95, 85, 100].map((h, i) => (
-                  <div
-                    key={i}
-                    className="flex-1 rounded-t"
-                    style={{
-                      height: `${h}%`,
-                      background: "linear-gradient(to top, rgba(167,139,250,0.5), rgba(167,139,250,0.15))",
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-          {/* Activity */}
-          <div className="px-3 pb-3 space-y-1.5">
-            {[
-              { text: "New order received", time: "2m", dot: "bg-accent" },
-              { text: "AI resolved inquiry", time: "8m", dot: "bg-accent/60" },
-            ].map((a) => (
-              <div key={a.text} className="flex items-center gap-2 px-2.5 py-1.5 bg-bg-primary/30 rounded-lg">
-                <div className={`w-1.5 h-1.5 rounded-full ${a.dot}`} />
-                <span className="text-[10px] text-text-secondary flex-1">{a.text}</span>
-                <span className="text-[9px] text-text-muted">{a.time}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-function DesktopMockup() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: 50 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.8, delay: 0.3 }}
-      className="hidden lg:block relative"
-    >
-      <div className="relative animate-float">
-        <div className="glass-card p-3 rounded-2xl shadow-2xl shadow-accent/5">
-          <div className="bg-bg-elevated rounded-xl overflow-hidden">
-            <div className="flex items-center gap-2 px-4 py-3 border-b border-border">
-              <div className="flex gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-white/10" />
-                <div className="w-3 h-3 rounded-full bg-white/10" />
-                <div className="w-3 h-3 rounded-full bg-white/10" />
-              </div>
-              <div className="flex-1 mx-4">
-                <div className="bg-bg-primary/60 rounded-md px-3 py-1 text-xs text-text-muted text-center">
-                  dashboard.yourcompany.com
-                </div>
-              </div>
-            </div>
-            <div className="p-5 space-y-4 min-h-[300px]">
-              <div className="flex justify-between items-center">
-                <div>
-                  <div className="text-xs text-text-muted">Good morning, Owner</div>
-                  <div className="text-sm font-semibold mt-0.5">Business Dashboard</div>
-                </div>
-                <div className="px-3 py-1.5 bg-accent/10 rounded-lg text-xs text-accent font-medium">Live</div>
-              </div>
-              <div className="grid grid-cols-3 gap-2.5">
-                {[
-                  { label: "Revenue", value: "$48.2K", change: "+18%" },
-                  { label: "Orders", value: "1,284", change: "+24%" },
-                  { label: "Customers", value: "847", change: "+12%" },
-                ].map((s) => (
-                  <div key={s.label} className="bg-bg-primary/60 rounded-lg p-3">
-                    <div className="text-[10px] text-text-muted">{s.label}</div>
-                    <div className="text-sm font-bold mt-1">{s.value}</div>
-                    <div className="text-[10px] text-accent mt-0.5">{s.change}</div>
-                  </div>
-                ))}
-              </div>
-              <div className="bg-bg-primary/60 rounded-lg p-4">
-                <div className="text-[10px] text-text-muted mb-3">Weekly Revenue</div>
-                <div className="h-24 flex items-end gap-1.5">
-                  {[35, 50, 40, 65, 55, 80, 70, 90, 60, 95, 85, 100].map((h, i) => (
-                    <div
-                      key={i}
-                      className="flex-1 rounded-t"
-                      style={{
-                        height: `${h}%`,
-                        background: "linear-gradient(to top, rgba(167,139,250,0.5), rgba(167,139,250,0.15))",
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-              <div className="space-y-2">
-                {[
-                  { text: "New order #1284", time: "2 min ago" },
-                  { text: "AI bot resolved inquiry", time: "8 min ago" },
-                  { text: "Invoice #892 paid", time: "15 min ago" },
-                ].map((item) => (
-                  <div key={item.text} className="flex items-center gap-2.5 px-3 py-2 bg-bg-primary/40 rounded-lg">
-                    <div className="w-2 h-2 rounded-full bg-accent" />
-                    <span className="text-[11px] text-text-secondary flex-1">{item.text}</span>
-                    <span className="text-[10px] text-text-muted">{item.time}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      {/* Notification cards — positioned outside the mockup, below it */}
-      <div className="flex gap-3 mt-4 justify-center">
-        <div className="glass-card px-4 py-2.5 rounded-xl flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-accent/10 flex items-center justify-center">
-            <TrendingUp className="w-3.5 h-3.5 text-accent" />
-          </div>
-          <div>
-            <div className="text-[9px] text-text-muted">New Payment</div>
-            <div className="text-xs font-bold text-accent">+$1,247.00</div>
-          </div>
-        </div>
-        <div className="glass-card px-4 py-2.5 rounded-xl flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-accent/10 flex items-center justify-center">
-            <Sparkles className="w-3.5 h-3.5 text-accent" />
-          </div>
-          <div>
-            <div className="text-[9px] text-text-muted">AI Assistant</div>
-            <div className="text-[10px] font-medium text-text-secondary">3 replies sent</div>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
+import Image from "next/image";
 
 export function Hero() {
   return (
@@ -241,7 +73,7 @@ export function Hero() {
               </Link>
             </motion.div>
 
-            {/* Stats - horizontal on mobile, grid on desktop */}
+            {/* Stats */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -261,12 +93,27 @@ export function Hero() {
             </motion.div>
           </div>
 
-          {/* Desktop mockup - only on lg+ */}
-          <DesktopMockup />
+          {/* Right: Real product image */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="relative"
+          >
+            <div className="relative">
+              <Image
+                src="/images/hero-laptop-phone.png"
+                alt="CodeLaunch dashboard on laptop and mobile"
+                width={800}
+                height={533}
+                className="w-full h-auto rounded-lg"
+                priority
+              />
+              {/* Subtle glow behind the image */}
+              <div className="absolute inset-0 -z-10 bg-accent/5 blur-[60px] rounded-full scale-75" />
+            </div>
+          </motion.div>
         </div>
-
-        {/* Mobile mockup - only on mobile/tablet */}
-        <MobileMockup />
       </div>
     </section>
   );
