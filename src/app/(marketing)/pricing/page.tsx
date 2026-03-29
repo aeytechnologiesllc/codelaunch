@@ -228,7 +228,8 @@ const maintenancePlans = [
 /* ───────────────────────── Component ───────────────────────── */
 
 export default function PricingPage() {
-  const [step, setStep] = useState(0);
+  const [step, _setStep] = useState(0);
+  const setStep = (s: number) => { _setStep(s); window.scrollTo({ top: 0, behavior: "smooth" }); };
   const [projectType, setProjectType] = useState<ProjectType | null>(null);
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   const [selectedAutomations, setSelectedAutomations] = useState<string[]>([]);
@@ -453,12 +454,15 @@ export default function PricingPage() {
               +${f.price.toLocaleString()}
             </span>
             {hasAutomations && isSelected && (
-              <button
+              <span
+                role="button"
+                tabIndex={0}
                 onClick={(e) => { e.stopPropagation(); setExpandedFeature(isExpanded ? null : f.id); }}
-                className="p-1 hover:bg-white/10 rounded transition-colors"
+                onKeyDown={(e) => { if (e.key === 'Enter') { e.stopPropagation(); setExpandedFeature(isExpanded ? null : f.id); } }}
+                className="p-1 hover:bg-white/10 rounded transition-colors cursor-pointer"
               >
                 {isExpanded ? <ChevronUp className="w-4 h-4 text-text-muted" /> : <ChevronDown className="w-4 h-4 text-text-muted" />}
-              </button>
+              </span>
             )}
           </div>
         </button>
