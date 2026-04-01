@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState } from "react";
 import { ScrollReveal } from "./ScrollReveal";
 import { Globe, Smartphone, Brain, Plug, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
@@ -39,9 +40,55 @@ const services = [
   },
 ];
 
+function TiltCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [transform, setTransform] = useState("");
+  const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const { left, top, width, height } = ref.current.getBoundingClientRect();
+    const x = (e.clientX - left) / width;
+    const y = (e.clientY - top) / height;
+    const rotateX = (y - 0.5) * -8;
+    const rotateY = (x - 0.5) * 8;
+    setTransform(`perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`);
+    setGlowPos({ x: x * 100, y: y * 100 });
+  };
+
+  const handleMouseLeave = () => {
+    setTransform("perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)");
+    setGlowPos({ x: 50, y: 50 });
+  };
+
+  return (
+    <div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={className}
+      style={{
+        transform,
+        transition: "transform 0.15s ease-out",
+        transformStyle: "preserve-3d",
+      }}
+    >
+      {/* Glow follow */}
+      <div
+        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{
+          background: `radial-gradient(circle at ${glowPos.x}% ${glowPos.y}%, rgba(167, 139, 250, 0.08) 0%, transparent 60%)`,
+        }}
+      />
+      {children}
+    </div>
+  );
+}
+
 export function Services() {
   return (
     <section id="services" className="relative py-28 sm:py-32 bg-bg-secondary">
+      <div className="absolute inset-0 dot-pattern opacity-40" />
       <div className="absolute inset-0 radial-glow opacity-40" />
       <div className="relative max-w-7xl mx-auto px-6">
         <ScrollReveal>
@@ -61,29 +108,31 @@ export function Services() {
 
         <div className="grid sm:grid-cols-2 gap-6">
           {services.map((service, i) => (
-            <ScrollReveal key={service.title} delay={i * 0.1}>
+            <ScrollReveal key={service.title} delay={i * 0.1} animation={i % 2 === 0 ? "slideLeft" : "slideRight"}>
               <Link href={service.href}>
-                <div className="glass-card p-8 h-full group hover:bg-white/[0.06] hover:border-accent/15 transition-all duration-300 cursor-pointer">
-                  <div className="flex items-start justify-between mb-6">
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                      <service.icon className="w-6 h-6 text-accent" />
+                <TiltCard className="glass-card p-8 h-full group hover:border-accent/15 transition-all duration-300 relative overflow-hidden animated-border cursor-pointer">
+                  <div className="relative z-10" style={{ transform: "translateZ(20px)" }}>
+                    <div className="flex items-start justify-between mb-6">
+                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(167,139,250,0.2)] transition-all duration-300`}>
+                        <service.icon className="w-6 h-6 text-accent" />
+                      </div>
+                      <ArrowUpRight className="w-5 h-5 text-text-muted group-hover:text-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                     </div>
-                    <ArrowUpRight className="w-5 h-5 text-text-muted group-hover:text-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                    <h3 className="text-xl font-semibold mb-3 group-hover:text-accent transition-colors">
+                      {service.title}
+                    </h3>
+                    <p className="text-text-secondary text-sm leading-relaxed mb-6">
+                      {service.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {service.features.map((f) => (
+                        <span key={f} className="px-3 py-1 bg-bg-primary/60 rounded-full text-xs text-text-muted border border-border group-hover:border-accent/10 transition-colors">
+                          {f}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <h3 className="text-xl font-semibold mb-3 group-hover:text-accent transition-colors">
-                    {service.title}
-                  </h3>
-                  <p className="text-text-secondary text-sm leading-relaxed mb-6">
-                    {service.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {service.features.map((f) => (
-                      <span key={f} className="px-3 py-1 bg-bg-primary/60 rounded-full text-xs text-text-muted border border-border">
-                        {f}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                </TiltCard>
               </Link>
             </ScrollReveal>
           ))}

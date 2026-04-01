@@ -18,7 +18,7 @@ const caseStudies = [
     title: "Financial Analytics Dashboard",
     category: "Complex Web App",
     description: "Real-time financial dashboard pulling data from 12+ sources. Automated weekly reports that used to take 6 hours manually.",
-    results: ["12 data sources unified", "6hrs → 0 report time", "Real-time P&L visibility"],
+    results: ["12 data sources unified", "6hrs \u2192 0 report time", "Real-time P&L visibility"],
     tags: ["Next.js", "Python", "AI Analytics", "REST APIs"],
     image: "/images/web-contractor.png",
   },
@@ -28,6 +28,7 @@ export function CaseStudies() {
   return (
     <section id="work" className="relative py-28 sm:py-32 bg-bg-secondary">
       <div className="absolute inset-0 radial-glow-green opacity-30" />
+      <div className="absolute inset-0 dot-pattern opacity-20" />
       <div className="relative max-w-7xl mx-auto px-6">
         <ScrollReveal>
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -44,29 +45,31 @@ export function CaseStudies() {
 
         <div className="grid lg:grid-cols-2 gap-6">
           {caseStudies.map((study, i) => (
-            <ScrollReveal key={study.title} delay={i * 0.15}>
+            <ScrollReveal key={study.title} delay={i * 0.15} animation={i === 0 ? "slideLeft" : "slideRight"}>
               <Link href="/work">
-                <div className="glass-card overflow-hidden h-full group hover:border-accent/15 transition-all duration-300">
-                  {/* Real image */}
+                <div className="glass-card overflow-hidden h-full group hover:border-accent/15 transition-all duration-500 animated-border hover:shadow-[0_0_30px_rgba(167,139,250,0.06)]">
+                  {/* Image with parallax-like hover effect */}
                   <div className="relative aspect-[16/10] overflow-hidden">
                     <Image
                       src={study.image}
                       alt={study.title}
                       fill
-                      className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                      className="object-cover object-center group-hover:scale-110 transition-transform duration-700 ease-out"
                       sizes="(max-width: 1024px) 100vw, 50vw"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/80 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/90 via-bg-primary/30 to-transparent group-hover:from-bg-primary/80 transition-all duration-500" />
+
+                    {/* Category badge on image */}
+                    <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-bg-primary/60 backdrop-blur-sm border border-border text-accent text-xs font-medium">
+                      {study.category}
+                    </div>
                   </div>
 
                   {/* Content */}
                   <div className="p-8">
                     <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <p className="text-accent text-xs font-medium uppercase tracking-wider mb-1">{study.category}</p>
-                        <h3 className="text-xl font-bold group-hover:text-accent transition-colors">{study.title}</h3>
-                      </div>
-                      <ArrowUpRight className="w-5 h-5 text-text-muted group-hover:text-accent transition-colors" />
+                      <h3 className="text-xl font-bold group-hover:text-accent transition-colors">{study.title}</h3>
+                      <ArrowUpRight className="w-5 h-5 text-text-muted group-hover:text-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                     </div>
                     <p className="text-text-secondary text-sm leading-relaxed mb-5">{study.description}</p>
 
@@ -81,7 +84,7 @@ export function CaseStudies() {
 
                     <div className="flex flex-wrap gap-2">
                       {study.tags.map((t) => (
-                        <span key={t} className="px-3 py-1 bg-bg-primary/60 rounded-full text-xs text-text-muted border border-border">{t}</span>
+                        <span key={t} className="px-3 py-1 bg-bg-primary/60 rounded-full text-xs text-text-muted border border-border group-hover:border-accent/10 transition-colors">{t}</span>
                       ))}
                     </div>
                   </div>

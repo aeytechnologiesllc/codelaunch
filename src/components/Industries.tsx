@@ -9,7 +9,7 @@ const industries = [
     icon: UtensilsCrossed,
     title: "For Restaurants & Food",
     tagline: "Keep your profits. Ditch the middleman.",
-    description: "We build your own ordering platform so customers order directly from you — no 30% commission to DoorDash. Plus AI chatbots that handle reservations and FAQs at 2am.",
+    description: "We build your own ordering platform so customers order directly from you \u2014 no 30% commission to DoorDash. Plus AI chatbots that handle reservations and FAQs at 2am.",
     features: [
       "Custom online ordering (zero commission fees)",
       "Smart table booking with auto-reminders",
@@ -26,7 +26,7 @@ const industries = [
     icon: Wrench,
     title: "For Contractors & Trades",
     tagline: "Your office. In your pocket.",
-    description: "Stop running your crew on paper and phone calls. We build you a dispatch and invoicing system that works as hard as you do — schedule, track, invoice, get paid.",
+    description: "Stop running your crew on paper and phone calls. We build you a dispatch and invoicing system that works as hard as you do \u2014 schedule, track, invoice, get paid.",
     features: [
       "Drag-and-drop job scheduling",
       "Instant invoicing from the field",
@@ -62,26 +62,26 @@ export function Industries() {
 
         <div className="grid lg:grid-cols-2 gap-6">
           {industries.map((ind, i) => (
-            <ScrollReveal key={ind.title} delay={i * 0.15}>
-              <div className={`glass-card p-8 lg:p-10 h-full group transition-all duration-300 ${ind.borderColor}`}>
+            <ScrollReveal key={ind.title} delay={i * 0.15} animation={i === 0 ? "slideLeft" : "slideRight"}>
+              <div className={`glass-card p-8 lg:p-10 h-full group transition-all duration-500 ${ind.borderColor} animated-border hover:shadow-[0_0_40px_rgba(167,139,250,0.06)]`}>
                 <div className="flex items-center gap-3 mb-2">
                   <ind.icon className="w-5 h-5 text-accent" />
                   <span className="text-sm font-medium text-accent">{ind.tagline}</span>
                 </div>
 
-                <h3 className="text-2xl sm:text-3xl font-bold mb-4">{ind.title}</h3>
+                <h3 className="text-2xl sm:text-3xl font-bold mb-4 group-hover:text-accent transition-colors duration-300">{ind.title}</h3>
                 <p className="text-text-secondary leading-relaxed mb-8">{ind.description}</p>
 
                 <ul className="space-y-3 mb-8">
-                  {ind.features.map((f) => (
-                    <li key={f} className="flex items-center gap-3 text-sm">
-                      <div className="w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0" />
+                  {ind.features.map((f, j) => (
+                    <li key={f} className="flex items-center gap-3 text-sm group/item" style={{ transitionDelay: `${j * 50}ms` }}>
+                      <div className="w-1.5 h-1.5 rounded-full bg-accent flex-shrink-0 group-hover/item:shadow-[0_0_6px_rgba(167,139,250,0.5)] transition-shadow" />
                       <span className="text-text-secondary">{f}</span>
                     </li>
                   ))}
                 </ul>
 
-                <div className="bg-gradient-to-r from-accent/10 to-accent-secondary/10 rounded-xl p-5 mb-8">
+                <div className="bg-gradient-to-r from-accent/10 to-accent-secondary/10 rounded-xl p-5 mb-8 group-hover:from-accent/15 group-hover:to-accent-secondary/15 transition-all duration-300">
                   <div className="text-2xl font-bold gradient-text-green">{ind.stat}</div>
                   <div className="text-text-muted text-sm">{ind.statLabel}</div>
                 </div>

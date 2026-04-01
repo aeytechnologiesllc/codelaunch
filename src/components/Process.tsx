@@ -1,7 +1,12 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { ScrollReveal } from "./ScrollReveal";
 import { MessageSquare, Palette, Code2, Rocket } from "lucide-react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const steps = [
   {
@@ -9,7 +14,7 @@ const steps = [
     icon: MessageSquare,
     title: "Discovery",
     description: "30-minute call. We listen to your problems, not pitch our solutions. If we can't help, we'll tell you.",
-    duration: "Free · 30 min",
+    duration: "Free \u00b7 30 min",
   },
   {
     number: "02",
@@ -35,6 +40,33 @@ const steps = [
 ];
 
 export function Process() {
+  const lineRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!lineRef.current) return;
+
+    gsap.fromTo(
+      lineRef.current,
+      { scaleY: 0 },
+      {
+        scaleY: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: lineRef.current,
+          start: "top 80%",
+          end: "bottom 40%",
+          scrub: 1,
+        },
+      }
+    );
+
+    return () => {
+      ScrollTrigger.getAll().forEach((st) => {
+        if (st.trigger === lineRef.current) st.kill();
+      });
+    };
+  }, []);
+
   return (
     <section id="process" className="relative py-28 sm:py-32">
       <div className="max-w-7xl mx-auto px-6">
@@ -53,7 +85,40 @@ export function Process() {
           </div>
         </ScrollReveal>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Desktop: horizontal with connecting line */}
+        <div className="hidden lg:block relative">
+          {/* Connecting line */}
+          <div className="absolute top-[60px] left-[10%] right-[10%] h-[2px] bg-border">
+            <div
+              ref={lineRef}
+              className="absolute inset-0 bg-gradient-to-r from-accent via-accent to-accent-hover origin-left"
+            />
+          </div>
+
+          <div className="grid grid-cols-4 gap-6 relative">
+            {steps.map((step, i) => (
+              <ScrollReveal key={step.number} delay={i * 0.15} animation="fadeUp">
+                <div className="relative glass-card p-8 h-full group hover:bg-white/[0.06] transition-all duration-500 animated-border">
+                  {/* Step number bubble */}
+                  <div className="w-12 h-12 rounded-full bg-accent/15 border-2 border-accent/30 flex items-center justify-center mb-6 mx-auto group-hover:bg-accent/25 group-hover:border-accent/50 group-hover:shadow-[0_0_20px_rgba(167,139,250,0.2)] transition-all duration-300">
+                    <span className="text-accent font-bold text-sm">{step.number}</span>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform">
+                      <step.icon className="w-5 h-5 text-accent" />
+                    </div>
+                    <h3 className="text-lg font-semibold mb-3 group-hover:text-accent transition-colors">{step.title}</h3>
+                    <p className="text-text-secondary text-sm leading-relaxed mb-4">{step.description}</p>
+                    <span className="inline-block px-3 py-1 bg-accent/10 rounded-full text-xs text-accent font-medium">{step.duration}</span>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile: vertical stack */}
+        <div className="lg:hidden grid sm:grid-cols-2 gap-6">
           {steps.map((step, i) => (
             <ScrollReveal key={step.number} delay={i * 0.1}>
               <div className="relative glass-card p-8 h-full group hover:bg-white/[0.06] transition-all duration-300">

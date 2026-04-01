@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Rocket } from "lucide-react";
 import Link from "next/link";
+import { MagneticButton } from "./MagneticButton";
 
 const navLinks = [
   { href: "/services", label: "Services" },
@@ -28,15 +29,15 @@ export function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? "bg-bg-primary/80 backdrop-blur-xl border-b border-border"
+            ? "bg-bg-primary/80 backdrop-blur-xl border-b border-border shadow-[0_4px_30px_rgba(0,0,0,0.3)]"
             : "bg-transparent"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-lg bg-accent/15 flex items-center justify-center group-hover:bg-accent/25 transition-colors">
+            <div className="w-9 h-9 rounded-lg bg-accent/15 flex items-center justify-center group-hover:bg-accent/25 group-hover:shadow-[0_0_15px_rgba(167,139,250,0.2)] transition-all duration-300">
               <Rocket className="w-5 h-5 text-accent" />
             </div>
             <span className="text-xl font-bold tracking-tight">
@@ -49,23 +50,25 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-text-secondary hover:text-text-primary transition-colors text-sm font-medium"
+                className="nav-link-animated text-text-secondary hover:text-text-primary transition-colors text-sm font-medium"
               >
                 {link.label}
               </Link>
             ))}
             <Link
               href="/portal/login"
-              className="text-text-muted hover:text-text-primary transition-colors text-sm font-medium"
+              className="nav-link-animated text-text-muted hover:text-text-primary transition-colors text-sm font-medium"
             >
               Client Portal
             </Link>
-            <Link
-              href="/pricing"
-              className="px-5 py-2.5 bg-cta text-cta-text font-semibold text-sm rounded-xl glow-accent hover:bg-cta-hover transition-all"
-            >
-              Get a Quote
-            </Link>
+            <MagneticButton strength={0.2}>
+              <Link
+                href="/pricing"
+                className="px-5 py-2.5 bg-cta text-cta-text font-semibold text-sm rounded-xl btn-glow hover:bg-cta-hover transition-all"
+              >
+                Get a Quote
+              </Link>
+            </MagneticButton>
           </div>
 
           <button
@@ -100,7 +103,7 @@ export function Navbar() {
               <Link
                 href="/contact"
                 onClick={() => setMobileOpen(false)}
-                className="px-8 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-green text-lg"
+                className="px-8 py-3 bg-cta text-cta-text font-semibold rounded-xl btn-glow text-lg"
               >
                 Get a Quote
               </Link>

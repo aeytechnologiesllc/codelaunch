@@ -14,7 +14,7 @@ const differentiators = [
     icon: Eye,
     title: "You See Everything",
     them: "Other agencies: disappear for 8 weeks, show up with something you didn't ask for.",
-    us: "Us: Client dashboard with real-time progress tracking, weekly demos, and milestone updates. Like tracking a package — but it's your software.",
+    us: "Us: Client dashboard with real-time progress tracking, weekly demos, and milestone updates. Like tracking a package \u2014 but it's your software.",
   },
   {
     icon: Shield,
@@ -26,7 +26,7 @@ const differentiators = [
     icon: Zap,
     title: "AI Built In, Not Bolted On",
     them: "Other agencies: build a standard app, then charge extra to \"add AI\" later.",
-    us: "Us: AI is part of the architecture from day one. Chatbots, automation, smart scheduling — baked in, not an afterthought.",
+    us: "Us: AI is part of the architecture from day one. Chatbots, automation, smart scheduling \u2014 baked in, not an afterthought.",
   },
   {
     icon: Clock,
@@ -46,6 +46,7 @@ export function WhyUs() {
   return (
     <section className="relative py-24 sm:py-28 bg-bg-secondary">
       <div className="absolute inset-0 radial-glow opacity-30" />
+      <div className="absolute inset-0 dot-pattern opacity-20" />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
         <ScrollReveal>
           <div className="text-center max-w-3xl mx-auto mb-14">
@@ -64,12 +65,12 @@ export function WhyUs() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {differentiators.map((d, i) => (
-            <ScrollReveal key={d.title} delay={i * 0.06}>
-              <div className="glass-card p-6 h-full group hover:bg-white/[0.03] transition-all">
-                <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center mb-4">
+            <ScrollReveal key={d.title} delay={i * 0.08} animation="scaleIn">
+              <div className="glass-card p-6 h-full group hover:bg-white/[0.04] transition-all duration-500 animated-border hover:shadow-[0_0_25px_rgba(167,139,250,0.06)]">
+                <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(167,139,250,0.15)] transition-all duration-300">
                   <d.icon className="w-5 h-5 text-accent" />
                 </div>
-                <h3 className="font-semibold text-sm mb-3">{d.title}</h3>
+                <h3 className="font-semibold text-sm mb-3 group-hover:text-accent transition-colors">{d.title}</h3>
                 <div className="space-y-2">
                   <p className="text-text-muted text-xs leading-relaxed line-through decoration-text-muted/30">
                     {d.them}

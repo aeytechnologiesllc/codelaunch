@@ -126,7 +126,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error("Error analyzing feature:", error);
-    return NextResponse.json(getFallbackEstimate(description));
+    return NextResponse.json(getFallbackEstimate("unknown feature"));
   }
 }
 
