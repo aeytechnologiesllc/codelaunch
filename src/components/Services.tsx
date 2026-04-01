@@ -110,7 +110,7 @@ export function Services() {
           {services.map((service, i) => (
             <ScrollReveal key={service.title} delay={i * 0.1} animation={i % 2 === 0 ? "slideLeft" : "slideRight"}>
               <Link href={service.href}>
-                <TiltCard className="glass-card p-8 h-full group hover:border-accent/15 transition-all duration-300 relative overflow-hidden animated-border cursor-pointer">
+                <TiltCard className="glass-card p-8 h-full group hover:border-accent/15 transition-all duration-300 relative overflow-hidden cursor-pointer">
                   <div className="relative z-10" style={{ transform: "translateZ(20px)" }}>
                     <div className="flex items-start justify-between mb-6">
                       <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${service.gradient} flex items-center justify-center group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(167,139,250,0.2)] transition-all duration-300`}>

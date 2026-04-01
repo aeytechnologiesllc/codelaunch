@@ -63,7 +63,7 @@ export function Industries() {
         <div className="grid lg:grid-cols-2 gap-6">
           {industries.map((ind, i) => (
             <ScrollReveal key={ind.title} delay={i * 0.15} animation={i === 0 ? "slideLeft" : "slideRight"}>
-              <div className={`glass-card p-8 lg:p-10 h-full group transition-all duration-500 ${ind.borderColor} animated-border hover:shadow-[0_0_40px_rgba(167,139,250,0.06)]`}>
+              <div className={`glass-card p-8 lg:p-10 h-full group transition-all duration-500 ${ind.borderColor} hover:shadow-[0_0_40px_rgba(167,139,250,0.06)]`}>
                 <div className="flex items-center gap-3 mb-2">
                   <ind.icon className="w-5 h-5 text-accent" />
                   <span className="text-sm font-medium text-accent">{ind.tagline}</span>

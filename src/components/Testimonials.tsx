@@ -67,7 +67,7 @@ export function Testimonials() {
         <div className="hidden md:grid md:grid-cols-3 gap-6">
           {testimonials.map((t, i) => (
             <ScrollReveal key={t.name} delay={i * 0.1} animation="fadeUp">
-              <div className="glass-card p-8 h-full flex flex-col group hover:bg-white/[0.04] transition-all duration-500 animated-border hover:shadow-[0_0_25px_rgba(167,139,250,0.06)]">
+              <div className="glass-card p-8 h-full flex flex-col group hover:bg-white/[0.04] transition-all duration-500 hover:shadow-[0_0_25px_rgba(167,139,250,0.06)]">
                 <div className="flex gap-1 mb-4">
                   {Array.from({ length: 5 }).map((_, j) => (
                     <Star key={j} className="w-4 h-4 text-accent fill-accent" />

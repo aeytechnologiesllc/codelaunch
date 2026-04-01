@@ -66,7 +66,7 @@ export function WhyUs() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {differentiators.map((d, i) => (
             <ScrollReveal key={d.title} delay={i * 0.08} animation="scaleIn">
-              <div className="glass-card p-6 h-full group hover:bg-white/[0.04] transition-all duration-500 animated-border hover:shadow-[0_0_25px_rgba(167,139,250,0.06)]">
+              <div className="glass-card p-6 h-full group hover:bg-white/[0.04] transition-all duration-500 hover:shadow-[0_0_25px_rgba(167,139,250,0.06)]">
                 <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 group-hover:scale-110 group-hover:shadow-[0_0_15px_rgba(167,139,250,0.15)] transition-all duration-300">
                   <d.icon className="w-5 h-5 text-accent" />
                 </div>

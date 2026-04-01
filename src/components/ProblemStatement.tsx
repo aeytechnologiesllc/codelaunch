@@ -52,7 +52,7 @@ export function ProblemStatement() {
         <div className="grid md:grid-cols-3 gap-6">
           {problems.map((p, i) => (
             <ScrollReveal key={i} delay={i * 0.12} animation="slideLeft">
-              <div className={`glass-card p-8 h-full hover:bg-white/[0.06] transition-all duration-500 group ${p.glowColor} animated-border`}>
+              <div className={`glass-card p-8 h-full hover:bg-white/[0.06] transition-all duration-500 group ${p.glowColor}`}>
                 <div className={`w-12 h-12 rounded-xl ${p.bgColor} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                   <p.icon className={`w-6 h-6 ${p.color}`} />
                 </div>

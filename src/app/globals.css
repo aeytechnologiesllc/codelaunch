@@ -175,7 +175,7 @@ body {
   max-height: 600px;
   top: -10%;
   left: -5%;
-  background: radial-gradient(circle, rgba(167, 139, 250, 0.04) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.12) 0%, transparent 70%);
   animation: ambient-drift-1 45s ease-in-out infinite;
 }
 
@@ -186,7 +186,7 @@ body {
   max-height: 500px;
   bottom: 5%;
   right: -8%;
-  background: radial-gradient(circle, rgba(129, 140, 248, 0.035) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(129, 140, 248, 0.1) 0%, transparent 70%);
   animation: ambient-drift-2 50s ease-in-out infinite;
 }
 
@@ -197,7 +197,7 @@ body {
   max-height: 450px;
   top: 40%;
   right: 10%;
-  background: radial-gradient(circle, rgba(124, 58, 237, 0.03) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.09) 0%, transparent 70%);
   animation: ambient-drift-3 55s ease-in-out infinite;
 }
 
@@ -208,7 +208,7 @@ body {
   max-height: 650px;
   bottom: -15%;
   left: 15%;
-  background: radial-gradient(circle, rgba(167, 139, 250, 0.045) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.13) 0%, transparent 70%);
   animation: ambient-drift-4 60s ease-in-out infinite;
 }
 
@@ -244,41 +244,7 @@ body {
   .ambient-orb { animation: none; }
 }
 
-/* ── Animated border gradient on hover ── */
-.animated-border {
-  position: relative;
-  overflow: hidden;
-}
-.animated-border::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(
-    135deg,
-    rgba(167, 139, 250, 0) 0%,
-    rgba(167, 139, 250, 0) 40%,
-    rgba(167, 139, 250, 0.3) 50%,
-    rgba(167, 139, 250, 0) 60%,
-    rgba(167, 139, 250, 0) 100%
-  );
-  background-size: 200% 200%;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-.animated-border:hover::before {
-  opacity: 1;
-  animation: border-sweep 2s linear infinite;
-}
-@keyframes border-sweep {
-  0% { background-position: 0% 0%; }
-  100% { background-position: 200% 200%; }
-}
+/* ── Animated border is intentionally removed — clean hover only ── */
 
 /* ── Marquee ── */
 @keyframes marquee {

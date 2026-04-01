@@ -98,7 +98,7 @@ export function Process() {
           <div className="grid grid-cols-4 gap-6 relative">
             {steps.map((step, i) => (
               <ScrollReveal key={step.number} delay={i * 0.15} animation="fadeUp">
-                <div className="relative glass-card p-8 h-full group hover:bg-white/[0.06] transition-all duration-500 animated-border">
+                <div className="relative glass-card p-8 h-full group hover:bg-white/[0.06] transition-all duration-500 ">
                   {/* Step number bubble */}
                   <div className="w-12 h-12 rounded-full bg-accent/15 border-2 border-accent/30 flex items-center justify-center mb-6 mx-auto group-hover:bg-accent/25 group-hover:border-accent/50 group-hover:shadow-[0_0_20px_rgba(167,139,250,0.2)] transition-all duration-300">
                     <span className="text-accent font-bold text-sm">{step.number}</span>

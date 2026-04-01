@@ -47,7 +47,7 @@ export function CaseStudies() {
           {caseStudies.map((study, i) => (
             <ScrollReveal key={study.title} delay={i * 0.15} animation={i === 0 ? "slideLeft" : "slideRight"}>
               <Link href="/work">
-                <div className="glass-card overflow-hidden h-full group hover:border-accent/15 transition-all duration-500 animated-border hover:shadow-[0_0_30px_rgba(167,139,250,0.06)]">
+                <div className="glass-card overflow-hidden h-full group hover:border-accent/15 transition-all duration-500 hover:shadow-[0_0_30px_rgba(167,139,250,0.06)]">
                   {/* Image with parallax-like hover effect */}
                   <div className="relative aspect-[16/10] overflow-hidden">
                     <Image
