@@ -249,9 +249,9 @@ export function Hero() {
 
           {/* Desktop: 3D Scene */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 2, delay: 0.3, ease: "easeOut" }}
             className="relative hidden lg:block"
           >
             <div className="absolute inset-0 -z-10 bg-accent/5 blur-[80px] rounded-full scale-90" />
