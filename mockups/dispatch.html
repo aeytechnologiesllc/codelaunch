@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0f; color: #e4e4e7; width: 1280px; height: 800px; overflow: hidden; }
+.wrap { width: 1280px; height: 800px; display: grid; grid-template-columns: 200px 1fr 320px; }
+.side { background: #111118; border-right: 1px solid rgba(255,255,255,0.06); padding: 20px 14px; }
+.logo { display: flex; align-items: center; gap: 8px; padding: 8px 10px; margin-bottom: 24px; font-weight: 700; font-size: 14px; color: #34d399; }
+.logo i { width: 26px; height: 26px; border-radius: 7px; background: linear-gradient(135deg,#059669,#34d399); display: flex; align-items: center; justify-content: center; font-size: 13px; color: #fff; font-style: normal; }
+.ni { padding: 9px 10px; border-radius: 7px; font-size: 12.5px; color: #52525b; display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
+.ni.a { background: rgba(52,211,153,0.1); color: #34d399; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+.main { padding: 22px 24px; display: flex; flex-direction: column; gap: 14px; }
+.hdr { display: flex; justify-content: space-between; align-items: center; }
+.hdr h1 { font-size: 20px; font-weight: 600; }
+.b { padding: 7px 14px; border-radius: 7px; font-size: 11px; font-weight: 600; border: none; }
+.bp { background: #34d399; color: #0a0a0f; }
+
+/* Map placeholder */
+.map { flex: 1; background: #0d1117; border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; position: relative; overflow: hidden; }
+.map-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(52,211,153,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(52,211,153,0.03) 1px, transparent 1px); background-size: 40px 40px; }
+.map-dot { position: absolute; width: 12px; height: 12px; border-radius: 50%; }
+.map-dot::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid; opacity: 0.3; }
+.map-label { position: absolute; font-size: 9px; font-weight: 600; padding: 3px 6px; border-radius: 4px; background: rgba(10,10,15,0.8); white-space: nowrap; }
+
+.right { background: #111118; border-left: 1px solid rgba(255,255,255,0.06); padding: 20px 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; }
+.rt { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.job { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 12px; }
+.job-h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.job-t { font-size: 12px; font-weight: 600; }
+.job-s { font-size: 9px; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+.job-d { font-size: 11px; color: #71717a; }
+.job-crew { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+.crew-av { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; }
+.job-time { font-size: 10px; color: #52525b; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="side">
+    <div class="logo"><i>🔧</i> FieldPro</div>
+    <div class="ni a"><div class="dot"></div> Dispatch</div>
+    <div class="ni"><div class="dot"></div> Jobs</div>
+    <div class="ni"><div class="dot"></div> Crew</div>
+    <div class="ni"><div class="dot"></div> Invoices</div>
+    <div class="ni"><div class="dot"></div> Customers</div>
+    <div class="ni"><div class="dot"></div> Reports</div>
+    <div class="ni"><div class="dot"></div> Settings</div>
+  </div>
+  <div class="main">
+    <div class="hdr"><h1>Live Dispatch</h1><button class="b bp">+ Assign Job</button></div>
+    <div class="map">
+      <div class="map-grid"></div>
+      <div class="map-dot" style="top:25%;left:30%;background:#34d399" ></div>
+      <div class="map-label" style="top:22%;left:33%;color:#34d399">Mike R. — En Route</div>
+      <div class="map-dot" style="top:45%;left:55%;background:#60a5fa"></div>
+      <div class="map-label" style="top:42%;left:58%;color:#60a5fa">Jake T. — On Site</div>
+      <div class="map-dot" style="top:65%;left:25%;background:#fbbf24"></div>
+      <div class="map-label" style="top:62%;left:28%;color:#fbbf24">Carlos M. — Break</div>
+      <div class="map-dot" style="top:35%;left:70%;background:#34d399"></div>
+      <div class="map-label" style="top:32%;left:73%;color:#34d399">Sam K. — En Route</div>
+      <div class="map-dot" style="top:55%;left:40%;background:#a78bfa"></div>
+      <div class="map-label" style="top:52%;left:43%;color:#a78bfa">Dave L. — Complete</div>
+      <!-- route lines -->
+      <svg style="position:absolute;inset:0;width:100%;height:100%">
+        <line x1="30%" y1="25%" x2="40%" y2="20%" stroke="#34d399" stroke-width="1" opacity="0.2" stroke-dasharray="4 4"/>
+        <line x1="70%" y1="35%" x2="65%" y2="40%" stroke="#34d399" stroke-width="1" opacity="0.2" stroke-dasharray="4 4"/>
+      </svg>
+    </div>
+  </div>
+  <div class="right">
+    <div class="rt">Today's Jobs (8)</div>
+    <div class="job">
+      <div class="job-h"><div class="job-t">HVAC Repair</div><div class="job-s" style="background:rgba(52,211,153,0.1);color:#34d399">Active</div></div>
+      <div class="job-d">1247 Oak Ave — Residential</div>
+      <div class="job-crew"><div class="crew-av" style="background:rgba(52,211,153,0.15);color:#34d399">MR</div><span style="font-size:11px">Mike Rodriguez</span></div>
+      <div class="job-time">9:00 AM - 11:30 AM</div>
+    </div>
+    <div class="job">
+      <div class="job-h"><div class="job-t">Plumbing Install</div><div class="job-s" style="background:rgba(96,165,250,0.1);color:#60a5fa">On Site</div></div>
+      <div class="job-d">892 Main St — Commercial</div>
+      <div class="job-crew"><div class="crew-av" style="background:rgba(96,165,250,0.15);color:#60a5fa">JT</div><span style="font-size:11px">Jake Thompson</span></div>
+      <div class="job-time">10:00 AM - 2:00 PM</div>
+    </div>
+    <div class="job">
+      <div class="job-h"><div class="job-t">Electrical Panel</div><div class="job-s" style="background:rgba(167,139,250,0.1);color:#a78bfa">Scheduled</div></div>
+      <div class="job-d">3340 Pine Rd — Residential</div>
+      <div class="job-crew"><div class="crew-av" style="background:rgba(167,139,250,0.15);color:#a78bfa">SK</div><span style="font-size:11px">Sam Kim</span></div>
+      <div class="job-time">1:00 PM - 4:00 PM</div>
+    </div>
+    <div class="job">
+      <div class="job-h"><div class="job-t">AC Maintenance</div><div class="job-s" style="background:rgba(251,191,36,0.1);color:#fbbf24">Pending</div></div>
+      <div class="job-d">567 Elm Blvd — Commercial</div>
+      <div class="job-crew"><div class="crew-av" style="background:rgba(251,191,36,0.15);color:#fbbf24">CM</div><span style="font-size:11px">Carlos Martinez</span></div>
+      <div class="job-time">3:00 PM - 5:00 PM</div>
+    </div>
+    <div class="job">
+      <div class="job-h"><div class="job-t">Water Heater</div><div class="job-s" style="background:rgba(52,211,153,0.1);color:#34d399">Complete</div></div>
+      <div class="job-d">204 Cedar Ln — Residential</div>
+      <div class="job-crew"><div class="crew-av" style="background:rgba(52,211,153,0.15);color:#34d399">DL</div><span style="font-size:11px">Dave Lopez</span></div>
+      <div class="job-time">7:00 AM - 9:00 AM ✓</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

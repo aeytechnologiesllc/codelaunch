@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0f;color:#e4e4e7;width:1280px;height:800px;overflow:hidden}
+.w{width:1280px;height:800px;display:grid;grid-template-columns:200px 1fr}
+.s{background:#111118;border-right:1px solid rgba(255,255,255,.06);padding:20px 14px}
+.logo{display:flex;align-items:center;gap:8px;padding:8px 10px;margin-bottom:24px;font-weight:700;font-size:14px;color:#60a5fa}
+.logo i{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#1d4ed8,#60a5fa);display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;font-style:normal}
+.ni{padding:9px 10px;border-radius:7px;font-size:12.5px;color:#52525b;display:flex;align-items:center;gap:8px;margin-bottom:2px}
+.ni.a{background:rgba(96,165,250,.1);color:#60a5fa}
+.dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+.m{padding:22px 24px;display:flex;flex-direction:column;gap:14px;overflow:hidden}
+.hdr{display:flex;justify-content:space-between;align-items:center}
+.hdr h1{font-size:20px;font-weight:600}
+.b{padding:7px 14px;border-radius:7px;font-size:11px;font-weight:600;border:none}
+.bp{background:#60a5fa;color:#0a0a0f}
+.bg{background:rgba(255,255,255,.05);color:#a1a1aa;border:1px solid rgba(255,255,255,.08)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.sc{background:#111118;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:14px}
+.sl{font-size:10px;color:#52525b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.sv{font-size:22px;font-weight:700}
+.sch{font-size:10px;margin-top:2px}
+/* Locations */
+.locs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.loc{background:#111118;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:14px}
+.loc-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.loc-name{font-size:13px;font-weight:600}
+.loc-badge{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:600}
+.loc-stat{display:flex;justify-content:space-between;font-size:11px;color:#71717a;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.03)}
+.loc-stat:last-child{border:none}
+.loc-val{color:#e4e4e7;font-weight:600}
+/* Table */
+.tbl{flex:1;background:#111118;border:1px solid rgba(255,255,255,.06);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.tbl-hdr{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;align-items:center}
+.tbl-t{font-size:13px;font-weight:600}
+.tbl-row{display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr 1fr 100px;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.03);font-size:12px;align-items:center}
+.tbl-row.head{color:#52525b;font-size:10px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid rgba(255,255,255,.06)}
+.tag{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:600;display:inline-block}
+.stock-bar{height:4px;border-radius:2px;background:rgba(255,255,255,.05);width:60px}
+.stock-fill{height:100%;border-radius:2px}
+.sku{color:#52525b;font-size:10px}
+</style>
+</head>
+<body>
+<div class="w">
+<div class="s">
+<div class="logo"><i>📦</i>StockIQ</div>
+<div class="ni a"><div class="dot"></div>Inventory</div>
+<div class="ni"><div class="dot"></div>Locations</div>
+<div class="ni"><div class="dot"></div>Orders</div>
+<div class="ni"><div class="dot"></div>Forecasting</div>
+<div class="ni"><div class="dot"></div>Suppliers</div>
+<div class="ni"><div class="dot"></div>Reports</div>
+<div class="ni"><div class="dot"></div>Settings</div>
+</div>
+<div class="m">
+<div class="hdr"><h1>Inventory Overview</h1><div style="display:flex;gap:8px"><button class="b bg">Export</button><button class="b bp">+ Add Product</button></div></div>
+<div class="stats">
+<div class="sc"><div class="sl">Total SKUs</div><div class="sv" style="color:#60a5fa">1,847</div><div class="sch" style="color:#34d399">All locations</div></div>
+<div class="sc"><div class="sl">Low Stock Alerts</div><div class="sv" style="color:#f87171">23</div><div class="sch" style="color:#f87171">⚠ Needs attention</div></div>
+<div class="sc"><div class="sl">Auto-Reorders</div><div class="sv" style="color:#34d399">8</div><div class="sch" style="color:#34d399">Generated today</div></div>
+<div class="sc"><div class="sl">Stock Value</div><div class="sv" style="color:#a78bfa">$284K</div><div class="sch" style="color:#34d399">↑ 5% this month</div></div>
+</div>
+<div class="locs">
+<div class="loc"><div class="loc-h"><div class="loc-name">📍 Downtown Store</div><div class="loc-badge" style="background:rgba(52,211,153,.1);color:#34d399">Online</div></div><div class="loc-stat"><span>Products</span><span class="loc-val">642</span></div><div class="loc-stat"><span>Low Stock</span><span class="loc-val" style="color:#f87171">8</span></div><div class="loc-stat"><span>Value</span><span class="loc-val">$124K</span></div></div>
+<div class="loc"><div class="loc-h"><div class="loc-name">📍 Mall Location</div><div class="loc-badge" style="background:rgba(52,211,153,.1);color:#34d399">Online</div></div><div class="loc-stat"><span>Products</span><span class="loc-val">578</span></div><div class="loc-stat"><span>Low Stock</span><span class="loc-val" style="color:#fbbf24">12</span></div><div class="loc-stat"><span>Value</span><span class="loc-val">$98K</span></div></div>
+<div class="loc"><div class="loc-h"><div class="loc-name">📍 Warehouse</div><div class="loc-badge" style="background:rgba(52,211,153,.1);color:#34d399">Online</div></div><div class="loc-stat"><span>Products</span><span class="loc-val">1,204</span></div><div class="loc-stat"><span>Low Stock</span><span class="loc-val" style="color:#34d399">3</span></div><div class="loc-stat"><span>Value</span><span class="loc-val">$62K</span></div></div>
+</div>
+<div class="tbl">
+<div class="tbl-hdr"><div class="tbl-t">Products — Low Stock Alert</div><span style="font-size:10px;color:#f87171">23 items need reorder</span></div>
+<div class="tbl-row head"><div>Product</div><div>SKU</div><div>In Stock</div><div>Threshold</div><div>Status</div><div>Action</div></div>
+<div class="tbl-row"><div><div style="font-weight:500">Wireless Earbuds Pro</div><div class="sku">SKU-4821</div></div><div style="color:#52525b">WEP-001</div><div><span style="color:#f87171;font-weight:600">4</span></div><div>25</div><div><div class="stock-bar"><div class="stock-fill" style="width:16%;background:#f87171"></div></div></div><div><span class="tag" style="background:rgba(248,113,113,.1);color:#f87171">Auto-order</span></div></div>
+<div class="tbl-row"><div><div style="font-weight:500">USB-C Hub 7-in-1</div><div class="sku">SKU-3392</div></div><div style="color:#52525b">UCH-007</div><div><span style="color:#f87171;font-weight:600">7</span></div><div>30</div><div><div class="stock-bar"><div class="stock-fill" style="width:23%;background:#f87171"></div></div></div><div><span class="tag" style="background:rgba(248,113,113,.1);color:#f87171">Auto-order</span></div></div>
+<div class="tbl-row"><div><div style="font-weight:500">Laptop Stand Aluminum</div><div class="sku">SKU-1847</div></div><div style="color:#52525b">LSA-001</div><div><span style="color:#fbbf24;font-weight:600">12</span></div><div>20</div><div><div class="stock-bar"><div class="stock-fill" style="width:60%;background:#fbbf24"></div></div></div><div><span class="tag" style="background:rgba(251,191,36,.1);color:#fbbf24">Low</span></div></div>
+<div class="tbl-row"><div><div style="font-weight:500">Mechanical Keyboard</div><div class="sku">SKU-2910</div></div><div style="color:#52525b">MKB-002</div><div><span style="color:#fbbf24;font-weight:600">15</span></div><div>25</div><div><div class="stock-bar"><div class="stock-fill" style="width:60%;background:#fbbf24"></div></div></div><div><span class="tag" style="background:rgba(251,191,36,.1);color:#fbbf24">Low</span></div></div>
+<div class="tbl-row"><div><div style="font-weight:500">Webcam 4K Ultra</div><div class="sku">SKU-5573</div></div><div style="color:#52525b">WCU-004</div><div><span style="color:#f87171;font-weight:600">2</span></div><div>15</div><div><div class="stock-bar"><div class="stock-fill" style="width:13%;background:#f87171"></div></div></div><div><span class="tag" style="background:rgba(248,113,113,.1);color:#f87171">Auto-order</span></div></div>
+</div>
+</div>
+</div>
+</body>
+</html>

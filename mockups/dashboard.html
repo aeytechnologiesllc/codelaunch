@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0f; color: #e4e4e7; width: 1280px; height: 800px; overflow: hidden; }
+.wrap { width: 1280px; height: 800px; display: grid; grid-template-columns: 200px 1fr; }
+.side { background: #111118; border-right: 1px solid rgba(255,255,255,0.06); padding: 20px 14px; }
+.logo { display: flex; align-items: center; gap: 8px; padding: 8px 10px; margin-bottom: 24px; font-weight: 700; font-size: 14px; color: #a78bfa; }
+.logo i { width: 26px; height: 26px; border-radius: 7px; background: linear-gradient(135deg,#7c3aed,#a78bfa); display: flex; align-items: center; justify-content: center; font-size: 13px; color: #fff; font-style: normal; }
+.ni { padding: 9px 10px; border-radius: 7px; font-size: 12.5px; color: #52525b; display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
+.ni.a { background: rgba(167,139,250,0.1); color: #a78bfa; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.main { padding: 22px 24px; display: flex; flex-direction: column; gap: 16px; }
+.hdr { display: flex; justify-content: space-between; align-items: center; }
+.hdr h1 { font-size: 20px; font-weight: 600; }
+.hdr-a { display: flex; gap: 8px; }
+.b { padding: 7px 14px; border-radius: 7px; font-size: 11px; font-weight: 600; border: none; cursor: pointer; }
+.bp { background: #a78bfa; color: #0a0a0f; }
+.bg { background: rgba(255,255,255,0.05); color: #a1a1aa; border: 1px solid rgba(255,255,255,0.08); }
+.stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.sc { background: #111118; border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 16px; }
+.sl { font-size: 10px; color: #52525b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.sv { font-size: 26px; font-weight: 700; }
+.sch { font-size: 10px; margin-top: 3px; }
+.su { color: #34d399; }
+.sd { color: #f87171; }
+.charts { display: grid; grid-template-columns: 1.6fr 1fr; gap: 12px; flex: 1; }
+.cc { background: #111118; border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; }
+.ct { font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+.bc { display: flex; align-items: flex-end; gap: 6px; flex: 1; }
+.br { flex: 1; border-radius: 3px 3px 0 0; background: linear-gradient(to top,#7c3aed,#a78bfa); opacity: 0.8; min-height: 10px; }
+.ol { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.or { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-radius: 6px; background: rgba(255,255,255,0.02); }
+.on { font-size: 12px; font-weight: 500; }
+.oa { font-size: 12px; font-weight: 600; color: #a78bfa; }
+.os { font-size: 9px; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+.osg { background: rgba(52,211,153,0.1); color: #34d399; }
+.osy { background: rgba(251,191,36,0.1); color: #fbbf24; }
+.osb { background: rgba(96,165,250,0.1); color: #60a5fa; }
+.bottom { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.tc { background: #111118; border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 14px; }
+.tc-h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.tc-t { font-size: 12px; font-weight: 600; }
+.tc-s { font-size: 10px; color: #52525b; }
+.prog { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.05); margin-top: 8px; }
+.prog-f { height: 100%; border-radius: 3px; }
+.tc-v { font-size: 20px; font-weight: 700; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="side">
+    <div class="logo"><i>⚡</i> LaunchOS</div>
+    <div class="ni a"><div class="dot"></div> Dashboard</div>
+    <div class="ni"><div class="dot"></div> Orders</div>
+    <div class="ni"><div class="dot"></div> Customers</div>
+    <div class="ni"><div class="dot"></div> Analytics</div>
+    <div class="ni"><div class="dot"></div> Invoices</div>
+    <div class="ni"><div class="dot"></div> Messages</div>
+    <div class="ni"><div class="dot"></div> Settings</div>
+  </div>
+  <div class="main">
+    <div class="hdr"><h1>Dashboard</h1><div class="hdr-a"><button class="b bg">Export</button><button class="b bp">+ New Order</button></div></div>
+    <div class="stats">
+      <div class="sc"><div class="sl">Revenue</div><div class="sv">$12,840</div><div class="sch su">↑ 23% vs last month</div></div>
+      <div class="sc"><div class="sl">Orders</div><div class="sv">384</div><div class="sch su">↑ 12% vs last month</div></div>
+      <div class="sc"><div class="sl">Customers</div><div class="sv">1,247</div><div class="sch su">↑ 8% vs last month</div></div>
+      <div class="sc"><div class="sl">Avg. Order</div><div class="sv">$33.40</div><div class="sch sd">↓ 2% vs last month</div></div>
+    </div>
+    <div class="charts">
+      <div class="cc">
+        <div class="ct">Revenue Overview</div>
+        <div class="bc">
+          <div class="br" style="height:40%"></div><div class="br" style="height:60%"></div><div class="br" style="height:50%"></div>
+          <div class="br" style="height:75%"></div><div class="br" style="height:65%"></div><div class="br" style="height:85%"></div>
+          <div class="br" style="height:70%"></div><div class="br" style="height:80%"></div><div class="br" style="height:92%"></div>
+          <div class="br" style="height:55%"></div><div class="br" style="height:73%"></div><div class="br" style="height:100%"></div>
+        </div>
+      </div>
+      <div class="cc">
+        <div class="ct">Recent Orders</div>
+        <div class="ol">
+          <div class="or"><div class="on">Table #12</div><div class="oa">$48.50</div><div class="os osg">Done</div></div>
+          <div class="or"><div class="on">Online #847</div><div class="oa">$32.00</div><div class="os osg">Done</div></div>
+          <div class="or"><div class="on">Pickup #203</div><div class="oa">$27.80</div><div class="os osy">Prep</div></div>
+          <div class="or"><div class="on">Table #5</div><div class="oa">$65.20</div><div class="os osg">Done</div></div>
+          <div class="or"><div class="on">Online #848</div><div class="oa">$19.90</div><div class="os osb">New</div></div>
+          <div class="or"><div class="on">Delivery #91</div><div class="oa">$41.30</div><div class="os osy">Prep</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom">
+      <div class="tc"><div class="tc-h"><div class="tc-t">Online Orders</div><div class="tc-s">This week</div></div><div class="tc-v su">67%</div><div class="prog"><div class="prog-f" style="width:67%;background:linear-gradient(90deg,#7c3aed,#34d399)"></div></div></div>
+      <div class="tc"><div class="tc-h"><div class="tc-t">Customer Retention</div><div class="tc-s">30 days</div></div><div class="tc-v" style="color:#a78bfa">89%</div><div class="prog"><div class="prog-f" style="width:89%;background:linear-gradient(90deg,#7c3aed,#a78bfa)"></div></div></div>
+      <div class="tc"><div class="tc-h"><div class="tc-t">Avg. Wait Time</div><div class="tc-s">Today</div></div><div class="tc-v" style="color:#fbbf24">12m</div><div class="prog"><div class="prog-f" style="width:35%;background:linear-gradient(90deg,#f59e0b,#fbbf24)"></div></div></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

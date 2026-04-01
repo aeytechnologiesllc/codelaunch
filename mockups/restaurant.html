@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0f;color:#e4e4e7;width:1280px;height:800px;overflow:hidden}
+.w{width:1280px;height:800px;display:grid;grid-template-columns:200px 1fr 300px}
+.s{background:#111118;border-right:1px solid rgba(255,255,255,.06);padding:20px 14px}
+.logo{display:flex;align-items:center;gap:8px;padding:8px 10px;margin-bottom:24px;font-weight:700;font-size:14px;color:#f97316}
+.logo i{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#c2410c,#f97316);display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;font-style:normal}
+.ni{padding:9px 10px;border-radius:7px;font-size:12.5px;color:#52525b;display:flex;align-items:center;gap:8px;margin-bottom:2px}
+.ni.a{background:rgba(249,115,22,.1);color:#f97316}
+.dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+.m{padding:22px 24px;display:flex;flex-direction:column;gap:14px}
+.hdr{display:flex;justify-content:space-between;align-items:center}
+.hdr h1{font-size:20px;font-weight:600}
+.b{padding:7px 14px;border-radius:7px;font-size:11px;font-weight:600;border:none}
+.bp{background:#f97316;color:#fff}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.sc{background:#111118;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:14px}
+.sl{font-size:10px;color:#52525b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.sv{font-size:22px;font-weight:700}
+.sch{font-size:10px;margin-top:2px}
+/* Orders grid */
+.orders{flex:1;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+.orders-h{font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.order-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;flex:1;overflow:hidden}
+.order{background:#111118;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px}
+.order-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.order-id{font-size:12px;font-weight:700}
+.order-type{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:600}
+.order-items{display:flex;flex-direction:column;gap:3px;margin-bottom:8px}
+.order-item{font-size:11px;color:#a1a1aa;display:flex;justify-content:space-between}
+.order-total{display:flex;justify-content:space-between;align-items:center;padding-top:6px;border-top:1px solid rgba(255,255,255,.04)}
+.order-price{font-size:13px;font-weight:700;color:#f97316}
+.order-time{font-size:10px;color:#52525b}
+/* Kitchen display */
+.right{background:#111118;border-left:1px solid rgba(255,255,255,.06);padding:16px;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+.rt{font-size:13px;font-weight:600;margin-bottom:4px}
+.kitchen-card{border:1px solid rgba(255,255,255,.05);border-radius:8px;padding:10px;position:relative}
+.kitchen-card.urgent{border-color:rgba(248,113,113,.2);background:rgba(248,113,113,.03)}
+.kitchen-card.cooking{border-color:rgba(251,191,36,.2);background:rgba(251,191,36,.03)}
+.kitchen-card.ready{border-color:rgba(52,211,153,.2);background:rgba(52,211,153,.03)}
+.kc-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.kc-id{font-size:11px;font-weight:700}
+.kc-status{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:600}
+.kc-items{font-size:11px;color:#a1a1aa;line-height:1.6}
+.kc-timer{font-size:10px;margin-top:6px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="w">
+<div class="s">
+<div class="logo"><i>🍕</i>OrderFlow</div>
+<div class="ni a"><div class="dot"></div>Orders</div>
+<div class="ni"><div class="dot"></div>Menu</div>
+<div class="ni"><div class="dot"></div>Kitchen</div>
+<div class="ni"><div class="dot"></div>Delivery</div>
+<div class="ni"><div class="dot"></div>Customers</div>
+<div class="ni"><div class="dot"></div>Analytics</div>
+<div class="ni"><div class="dot"></div>Settings</div>
+</div>
+<div class="m">
+<div class="hdr"><h1>Live Orders</h1><button class="b bp">+ Manual Order</button></div>
+<div class="stats">
+<div class="sc"><div class="sl">Today's Revenue</div><div class="sv" style="color:#f97316">$1,847</div><div class="sch" style="color:#34d399">↑ 18% vs yesterday</div></div>
+<div class="sc"><div class="sl">Active Orders</div><div class="sv" style="color:#fbbf24">12</div><div class="sch" style="color:#71717a">4 delivery, 5 pickup, 3 dine-in</div></div>
+<div class="sc"><div class="sl">Avg. Prep Time</div><div class="sv" style="color:#34d399">14m</div><div class="sch" style="color:#34d399">↓ 3min from last week</div></div>
+</div>
+<div class="orders">
+<div class="orders-h"><span>Incoming Orders</span><span style="font-size:10px;color:#52525b">Last 30 min</span></div>
+<div class="order-grid">
+<div class="order"><div class="order-top"><div class="order-id">#1284</div><div class="order-type" style="background:rgba(52,211,153,.1);color:#34d399">Pickup</div></div><div class="order-items"><div class="order-item"><span>2x Margherita Pizza</span><span>$26.00</span></div><div class="order-item"><span>1x Caesar Salad</span><span>$9.50</span></div><div class="order-item"><span>1x Garlic Bread</span><span>$4.50</span></div></div><div class="order-total"><div class="order-price">$40.00</div><div class="order-time">3 min ago</div></div></div>
+<div class="order"><div class="order-top"><div class="order-id">#1283</div><div class="order-type" style="background:rgba(96,165,250,.1);color:#60a5fa">Delivery</div></div><div class="order-items"><div class="order-item"><span>1x Pepperoni XL</span><span>$18.00</span></div><div class="order-item"><span>2x Coke</span><span>$5.00</span></div><div class="order-item"><span>1x Tiramisu</span><span>$8.00</span></div></div><div class="order-total"><div class="order-price">$31.00</div><div class="order-time">7 min ago</div></div></div>
+<div class="order"><div class="order-top"><div class="order-id">#1282</div><div class="order-type" style="background:rgba(167,139,250,.1);color:#a78bfa">Dine-in T5</div></div><div class="order-items"><div class="order-item"><span>3x Pasta Carbonara</span><span>$42.00</span></div><div class="order-item"><span>1x Bruschetta</span><span>$7.50</span></div><div class="order-item"><span>2x House Wine</span><span>$18.00</span></div></div><div class="order-total"><div class="order-price">$67.50</div><div class="order-time">12 min ago</div></div></div>
+<div class="order"><div class="order-top"><div class="order-id">#1281</div><div class="order-type" style="background:rgba(52,211,153,.1);color:#34d399">Pickup</div></div><div class="order-items"><div class="order-item"><span>1x Family Combo</span><span>$45.00</span></div><div class="order-item"><span>1x Extra Cheese</span><span>$2.00</span></div></div><div class="order-total"><div class="order-price">$47.00</div><div class="order-time">15 min ago</div></div></div>
+</div>
+</div>
+</div>
+<div class="right">
+<div class="rt">Kitchen Display 🔥</div>
+<div class="kitchen-card urgent"><div class="kc-h"><div class="kc-id">#1284 — Pickup</div><div class="kc-status" style="background:rgba(248,113,113,.1);color:#f87171">URGENT</div></div><div class="kc-items">2x Margherita Pizza<br>1x Caesar Salad<br>1x Garlic Bread</div><div class="kc-timer" style="color:#f87171">⏱ 3:24 elapsed</div></div>
+<div class="kitchen-card cooking"><div class="kc-h"><div class="kc-id">#1283 — Delivery</div><div class="kc-status" style="background:rgba(251,191,36,.1);color:#fbbf24">COOKING</div></div><div class="kc-items">1x Pepperoni XL<br>1x Tiramisu</div><div class="kc-timer" style="color:#fbbf24">⏱ 8:12 elapsed</div></div>
+<div class="kitchen-card cooking"><div class="kc-h"><div class="kc-id">#1282 — Table 5</div><div class="kc-status" style="background:rgba(251,191,36,.1);color:#fbbf24">COOKING</div></div><div class="kc-items">3x Pasta Carbonara<br>1x Bruschetta</div><div class="kc-timer" style="color:#fbbf24">⏱ 12:45 elapsed</div></div>
+<div class="kitchen-card ready"><div class="kc-h"><div class="kc-id">#1280 — Pickup</div><div class="kc-status" style="background:rgba(52,211,153,.1);color:#34d399">READY</div></div><div class="kc-items">1x BBQ Chicken Pizza<br>2x Fries</div><div class="kc-timer" style="color:#34d399">✓ Ready for pickup</div></div>
+<div class="kitchen-card ready"><div class="kc-h"><div class="kc-id">#1279 — Delivery</div><div class="kc-status" style="background:rgba(52,211,153,.1);color:#34d399">READY</div></div><div class="kc-items">2x Veggie Supreme</div><div class="kc-timer" style="color:#34d399">✓ Driver assigned</div></div>
+</div>
+</div>
+</body>
+</html>

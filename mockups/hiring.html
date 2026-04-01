@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0f;color:#e4e4e7;width:1280px;height:800px;overflow:hidden}
+.w{width:1280px;height:800px;display:grid;grid-template-columns:200px 1fr}
+.s{background:#111118;border-right:1px solid rgba(255,255,255,.06);padding:20px 14px}
+.logo{display:flex;align-items:center;gap:8px;padding:8px 10px;margin-bottom:24px;font-weight:700;font-size:14px;color:#f472b6}
+.logo i{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#be185d,#f472b6);display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;font-style:normal}
+.ni{padding:9px 10px;border-radius:7px;font-size:12.5px;color:#52525b;display:flex;align-items:center;gap:8px;margin-bottom:2px}
+.ni.a{background:rgba(244,114,182,.1);color:#f472b6}
+.dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+.m{padding:22px 24px;display:flex;flex-direction:column;gap:14px;overflow:hidden}
+.hdr{display:flex;justify-content:space-between;align-items:center}
+.hdr h1{font-size:20px;font-weight:600}
+.b{padding:7px 14px;border-radius:7px;font-size:11px;font-weight:600;border:none}
+.bp{background:#f472b6;color:#0a0a0f}
+.bg{background:rgba(255,255,255,.05);color:#a1a1aa;border:1px solid rgba(255,255,255,.08)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.sc{background:#111118;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:14px}
+.sl{font-size:10px;color:#52525b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.sv{font-size:22px;font-weight:700}
+.sch{font-size:10px;margin-top:2px}
+/* Kanban */
+.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;flex:1;overflow:hidden}
+.col{background:#111118;border:1px solid rgba(255,255,255,.06);border-radius:10px;display:flex;flex-direction:column;overflow:hidden}
+.col-h{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;align-items:center}
+.col-t{font-size:12px;font-weight:600}
+.col-c{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600}
+.col-body{padding:8px;display:flex;flex-direction:column;gap:6px;flex:1;overflow:hidden}
+.card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:8px;padding:10px}
+.card-name{font-size:12px;font-weight:600;margin-bottom:2px}
+.card-role{font-size:10px;color:#71717a;margin-bottom:6px}
+.card-match{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:600}
+.card-tags{display:flex;gap:3px;margin-top:6px;flex-wrap:wrap}
+.card-tag{font-size:8px;padding:1px 5px;border-radius:3px;font-weight:500}
+.match-bar{height:4px;border-radius:2px;background:rgba(255,255,255,.05);flex:1;max-width:60px}
+.match-fill{height:100%;border-radius:2px}
+</style>
+</head>
+<body>
+<div class="w">
+<div class="s">
+<div class="logo"><i>👥</i>HireFlow</div>
+<div class="ni a"><div class="dot"></div>Pipeline</div>
+<div class="ni"><div class="dot"></div>Candidates</div>
+<div class="ni"><div class="dot"></div>Jobs</div>
+<div class="ni"><div class="dot"></div>Interviews</div>
+<div class="ni"><div class="dot"></div>AI Matching</div>
+<div class="ni"><div class="dot"></div>Reports</div>
+<div class="ni"><div class="dot"></div>Settings</div>
+</div>
+<div class="m">
+<div class="hdr"><h1>Hiring Pipeline</h1><div style="display:flex;gap:8px"><button class="b bg">Filters</button><button class="b bp">+ Post Job</button></div></div>
+<div class="stats">
+<div class="sc"><div class="sl">Open Roles</div><div class="sv" style="color:#f472b6">12</div><div class="sch" style="color:#34d399">3 new this week</div></div>
+<div class="sc"><div class="sl">Candidates</div><div class="sv" style="color:#a78bfa">847</div><div class="sch" style="color:#34d399">↑ 23% this month</div></div>
+<div class="sc"><div class="sl">Avg. Match</div><div class="sv" style="color:#34d399">87%</div><div class="sch" style="color:#34d399">AI-powered scoring</div></div>
+<div class="sc"><div class="sl">Time to Hire</div><div class="sv" style="color:#fbbf24">8d</div><div class="sch" style="color:#34d399">↓ from 24d</div></div>
+</div>
+<div class="kanban">
+<div class="col">
+<div class="col-h"><div class="col-t">New</div><div class="col-c" style="background:rgba(96,165,250,.1);color:#60a5fa">14</div></div>
+<div class="col-body">
+<div class="card"><div class="card-name">Sarah Johnson</div><div class="card-role">Sr. Frontend Dev</div><div class="card-match"><span style="color:#34d399">94%</span><div class="match-bar"><div class="match-fill" style="width:94%;background:#34d399"></div></div></div><div class="card-tags"><span class="card-tag" style="background:rgba(96,165,250,.1);color:#60a5fa">React</span><span class="card-tag" style="background:rgba(167,139,250,.1);color:#a78bfa">TypeScript</span></div></div>
+<div class="card"><div class="card-name">Mike Chen</div><div class="card-role">Full Stack Dev</div><div class="card-match"><span style="color:#34d399">91%</span><div class="match-bar"><div class="match-fill" style="width:91%;background:#34d399"></div></div></div><div class="card-tags"><span class="card-tag" style="background:rgba(52,211,153,.1);color:#34d399">Node.js</span><span class="card-tag" style="background:rgba(96,165,250,.1);color:#60a5fa">React</span></div></div>
+<div class="card"><div class="card-name">Ana Lopez</div><div class="card-role">UX Designer</div><div class="card-match"><span style="color:#fbbf24">78%</span><div class="match-bar"><div class="match-fill" style="width:78%;background:#fbbf24"></div></div></div><div class="card-tags"><span class="card-tag" style="background:rgba(244,114,182,.1);color:#f472b6">Figma</span><span class="card-tag" style="background:rgba(167,139,250,.1);color:#a78bfa">UI/UX</span></div></div>
+</div></div>
+<div class="col">
+<div class="col-h"><div class="col-t">Screening</div><div class="col-c" style="background:rgba(167,139,250,.1);color:#a78bfa">8</div></div>
+<div class="col-body">
+<div class="card"><div class="card-name">James Park</div><div class="card-role">Backend Dev</div><div class="card-match"><span style="color:#34d399">92%</span><div class="match-bar"><div class="match-fill" style="width:92%;background:#34d399"></div></div></div><div class="card-tags"><span class="card-tag" style="background:rgba(52,211,153,.1);color:#34d399">Python</span><span class="card-tag" style="background:rgba(251,191,36,.1);color:#fbbf24">AWS</span></div></div>
+<div class="card"><div class="card-name">Emily Davis</div><div class="card-role">Product Manager</div><div class="card-match"><span style="color:#34d399">88%</span><div class="match-bar"><div class="match-fill" style="width:88%;background:#34d399"></div></div></div><div class="card-tags"><span class="card-tag" style="background:rgba(96,165,250,.1);color:#60a5fa">Agile</span><span class="card-tag" style="background:rgba(244,114,182,.1);color:#f472b6">B2B</span></div></div>
+<div class="card"><div class="card-name">Tom Wilson</div><div class="card-role">DevOps Engineer</div><div class="card-match"><span style="color:#fbbf24">76%</span><div class="match-bar"><div class="match-fill" style="width:76%;background:#fbbf24"></div></div></div><div class="card-tags"><span class="card-tag" style="background:rgba(251,191,36,.1);color:#fbbf24">Docker</span><span class="card-tag" style="background:rgba(96,165,250,.1);color:#60a5fa">K8s</span></div></div>
+</div></div>
+<div class="col">
+<div class="col-h"><div class="col-t">Interview</div><div class="col-c" style="background:rgba(251,191,36,.1);color:#fbbf24">5</div></div>
+<div class="col-body">
+<div class="card"><div class="card-name">Lisa Zhang</div><div class="card-role">Data Scientist</div><div class="card-match"><span style="color:#34d399">95%</span><div class="match-bar"><div class="match-fill" style="width:95%;background:#34d399"></div></div></div><div class="card-tags"><span class="card-tag" style="background:rgba(52,211,153,.1);color:#34d399">ML</span><span class="card-tag" style="background:rgba(167,139,250,.1);color:#a78bfa">Python</span></div></div>
+<div class="card"><div class="card-name">David Brown</div><div class="card-role">Sr. Backend Dev</div><div class="card-match"><span style="color:#34d399">89%</span><div class="match-bar"><div class="match-fill" style="width:89%;background:#34d399"></div></div></div><div class="card-tags"><span class="card-tag" style="background:rgba(96,165,250,.1);color:#60a5fa">Go</span><span class="card-tag" style="background:rgba(251,191,36,.1);color:#fbbf24">gRPC</span></div></div>
+</div></div>
+<div class="col">
+<div class="col-h"><div class="col-t">Offer</div><div class="col-c" style="background:rgba(52,211,153,.1);color:#34d399">3</div></div>
+<div class="col-body">
+<div class="card"><div class="card-name">Rachel Kim</div><div class="card-role">Frontend Lead</div><div class="card-match"><span style="color:#34d399">97%</span><div class="match-bar"><div class="match-fill" style="width:97%;background:#34d399"></div></div></div><div class="card-tags"><span class="card-tag" style="background:rgba(96,165,250,.1);color:#60a5fa">React</span><span class="card-tag" style="background:rgba(167,139,250,.1);color:#a78bfa">Lead</span></div></div>
+<div class="card"><div class="card-name">Alex Rivera</div><div class="card-role">ML Engineer</div><div class="card-match"><span style="color:#34d399">93%</span><div class="match-bar"><div class="match-fill" style="width:93%;background:#34d399"></div></div></div><div class="card-tags"><span class="card-tag" style="background:rgba(52,211,153,.1);color:#34d399">PyTorch</span><span class="card-tag" style="background:rgba(251,191,36,.1);color:#fbbf24">NLP</span></div></div>
+</div></div>
+</div>
+</div>
+</div>
+</body>
+</html>

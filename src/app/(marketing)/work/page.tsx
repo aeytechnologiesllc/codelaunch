@@ -4,11 +4,13 @@ import { useState } from "react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, X, Check, ExternalLink } from "lucide-react";
+import Image from "next/image";
 
 const projects = [
   {
     title: "Smart Hiring Platform",
     category: "Web Application",
+    image: "/images/mockup-hiring.png",
     description: "AI-powered recruitment platform with Kanban pipeline, automated screening, and candidate matching. Replaced 4 disconnected tools.",
     fullDescription: "A fast-growing staffing company was managing candidates across spreadsheets, email, and 3 different tools. We built a unified platform with an AI matching engine that scores candidates against job requirements automatically. The Kanban board lets recruiters drag candidates through stages, while automated emails keep applicants in the loop without manual effort.",
     challenge: "The client was losing candidates because their process took 3 weeks. Top talent was getting hired elsewhere before they could even schedule interviews.",
@@ -21,11 +23,12 @@ const projects = [
   {
     title: "Financial Analytics Dashboard",
     category: "Complex Web App",
+    image: "/images/mockup-dashboard.png",
     description: "Real-time financial dashboard pulling from 12+ data sources. Automated reports that used to take 6 hours manually.",
     fullDescription: "A mid-size services company was spending every Monday morning compiling financial data from QuickBooks, Stripe, their CRM, and spreadsheets into a weekly report. By the time the report was done, the data was already outdated. We built a dashboard that pulls from all 12 sources in real-time and generates the report automatically.",
     challenge: "The CFO was spending 6+ hours every week manually compiling data from 12 different systems into spreadsheets. Reports were always outdated by the time they were finished.",
     solution: "We built API integrations to all 12 data sources with real-time syncing, a visual dashboard with drill-down capabilities, and automated PDF reports sent every Monday at 7am.",
-    results: ["12 data sources unified", "6hrs → 0 report time", "Real-time P&L visibility", "Automated weekly PDF reports"],
+    results: ["12 data sources unified", "6hrs \u2192 0 report time", "Real-time P&L visibility", "Automated weekly PDF reports"],
     tags: ["Next.js", "Python", "AI Analytics", "REST APIs", "Stripe"],
     color: "from-accent/20 to-accent-secondary/20",
     timeline: "8 weeks",
@@ -33,8 +36,9 @@ const projects = [
   {
     title: "Restaurant Ordering System",
     category: "Web + Mobile App",
+    image: "/images/mockup-restaurant.png",
     description: "Custom online ordering platform with real-time kitchen display, driver tracking, and Telegram notifications.",
-    fullDescription: "A family-owned restaurant with 2 locations was paying $3,200/month to DoorDash and UberEats in commissions. We built their own branded ordering platform — customers order directly, the kitchen gets real-time notifications on a display screen, and drivers are tracked on a map. The owner gets a Telegram ping for every new order.",
+    fullDescription: "A family-owned restaurant with 2 locations was paying $3,200/month to DoorDash and UberEats in commissions. We built their own branded ordering platform \u2014 customers order directly, the kitchen gets real-time notifications on a display screen, and drivers are tracked on a map. The owner gets a Telegram ping for every new order.",
     challenge: "Delivery apps were taking 25-30% of every order. The restaurant was essentially working for free on delivery orders after food costs.",
     solution: "Custom ordering website and mobile app with zero commission fees, real-time kitchen display system, driver GPS tracking, and Telegram bot for instant order alerts to the owner.",
     results: ["$2,400/mo saved vs DoorDash", "200% increase in direct orders", "45-second average order processing", "Owner gets Telegram alerts instantly"],
@@ -45,6 +49,7 @@ const projects = [
   {
     title: "Field Service Management App",
     category: "Mobile App",
+    image: "/images/mockup-dispatch.png",
     description: "Job scheduling, real-time dispatch, GPS tracking, and one-tap invoicing for a plumbing company.",
     fullDescription: "A plumbing company with 15 technicians was scheduling jobs on a whiteboard and invoicing from paper forms in the truck. Techs would forget jobs, double-book, and invoices would take 2 weeks to get sent. We built a mobile app that lets the office dispatch in real-time and techs invoice on the spot.",
     challenge: "The owner was losing 5+ hours/day on scheduling phone calls and the team was sending invoices 1-2 weeks late, causing cash flow problems.",
@@ -57,8 +62,9 @@ const projects = [
   {
     title: "AI Customer Service Bot",
     category: "AI & Automation",
+    image: "/images/mockup-chatbot.png",
     description: "WhatsApp and website chatbot handling 80% of customer inquiries automatically.",
-    fullDescription: "A home services company was getting 200+ customer inquiries per week — most of them the same 20 questions. Their support person was overwhelmed and response times were 4+ hours. We built an AI bot trained on their specific services, pricing, and policies that handles inquiries on WhatsApp and their website simultaneously.",
+    fullDescription: "A home services company was getting 200+ customer inquiries per week \u2014 most of them the same 20 questions. Their support person was overwhelmed and response times were 4+ hours. We built an AI bot trained on their specific services, pricing, and policies that handles inquiries on WhatsApp and their website simultaneously.",
     challenge: "200+ weekly inquiries with 4+ hour response time. One support person couldn't keep up, and slow responses were losing potential customers.",
     solution: "AI chatbot trained on company-specific FAQs, pricing, and service areas. Deployed on WhatsApp Business and website widget. Complex issues auto-escalate to human with full context.",
     results: ["80% auto-resolution rate", "24/7 customer support", "90% customer satisfaction", "Response time: instant (was 4hrs)"],
@@ -69,6 +75,7 @@ const projects = [
   {
     title: "Inventory Management Platform",
     category: "Web Application",
+    image: "/images/mockup-inventory.png",
     description: "Multi-location inventory tracking with demand forecasting and automated reordering.",
     fullDescription: "A retail business with 3 locations was tracking inventory in spreadsheets. They'd regularly run out of top-selling items and over-order slow movers. We built a platform that tracks inventory across all locations in real-time, uses AI to predict demand, and auto-generates purchase orders when stock gets low.",
     challenge: "Frequent stockouts on popular items (lost sales) and excess inventory on slow movers (wasted capital). No visibility across 3 locations.",
@@ -101,30 +108,54 @@ export default function WorkPage() {
             <ScrollReveal key={p.title} delay={i * 0.08}>
               <button
                 onClick={() => setSelectedProject(p)}
-                className="glass-card overflow-hidden h-full group hover:border-accent/15 transition-all duration-300 text-left w-full"
+                className="glass-card overflow-hidden h-full group hover:border-accent/15 transition-all duration-500 hover:shadow-[0_0_30px_rgba(167,139,250,0.08)] text-left w-full"
               >
-                <div className={`h-2 bg-gradient-to-r ${p.color}`} />
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <p className="text-accent text-xs font-medium uppercase tracking-wider mb-1">{p.category}</p>
-                      <h3 className="text-lg font-bold group-hover:text-accent transition-colors">{p.title}</h3>
-                    </div>
+                {/* Project screenshot */}
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <Image
+                    src={p.image}
+                    alt={p.title}
+                    fill
+                    className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-bg-primary via-bg-primary/30 to-transparent opacity-70 group-hover:opacity-50 transition-opacity duration-500" />
+
+                  {/* Category badge */}
+                  <div className="absolute top-3 left-3">
+                    <span className="px-2.5 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider backdrop-blur-sm border border-accent/20 bg-bg-primary/60 text-accent">
+                      {p.category}
+                    </span>
+                  </div>
+
+                  {/* Arrow */}
+                  <div className="absolute top-3 right-3">
                     <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-accent transition-colors" />
                   </div>
-                  <p className="text-text-secondary text-sm leading-relaxed mb-5">{p.description}</p>
-                  <div className="space-y-2 mb-5">
-                    {p.results.slice(0, 3).map((r) => (
-                      <div key={r} className="flex items-center gap-2 text-sm">
-                        <div className="w-1.5 h-1.5 rounded-full bg-accent" />
+                </div>
+
+                <div className="p-5">
+                  <h3 className="text-base font-bold mb-2 group-hover:text-accent transition-colors">{p.title}</h3>
+                  <p className="text-text-secondary text-xs leading-relaxed mb-4">{p.description}</p>
+
+                  {/* Key results */}
+                  <div className="space-y-1.5 mb-4">
+                    {p.results.slice(0, 2).map((r) => (
+                      <div key={r} className="flex items-center gap-2 text-xs">
+                        <div className="w-1 h-1 rounded-full bg-accent" />
                         <span className="text-text-secondary">{r}</span>
                       </div>
                     ))}
                   </div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {p.tags.map((t) => (
-                      <span key={t} className="px-2.5 py-0.5 bg-bg-primary/60 rounded-full text-[11px] text-text-muted border border-border">{t}</span>
-                    ))}
+
+                  {/* Tech tags + timeline */}
+                  <div className="flex items-center justify-between pt-3 border-t border-border/50">
+                    <div className="flex flex-wrap gap-1">
+                      {p.tags.slice(0, 3).map((t) => (
+                        <span key={t} className="px-2 py-0.5 bg-bg-primary/60 rounded text-[10px] text-text-muted border border-border/50">{t}</span>
+                      ))}
+                    </div>
+                    <span className="text-[10px] text-text-muted">{p.timeline}</span>
                   </div>
                 </div>
               </button>
@@ -143,30 +174,37 @@ export default function WorkPage() {
             className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
             onClick={() => setSelectedProject(null)}
           >
-            {/* Backdrop */}
             <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
 
-            {/* Modal content */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.2 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative glass-card max-w-3xl w-full max-h-[85vh] overflow-y-auto"
+              className="relative glass-card max-w-4xl w-full max-h-[90vh] overflow-y-auto"
             >
-              {/* Color bar */}
-              <div className={`h-2 rounded-t-2xl bg-gradient-to-r ${selectedProject.color}`} />
+              {/* Screenshot in modal */}
+              <div className="relative aspect-[16/8] overflow-hidden rounded-t-2xl">
+                <Image
+                  src={selectedProject.image}
+                  alt={selectedProject.title}
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 1024px) 100vw, 900px"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-bg-primary via-bg-primary/50 to-transparent" />
+              </div>
 
               {/* Close button */}
               <button
                 onClick={() => setSelectedProject(null)}
-                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors z-10"
+                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center hover:bg-black/70 transition-colors z-10"
               >
                 <X className="w-4 h-4" />
               </button>
 
-              <div className="p-8 sm:p-10">
+              <div className="p-8 sm:p-10 -mt-16 relative z-10">
                 {/* Header */}
                 <p className="text-accent text-xs font-medium uppercase tracking-wider mb-1">{selectedProject.category}</p>
                 <h2 className="text-2xl sm:text-3xl font-bold mb-2">{selectedProject.title}</h2>
@@ -214,7 +252,7 @@ export default function WorkPage() {
                   <div className="pt-6 border-t border-border flex flex-wrap gap-4">
                     <a
                       href="/contact"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-green hover:bg-cta-hover transition-all text-sm"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-cta text-cta-text font-semibold rounded-xl btn-glow hover:bg-cta-hover transition-all text-sm"
                     >
                       Want Something Like This? <ExternalLink className="w-4 h-4" />
                     </a>
