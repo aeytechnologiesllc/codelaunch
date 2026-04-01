@@ -9,24 +9,36 @@ const problems = [
     headline: "You\u2019re bleeding money",
     detail: "Delivery apps take 30%. Scheduling mistakes cost jobs. Generic tools charge monthly for features you never use. Your software should make you money, not drain it.",
     color: "text-red-400",
-    bgColor: "bg-red-400/10",
-    glowColor: "group-hover:shadow-[0_0_30px_rgba(248,113,113,0.1)]",
+    ringColor: "border-red-400/30",
+    glowFrom: "from-red-500/20",
+    glowTo: "to-red-400/5",
+    shadowColor: "shadow-red-500/20",
+    hoverShadow: "group-hover:shadow-[0_0_40px_rgba(248,113,113,0.15)]",
+    iconGlow: "rgba(248, 113, 113, 0.4)",
   },
   {
     icon: Clock,
     headline: "You\u2019re wasting time",
     detail: "Copy-pasting between 10 different apps. Manually sending invoices. Answering the same customer questions at 11pm. There\u2019s a better way.",
     color: "text-amber-400",
-    bgColor: "bg-amber-400/10",
-    glowColor: "group-hover:shadow-[0_0_30px_rgba(251,191,36,0.1)]",
+    ringColor: "border-amber-400/30",
+    glowFrom: "from-amber-500/20",
+    glowTo: "to-amber-400/5",
+    shadowColor: "shadow-amber-500/20",
+    hoverShadow: "group-hover:shadow-[0_0_40px_rgba(251,191,36,0.15)]",
+    iconGlow: "rgba(251, 191, 36, 0.4)",
   },
   {
     icon: Ban,
     headline: "Generic tools don\u2019t fit",
     detail: "You bought software built for everyone, which means it was built for no one. Your business has specific needs. Your software should too.",
-    color: "text-accent-secondary",
-    bgColor: "bg-purple-dim",
-    glowColor: "group-hover:shadow-[0_0_30px_rgba(167,139,250,0.1)]",
+    color: "text-accent",
+    ringColor: "border-accent/30",
+    glowFrom: "from-accent/20",
+    glowTo: "to-accent/5",
+    shadowColor: "shadow-accent/20",
+    hoverShadow: "group-hover:shadow-[0_0_40px_rgba(167,139,250,0.15)]",
+    iconGlow: "rgba(167, 139, 250, 0.4)",
   },
 ];
 
@@ -52,10 +64,20 @@ export function ProblemStatement() {
         <div className="grid md:grid-cols-3 gap-6">
           {problems.map((p, i) => (
             <ScrollReveal key={i} delay={i * 0.12} animation="slideLeft">
-              <div className={`glass-card p-8 h-full hover:bg-white/[0.06] transition-all duration-500 group ${p.glowColor}`}>
-                <div className={`w-12 h-12 rounded-xl ${p.bgColor} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  <p.icon className={`w-6 h-6 ${p.color}`} />
+              <div className={`glass-card p-8 h-full hover:bg-white/[0.06] transition-all duration-500 group ${p.hoverShadow}`}>
+                {/* Premium icon with glow ring */}
+                <div className="relative w-16 h-16 mb-8">
+                  {/* Outer glow */}
+                  <div
+                    className="absolute inset-0 rounded-2xl blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{ background: `radial-gradient(circle, ${p.iconGlow} 0%, transparent 70%)` }}
+                  />
+                  {/* Icon container */}
+                  <div className={`relative w-16 h-16 rounded-2xl bg-gradient-to-br ${p.glowFrom} ${p.glowTo} border ${p.ringColor} flex items-center justify-center group-hover:scale-110 transition-all duration-300`}>
+                    <p.icon className={`w-7 h-7 ${p.color}`} strokeWidth={1.5} />
+                  </div>
                 </div>
+
                 <h3 className="text-xl font-semibold mb-3 group-hover:text-accent transition-colors">
                   {p.headline}
                 </h3>
