@@ -1,59 +1,31 @@
 "use client";
 
 import { ScrollReveal } from "./ScrollReveal";
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Smartphone, Monitor, Bot, Plug } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 const projects = [
   {
-    title: "Restaurant Ordering Platform",
-    type: "Mobile + Web App",
-    icon: Smartphone,
-    description: "Direct ordering system that eliminated 30% delivery app commissions",
-    metric: "$2K+/mo saved",
-    tech: ["React Native", "Supabase", "Stripe"],
-    gradientFrom: "#7c3aed",
-    gradientTo: "#a78bfa",
-  },
-  {
+    src: "/images/mockup-dashboard.png",
     title: "Business Analytics Dashboard",
-    type: "Web Application",
-    icon: Monitor,
-    description: "Real-time financial dashboard pulling from 12+ data sources",
-    metric: "6hrs \u2192 0 reporting",
-    tech: ["Next.js", "Python", "PostgreSQL"],
-    gradientFrom: "#3b82f6",
-    gradientTo: "#818cf8",
+    type: "Web App",
+    typeColor: "#a78bfa",
+    description: "Real-time revenue tracking with 12+ data source integrations",
   },
   {
+    src: "/images/mockup-dispatch.png",
     title: "Contractor Dispatch System",
-    type: "Mobile + Web App",
-    icon: Smartphone,
-    description: "Field service management with GPS tracking and instant invoicing",
-    metric: "30% more jobs/week",
-    tech: ["React Native", "Node.js", "Maps API"],
-    gradientFrom: "#059669",
-    gradientTo: "#34d399",
+    type: "Web App",
+    typeColor: "#34d399",
+    description: "Live GPS tracking, job scheduling, and field crew management",
   },
   {
+    src: "/images/mockup-chatbot.png",
     title: "AI Customer Assistant",
-    type: "AI Chatbot",
-    icon: Bot,
-    description: "24/7 AI chatbot handling 80% of customer inquiries automatically",
-    metric: "80% auto-resolved",
-    tech: ["OpenAI", "Next.js", "Supabase"],
-    gradientFrom: "#a78bfa",
-    gradientTo: "#c4b5fd",
-  },
-  {
-    title: "Multi-Platform Integration",
-    type: "API & Bots",
-    icon: Plug,
-    description: "Connected Stripe, POS, WhatsApp, and Telegram with real-time alerts",
-    metric: "Zero manual entry",
-    tech: ["Node.js", "Telegram API", "Stripe"],
-    gradientFrom: "#f59e0b",
-    gradientTo: "#fbbf24",
+    type: "AI Platform",
+    typeColor: "#c4b5fd",
+    description: "24/7 automated support handling 80% of inquiries",
   },
 ];
 
@@ -64,78 +36,57 @@ export function VideoProof() {
         <ScrollReveal>
           <div className="text-center mb-10">
             <p className="text-accent text-sm font-semibold uppercase tracking-wider mb-3">
-              What We&apos;ve Built
+              See It In Action
             </p>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3">
-              Real Results. <span className="gradient-text">Real Impact.</span>
+              Real Software We&apos;ve <span className="gradient-text">Built</span>
             </h2>
             <p className="text-text-secondary text-sm max-w-lg mx-auto">
-              Every project built to solve a specific business problem — and deliver measurable results.
+              Not mockups. Not wireframes. Real interfaces built for real businesses.
             </p>
           </div>
         </ScrollReveal>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="space-y-6">
           {projects.map((project, i) => (
-            <ScrollReveal key={project.title} delay={i * 0.08} animation="fadeUp">
+            <ScrollReveal key={project.title} delay={i * 0.1} animation={i % 2 === 0 ? "slideLeft" : "slideRight"}>
               <Link href="/work">
-                <div className="glass-card h-full group hover:bg-white/[0.04] transition-all duration-500 hover:shadow-[0_0_30px_rgba(167,139,250,0.08)] hover:border-accent/15 overflow-hidden">
-                  {/* Gradient accent bar */}
-                  <div
-                    className="h-1 w-full"
-                    style={{
-                      background: `linear-gradient(90deg, ${project.gradientFrom}, ${project.gradientTo})`,
-                    }}
-                  />
+                <div className="glass-card overflow-hidden group hover:border-accent/15 transition-all duration-500 hover:shadow-[0_0_40px_rgba(167,139,250,0.08)]">
+                  {/* Screenshot */}
+                  <div className="relative aspect-[16/9] overflow-hidden">
+                    <Image
+                      src={project.src}
+                      alt={project.title}
+                      fill
+                      className="object-cover object-top group-hover:scale-[1.03] transition-transform duration-700"
+                      sizes="(max-width: 768px) 100vw, 80vw"
+                    />
+                    {/* Gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
 
-                  <div className="p-6">
-                    {/* Type + icon row */}
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2">
-                        <project.icon
-                          className="w-4 h-4"
-                          style={{ color: project.gradientTo }}
-                          strokeWidth={1.8}
-                        />
-                        <span
-                          className="text-[10px] font-semibold uppercase tracking-wider"
-                          style={{ color: project.gradientTo }}
-                        >
-                          {project.type}
-                        </span>
+                    {/* Type badge */}
+                    <div className="absolute top-4 left-4">
+                      <span
+                        className="px-3 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wider backdrop-blur-sm border"
+                        style={{
+                          color: project.typeColor,
+                          background: `${project.typeColor}12`,
+                          borderColor: `${project.typeColor}25`,
+                        }}
+                      >
+                        {project.type}
+                      </span>
+                    </div>
+
+                    {/* Bottom content overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 p-6 flex items-end justify-between">
+                      <div>
+                        <h3 className="text-lg sm:text-xl font-semibold mb-1 group-hover:text-accent transition-colors">{project.title}</h3>
+                        <p className="text-text-secondary text-sm">{project.description}</p>
                       </div>
-                      <ArrowUpRight className="w-4 h-4 text-text-muted group-hover:text-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
-                    </div>
-
-                    {/* Title */}
-                    <h3 className="text-lg font-semibold mb-2 group-hover:text-accent transition-colors">
-                      {project.title}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-text-secondary text-sm leading-relaxed mb-4">
-                      {project.description}
-                    </p>
-
-                    {/* Metric badge */}
-                    <div
-                      className="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-bold mb-4"
-                      style={{
-                        background: `${project.gradientFrom}15`,
-                        color: project.gradientTo,
-                        border: `1px solid ${project.gradientFrom}25`,
-                      }}
-                    >
-                      {project.metric}
-                    </div>
-
-                    {/* Tech stack */}
-                    <div className="flex flex-wrap gap-1.5 pt-4 border-t border-border/50">
-                      {project.tech.map((t) => (
-                        <span key={t} className="px-2 py-0.5 bg-bg-primary/60 rounded text-[10px] text-text-muted border border-border/50">
-                          {t}
-                        </span>
-                      ))}
+                      <div className="flex items-center gap-1 text-accent text-sm font-medium opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 flex-shrink-0 ml-4">
+                        View <ArrowUpRight className="w-4 h-4" />
+                      </div>
                     </div>
                   </div>
                 </div>

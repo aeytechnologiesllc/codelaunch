@@ -5,7 +5,8 @@
       "name": "codelaunch-dev",
       "runtimeExecutable": "/bin/bash",
       "runtimeArgs": ["-lc", "cd /Users/shahz/Downloads/codelaunch && export PATH=/opt/homebrew/opt/node/bin:/opt/homebrew/bin:$PATH && exec node node_modules/.bin/next dev --port ${PORT:-3000}"],
-      "port": 3000
+      "port": 3000,
+      "autoPort": true
     }
   ]
 }
