@@ -11,12 +11,15 @@ export function BackgroundParticles() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    // Detect mobile for lighter rendering
+    const isMobile = window.innerWidth < 768;
+
     let animId: number;
     let w = 0;
     let h = 0;
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
       w = window.innerWidth;
       h = window.innerHeight;
       canvas.width = w * dpr;
@@ -27,7 +30,7 @@ export function BackgroundParticles() {
     resize();
     window.addEventListener("resize", resize);
 
-    // Particles — small dots drifting upward
+    const count = isMobile ? 20 : 50;
     const particles: {
       x: number;
       y: number;
@@ -39,12 +42,11 @@ export function BackgroundParticles() {
       pulseSpeed: number;
     }[] = [];
 
-    const count = 50;
     for (let i = 0; i < count; i++) {
       particles.push({
         x: Math.random() * 2000,
         y: Math.random() * 2000,
-        size: 0.8 + Math.random() * 1.5,
+        size: isMobile ? 0.8 + Math.random() * 1 : 0.8 + Math.random() * 1.5,
         speed: 0.15 + Math.random() * 0.35,
         opacity: 0.15 + Math.random() * 0.35,
         drift: (Math.random() - 0.5) * 0.3,
@@ -54,8 +56,16 @@ export function BackgroundParticles() {
     }
 
     let time = 0;
+    let lastFrame = 0;
+    // Mobile: throttle to 30fps to save battery
+    const frameInterval = isMobile ? 33 : 16;
 
-    const draw = () => {
+    const draw = (timestamp: number) => {
+      animId = requestAnimationFrame(draw);
+
+      if (timestamp - lastFrame < frameInterval) return;
+      lastFrame = timestamp;
+
       time += 0.016;
       ctx.clearRect(0, 0, w, h);
 
@@ -64,25 +74,25 @@ export function BackgroundParticles() {
         p.x += p.drift + Math.sin(time * 0.5 + p.pulse) * 0.15;
         p.pulse += p.pulseSpeed * 0.016;
 
-        // Reset when off top
         if (p.y < -10) {
           p.y = h + 10;
           p.x = Math.random() * w;
         }
-        // Wrap horizontally
         if (p.x < -10) p.x = w + 10;
         if (p.x > w + 10) p.x = -10;
 
         const pulseOpacity = p.opacity * (0.7 + Math.sin(p.pulse) * 0.3);
 
-        // Glow
-        const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 3);
-        glow.addColorStop(0, `rgba(167, 139, 250, ${pulseOpacity * 0.4})`);
-        glow.addColorStop(1, "rgba(167, 139, 250, 0)");
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
-        ctx.fillStyle = glow;
-        ctx.fill();
+        if (!isMobile) {
+          // Desktop: radial gradient glow
+          const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 3);
+          glow.addColorStop(0, `rgba(167, 139, 250, ${pulseOpacity * 0.4})`);
+          glow.addColorStop(1, "rgba(167, 139, 250, 0)");
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
+          ctx.fillStyle = glow;
+          ctx.fill();
+        }
 
         // Dot
         ctx.beginPath();
@@ -90,8 +100,6 @@ export function BackgroundParticles() {
         ctx.fillStyle = `rgba(196, 181, 253, ${pulseOpacity})`;
         ctx.fill();
       });
-
-      animId = requestAnimationFrame(draw);
     };
 
     animId = requestAnimationFrame(draw);
