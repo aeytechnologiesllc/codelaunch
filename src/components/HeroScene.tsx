@@ -124,7 +124,7 @@ function FloatingOrbs() {
   const orbs = useMemo(() => {
     return Array.from({ length: 6 }, (_, i) => {
       const angle = (i / 6) * Math.PI * 2;
-      const r = 2.2 + Math.random() * 0.5;
+      const r = 1.8 + Math.random() * 0.3;
       return {
         position: [
           Math.cos(angle) * r,
@@ -183,9 +183,9 @@ export function HeroScene() {
 
         <InnerGlow />
         <GlowingSphere />
-        <OrbitRing radius={2.2} speed={0.08} tilt={Math.PI / 3} opacity={0.25} />
-        <OrbitRing radius={2.6} speed={-0.05} tilt={-Math.PI / 5} opacity={0.15} />
-        <OrbitRing radius={3.0} speed={0.03} tilt={Math.PI / 2.2} opacity={0.08} />
+        <OrbitRing radius={1.85} speed={0.08} tilt={Math.PI / 3} opacity={0.2} />
+        <OrbitRing radius={2.0} speed={-0.05} tilt={-Math.PI / 5} opacity={0.12} />
+        <OrbitRing radius={2.15} speed={0.03} tilt={Math.PI / 2.2} opacity={0.07} />
         <Particles />
         <FloatingOrbs />
       </Canvas>
