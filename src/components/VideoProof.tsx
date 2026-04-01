@@ -2,13 +2,15 @@
 
 import { ScrollReveal } from "./ScrollReveal";
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
 const showcaseItems = [
-  { src: "/images/mobile-restaurant.png", alt: "Restaurant ordering app", label: "Restaurant Ordering App", type: "Mobile App" },
-  { src: "/images/web-analytics.png", alt: "Analytics dashboard", label: "Business Analytics Dashboard", type: "Web App" },
-  { src: "/images/mobile-contractor.png", alt: "Field service app", label: "Contractor Dispatch App", type: "Mobile App" },
-  { src: "/images/web-contractor.png", alt: "Contractor dashboard", label: "Field Service Dashboard", type: "Web App" },
-  { src: "/images/mobile-booking.png", alt: "Booking app", label: "Appointment Booking App", type: "Mobile App" },
+  { src: "/images/mobile-restaurant.png", alt: "Restaurant ordering app", label: "Restaurant Ordering", type: "Mobile App", typeColor: "#34d399", featured: false },
+  { src: "/images/web-analytics.png", alt: "Analytics dashboard", label: "Business Analytics", type: "Web App", typeColor: "#60a5fa", featured: true },
+  { src: "/images/mobile-contractor.png", alt: "Field service app", label: "Contractor Dispatch", type: "Mobile App", typeColor: "#34d399", featured: false },
+  { src: "/images/web-contractor.png", alt: "Contractor dashboard", label: "Field Service Hub", type: "Web App", typeColor: "#60a5fa", featured: true },
+  { src: "/images/mobile-booking.png", alt: "Booking app", label: "Appointment Booking", type: "Mobile App", typeColor: "#34d399", featured: false },
 ];
 
 export function VideoProof() {
@@ -29,25 +31,53 @@ export function VideoProof() {
           </div>
         </ScrollReveal>
 
-        {/* Showcase grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        {/* Showcase grid — featured items span 2 cols */}
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 auto-rows-[280px] sm:auto-rows-[320px]">
           {showcaseItems.map((item, i) => (
-            <ScrollReveal key={item.src} delay={i * 0.08}>
-              <div className="glass-card overflow-hidden group hover:border-accent/15 transition-all">
-                <div className="relative aspect-[3/4] overflow-hidden">
+            <ScrollReveal
+              key={item.src}
+              delay={i * 0.08}
+              className={item.featured ? "col-span-2 row-span-1" : "col-span-1 row-span-1"}
+            >
+              <Link href="/work" className="block h-full">
+                <div className="glass-card overflow-hidden h-full group relative hover:border-accent/15 transition-all duration-500 hover:shadow-[0_0_30px_rgba(167,139,250,0.06)]">
+                  {/* Image */}
                   <Image
                     src={item.src}
                     alt={item.alt}
                     fill
-                    className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                    className="object-cover object-top group-hover:scale-110 transition-transform duration-700"
+                    sizes={item.featured ? "(max-width: 1024px) 100vw, 33vw" : "(max-width: 640px) 50vw, 16vw"}
                   />
+
+                  {/* Gradient overlay — always visible, darker on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-bg-primary via-bg-primary/40 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
+
+                  {/* Type badge */}
+                  <div className="absolute top-3 left-3 z-10">
+                    <span
+                      className="px-2 py-0.5 rounded text-[9px] font-semibold uppercase tracking-wider backdrop-blur-sm border"
+                      style={{
+                        color: item.typeColor,
+                        background: `${item.typeColor}15`,
+                        borderColor: `${item.typeColor}25`,
+                      }}
+                    >
+                      {item.type}
+                    </span>
+                  </div>
+
+                  {/* Bottom content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 z-10">
+                    <h3 className="text-sm font-semibold mb-1 group-hover:text-accent transition-colors">{item.label}</h3>
+
+                    {/* View project — appears on hover */}
+                    <div className="flex items-center gap-1 text-accent text-xs font-medium opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                      View Project <ArrowUpRight className="w-3 h-3" />
+                    </div>
+                  </div>
                 </div>
-                <div className="p-3">
-                  <div className="text-xs font-medium">{item.label}</div>
-                  <div className="text-[10px] text-text-muted">{item.type}</div>
-                </div>
-              </div>
+              </Link>
             </ScrollReveal>
           ))}
         </div>

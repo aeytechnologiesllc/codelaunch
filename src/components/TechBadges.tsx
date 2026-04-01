@@ -2,25 +2,51 @@
 
 import { ScrollReveal } from "./ScrollReveal";
 
-const technologies = [
-  { name: "Next.js", category: "Framework", abbr: "N" },
-  { name: "React", category: "UI Library", abbr: "R" },
-  { name: "React Native", category: "Mobile", abbr: "RN" },
-  { name: "Flutter", category: "Mobile", abbr: "FL" },
-  { name: "Node.js", category: "Backend", abbr: "No" },
-  { name: "Python", category: "AI/ML", abbr: "Py" },
-  { name: "Supabase", category: "Database", abbr: "SB" },
-  { name: "PostgreSQL", category: "Database", abbr: "PG" },
-  { name: "Stripe", category: "Payments", abbr: "St" },
-  { name: "OpenAI", category: "AI", abbr: "AI" },
-  { name: "Vercel", category: "Hosting", abbr: "V" },
-  { name: "Tailwind CSS", category: "Styling", abbr: "TW" },
+const techGroups = [
+  {
+    label: "Frontend",
+    color: "#a78bfa",
+    tools: [
+      { name: "Next.js", abbr: "N" },
+      { name: "React", abbr: "R" },
+      { name: "Tailwind CSS", abbr: "TW" },
+      { name: "TypeScript", abbr: "TS" },
+    ],
+  },
+  {
+    label: "Backend & Data",
+    color: "#60a5fa",
+    tools: [
+      { name: "Node.js", abbr: "No" },
+      { name: "Python", abbr: "Py" },
+      { name: "Supabase", abbr: "SB" },
+      { name: "PostgreSQL", abbr: "PG" },
+    ],
+  },
+  {
+    label: "Mobile",
+    color: "#34d399",
+    tools: [
+      { name: "React Native", abbr: "RN" },
+      { name: "Flutter", abbr: "FL" },
+    ],
+  },
+  {
+    label: "AI & Infrastructure",
+    color: "#fbbf24",
+    tools: [
+      { name: "OpenAI", abbr: "AI" },
+      { name: "Stripe", abbr: "St" },
+      { name: "Vercel", abbr: "V" },
+      { name: "Figma", abbr: "F" },
+    ],
+  },
 ];
 
 export function TechBadges() {
   return (
     <section className="relative py-20 sm:py-24">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-5xl mx-auto px-6">
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-12">
             <p className="text-accent text-sm font-semibold uppercase tracking-wider mb-3">
@@ -32,15 +58,57 @@ export function TechBadges() {
           </div>
         </ScrollReveal>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
-          {technologies.map((tech, i) => (
-            <ScrollReveal key={tech.name} delay={i * 0.04} animation="scaleIn">
-              <div className="glass-card p-4 text-center group hover:bg-white/[0.04] hover:border-accent/15 transition-all duration-300 hover:shadow-[0_0_20px_rgba(167,139,250,0.08)]">
-                <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center mx-auto mb-2.5 group-hover:bg-accent/20 group-hover:scale-110 transition-all duration-300">
-                  <span className="text-accent font-bold text-xs">{tech.abbr}</span>
+        <div className="space-y-6">
+          {techGroups.map((group, gi) => (
+            <ScrollReveal key={group.label} delay={gi * 0.08} animation="fadeUp">
+              <div className="glass-card p-5 sm:p-6">
+                {/* Category label */}
+                <div className="flex items-center gap-2 mb-4">
+                  <div
+                    className="w-2 h-2 rounded-full"
+                    style={{ background: group.color }}
+                  />
+                  <span
+                    className="text-xs font-semibold uppercase tracking-wider"
+                    style={{ color: group.color }}
+                  >
+                    {group.label}
+                  </span>
                 </div>
-                <div className="text-sm font-medium group-hover:text-accent transition-colors">{tech.name}</div>
-                <div className="text-text-muted text-[10px] mt-0.5">{tech.category}</div>
+
+                {/* Tools row */}
+                <div className="flex flex-wrap gap-3">
+                  {group.tools.map((tool) => (
+                    <div
+                      key={tool.name}
+                      className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-bg-primary/60 border transition-all duration-300 hover:scale-[1.03] hover:shadow-lg group/tool"
+                      style={{
+                        borderColor: `${group.color}15`,
+                      }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLElement).style.borderColor = `${group.color}40`;
+                        (e.currentTarget as HTMLElement).style.boxShadow = `0 0 20px ${group.color}15`;
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLElement).style.borderColor = `${group.color}15`;
+                        (e.currentTarget as HTMLElement).style.boxShadow = "none";
+                      }}
+                    >
+                      <div
+                        className="w-7 h-7 rounded-lg flex items-center justify-center text-[10px] font-bold"
+                        style={{
+                          background: `${group.color}15`,
+                          color: group.color,
+                        }}
+                      >
+                        {tool.abbr}
+                      </div>
+                      <span className="text-sm font-medium text-text-secondary group-hover/tool:text-text-primary transition-colors">
+                        {tool.name}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </ScrollReveal>
           ))}
