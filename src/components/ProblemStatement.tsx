@@ -1,7 +1,7 @@
 "use client";
 
 import { ScrollReveal } from "./ScrollReveal";
-import { TrendingDown, Hourglass, PuzzleIcon } from "lucide-react";
+import { TrendingDown, Hourglass, Unplug } from "lucide-react";
 
 const problems = [
   {
@@ -19,7 +19,7 @@ const problems = [
     hoverShadow: "group-hover:shadow-[0_0_40px_rgba(251,191,36,0.12)]",
   },
   {
-    icon: PuzzleIcon,
+    icon: Unplug,
     headline: "Generic tools don\u2019t fit",
     detail: "You bought software built for everyone, which means it was built for no one. Your business has specific needs. Your software should too.",
     accentColor: "#a78bfa",
