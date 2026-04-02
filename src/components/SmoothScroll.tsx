@@ -11,26 +11,29 @@ if (typeof window !== "undefined") {
 
 export function SmoothScroll({ children }: { children: ReactNode }) {
   useEffect(() => {
+    // Skip Lenis on mobile — native scroll is smoother on touch devices
+    const isMobile = window.innerWidth < 768 || "ontouchstart" in window;
+    if (isMobile) {
+      // Still register ScrollTrigger for GSAP animations
+      ScrollTrigger.refresh();
+      return;
+    }
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      touchMultiplier: 2,
-      syncTouch: true,
     });
 
-    // Connect Lenis scroll events to ScrollTrigger
     lenis.on("scroll", () => {
       ScrollTrigger.update();
     });
 
-    // Use requestAnimationFrame loop for Lenis
     function raf(time: number) {
       lenis.raf(time);
       requestAnimationFrame(raf);
     }
     requestAnimationFrame(raf);
 
-    // Refresh ScrollTrigger after initial layout
     const refreshTimeout = setTimeout(() => {
       ScrollTrigger.refresh();
     }, 100);

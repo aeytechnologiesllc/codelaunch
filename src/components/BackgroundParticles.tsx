@@ -11,8 +11,9 @@ export function BackgroundParticles() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Detect mobile for lighter rendering
+    // Disable entirely on mobile — CSS ambient orbs are enough
     const isMobile = window.innerWidth < 768;
+    if (isMobile) return;
 
     let animId: number;
     let w = 0;
