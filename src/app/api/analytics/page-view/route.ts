@@ -23,12 +23,13 @@ export async function POST(req: NextRequest) {
     });
 
     if (error) {
-      throw error;
+      console.warn("Failed to record page view:", error);
+      return NextResponse.json({ success: false }, { status: 202 });
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Failed to record page view:", error);
-    return NextResponse.json({ error: "Failed to record page view." }, { status: 500 });
+    console.warn("Failed to record page view:", error);
+    return NextResponse.json({ success: false }, { status: 202 });
   }
 }
