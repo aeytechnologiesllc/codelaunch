@@ -1,9 +1,10 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   Clock, CheckCircle2, Circle, ArrowRight, CalendarDays,
-  FileText, Package, Sparkles,
+  FileText, Package, Sparkles, Rocket, Mail, MessageSquare, Phone,
 } from "lucide-react";
 
 // Mock project data
@@ -91,7 +92,94 @@ const recentActivity = [
   { text: "Project brief delivered to your email", time: "Mar 10", type: "file" },
 ];
 
+const welcomeSteps = [
+  { title: "Project Received", description: "We've saved your configuration and pricing.", icon: CheckCircle2, done: true },
+  { title: "Team Review", description: "Our team is reviewing your requirements.", icon: FileText, done: false, active: true },
+  { title: "Kickoff Call", description: "We'll schedule a call to discuss your project in detail.", icon: Phone, done: false },
+  { title: "Design Phase", description: "We create wireframes and designs for your approval.", icon: Sparkles, done: false },
+  { title: "Development Begins", description: "Your software gets built with weekly progress demos.", icon: Rocket, done: false },
+];
+
 export default function DashboardPage() {
+  const searchParams = useSearchParams();
+  const quoteId = searchParams.get("quoteId");
+
+  if (quoteId) {
+    return (
+      <div className="max-w-3xl mx-auto space-y-8">
+        {/* Welcome header */}
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center">
+          <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mx-auto mb-4">
+            <Rocket className="w-8 h-8 text-accent" />
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2">Welcome to CodeLaunch!</h1>
+          <p className="text-text-secondary text-base">We&apos;ve received your project configuration and our team is reviewing it.</p>
+        </motion.div>
+
+        {/* What happens next */}
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-card p-6 sm:p-8">
+          <h2 className="text-lg font-semibold mb-6">What Happens Next</h2>
+          <div className="space-y-4">
+            {welcomeSteps.map((step, i) => (
+              <div key={step.title} className="flex items-start gap-4">
+                <div className="flex flex-col items-center">
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                    step.done ? "bg-accent/15 text-accent" : step.active ? "bg-accent/10 text-accent border border-accent/20" : "bg-bg-elevated text-text-muted"
+                  }`}>
+                    <step.icon className="w-5 h-5" />
+                  </div>
+                  {i < welcomeSteps.length - 1 && (
+                    <div className={`w-px h-6 mt-1 ${step.done ? "bg-accent/30" : "bg-border"}`} />
+                  )}
+                </div>
+                <div className="pt-2">
+                  <h3 className={`text-sm font-semibold ${step.done ? "text-accent" : step.active ? "text-text-primary" : "text-text-muted"}`}>
+                    {step.title}
+                    {step.done && <span className="ml-2 text-[10px] text-accent bg-accent/10 px-1.5 py-0.5 rounded">Done</span>}
+                    {step.active && <span className="ml-2 text-[10px] text-accent bg-accent/10 px-1.5 py-0.5 rounded animate-pulse">In Progress</span>}
+                  </h3>
+                  <p className="text-text-muted text-xs mt-0.5">{step.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Contact info */}
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="glass-card p-6">
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0">
+              <Mail className="w-5 h-5 text-accent" />
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold mb-1">Check Your Email</h3>
+              <p className="text-text-muted text-xs leading-relaxed">
+                You&apos;ll hear from us within 24 hours to schedule your kickoff call.
+                We&apos;ll also send you a detailed project brief and next steps via email and in-app message.
+              </p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* In-app messaging teaser */}
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="glass-card p-6">
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0">
+              <MessageSquare className="w-5 h-5 text-accent" />
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold mb-1">Your Project Portal</h3>
+              <p className="text-text-muted text-xs leading-relaxed">
+                This dashboard is where you&apos;ll track progress, upload files, view invoices, and message your development team.
+                Once your project kicks off, everything happens right here.
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       {/* Project header */}

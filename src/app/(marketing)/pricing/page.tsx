@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -234,6 +235,7 @@ const maintenancePlans = [
 /* ───────────────────────── Component ───────────────────────── */
 
 export default function PricingPage() {
+  const router = useRouter();
   const [step, _setStep] = useState(0);
   const setStep = (s: number) => { _setStep(s); window.scrollTo({ top: 0, behavior: "smooth" }); };
   const [projectType, setProjectType] = useState<ProjectType | null>(null);
@@ -404,6 +406,11 @@ export default function PricingPage() {
         }),
       });
       const data = await res.json();
+      if (data.quoteId) {
+        // Redirect to signup with quote ID
+        router.push(`/portal/signup?quoteId=${data.quoteId}`);
+        return;
+      }
       if (data.quoteNumber) setSavedQuoteNumber(data.quoteNumber);
     } catch (e) {
       console.error("Failed to save quote:", e);
@@ -721,33 +728,36 @@ export default function PricingPage() {
                   <h3 className="flex items-center gap-2 text-sm font-semibold text-accent uppercase tracking-wider mb-4">
                     <Check className="w-4 h-4" /> Pre-Built Templates — Included Free
                   </h3>
-                  <div className="grid sm:grid-cols-2 gap-4 mb-8">
-                    {getTemplatesForContext(projectType, selectedFeatures).map((tmpl) => (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
+                    {getTemplatesForContext(projectType, selectedFeatures).map((tmpl, i) => (
                       <button
                         key={tmpl.id}
                         onClick={() => { setSelectedTemplate(tmpl.id); setDesign("standard"); }}
-                        className={`glass-card overflow-hidden text-left transition-all ${
-                          selectedTemplate === tmpl.id ? "border-accent/40 ring-1 ring-accent/20" : "hover:border-white/15"
+                        className={`glass-card overflow-hidden text-left transition-all duration-300 relative group ${
+                          selectedTemplate === tmpl.id ? "border-accent/40 ring-1 ring-accent/20 shadow-[0_0_20px_rgba(167,139,250,0.1)]" : "hover:border-white/15"
                         }`}
                       >
-                        {/* Live preview */}
-                        <div className="p-3 pb-0">
-                          <div className="transform scale-100 origin-top">
-                            <tmpl.Component />
+                        {/* Recommended badge */}
+                        {i === 0 && (
+                          <div className="absolute top-2 right-2 z-10 px-1.5 py-0.5 bg-accent/90 text-cta-text rounded text-[8px] font-bold uppercase tracking-wider">
+                            Best Match
                           </div>
-                        </div>
-                        {/* Info */}
-                        <div className="p-4">
-                          <div className="flex items-center justify-between mb-1">
-                            <h4 className="font-semibold text-sm">{tmpl.name}</h4>
-                            {selectedTemplate === tmpl.id && (
-                              <span className="flex items-center gap-1 px-2 py-0.5 bg-accent/15 rounded-full text-[9px] text-accent font-semibold">
+                        )}
+                        {/* Screenshot */}
+                        <div className="relative aspect-[16/10] overflow-hidden">
+                          <img src={tmpl.image} alt={tmpl.name} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" />
+                          {selectedTemplate === tmpl.id && (
+                            <div className="absolute inset-0 bg-accent/10 flex items-center justify-center">
+                              <span className="flex items-center gap-1 px-2.5 py-1 bg-accent rounded-full text-[10px] text-cta-text font-bold">
                                 <Check className="w-3 h-3" /> Selected
                               </span>
-                            )}
-                          </div>
-                          <p className="text-text-muted text-xs">{tmpl.description}</p>
-                          <span className="inline-block mt-2 text-[10px] text-accent font-medium bg-accent/10 px-2 py-0.5 rounded-full">{tmpl.style}</span>
+                            </div>
+                          )}
+                        </div>
+                        {/* Info */}
+                        <div className="p-3">
+                          <h4 className="font-semibold text-xs mb-0.5">{tmpl.name}</h4>
+                          <p className="text-text-muted text-[10px] leading-relaxed line-clamp-2">{tmpl.description}</p>
                         </div>
                       </button>
                     ))}
@@ -1035,61 +1045,44 @@ export default function PricingPage() {
                     )}
                   </div>
 
-                  {/* Trust Guarantees */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4">
-                    <div className="glass-card p-4 text-center">
-                      <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-2">
-                        <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                      </div>
-                      <h4 className="text-xs font-semibold mb-1">Free Project Brief</h4>
-                      <p className="text-text-muted text-[10px] leading-relaxed">After our call, you get a detailed project brief with wireframes — free, even if you don&apos;t proceed.</p>
+                  {/* Trust Guarantees — compact strip */}
+                  <div className="glass-card p-3 mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-center">
+                    <div className="flex items-center gap-1.5 text-xs text-text-secondary">
+                      <Check className="w-3.5 h-3.5 text-accent" />
+                      <span>Free Project Brief</span>
                     </div>
-                    <div className="glass-card p-4 text-center">
-                      <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-2">
-                        <Shield className="w-4 h-4 text-accent" />
-                      </div>
-                      <h4 className="text-xs font-semibold mb-1">Design Guarantee</h4>
-                      <p className="text-text-muted text-[10px] leading-relaxed">Don&apos;t love the design? Full deposit refunded. We take the risk, not you.</p>
+                    <div className="flex items-center gap-1.5 text-xs text-text-secondary">
+                      <Shield className="w-3.5 h-3.5 text-accent" />
+                      <span>Design Guarantee</span>
                     </div>
-                    <div className="glass-card p-4 text-center">
-                      <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-2">
-                        <Zap className="w-4 h-4 text-accent" />
-                      </div>
-                      <h4 className="text-xs font-semibold mb-1">1 Month Free Support</h4>
-                      <p className="text-text-muted text-[10px] leading-relaxed">Every project includes 1 month of free maintenance after launch. No strings.</p>
+                    <div className="flex items-center gap-1.5 text-xs text-text-secondary">
+                      <Zap className="w-3.5 h-3.5 text-accent" />
+                      <span>1 Month Free Support</span>
                     </div>
                   </div>
 
-                  {/* ROI / Investment Justification */}
-                  <div className="glass-card p-6 mt-4 border-accent/10 bg-accent/[0.02]">
-                    <h3 className="flex items-center gap-2 text-sm font-semibold mb-4">
-                      <TrendingUp className="w-4 h-4 text-accent" />
-                      What This Pays You Back
-                    </h3>
-                    <div className="grid grid-cols-3 gap-3 sm:gap-4">
-                      <div className="text-center">
-                        <div className="text-lg sm:text-2xl font-bold text-accent">
-                          {pricing.total > 0 ? `${Math.ceil(pricing.total / 2000)} mo` : "—"}
-                        </div>
-                        <div className="text-text-muted text-xs mt-1">Estimated payback period</div>
+                  {/* ROI — compact */}
+                  <div className="glass-card p-4 mt-3 border-accent/10 bg-accent/[0.02]">
+                    <div className="flex items-center justify-between gap-4 flex-wrap">
+                      <div className="flex items-center gap-2">
+                        <TrendingUp className="w-4 h-4 text-accent" />
+                        <span className="text-xs font-semibold">Estimated Payback</span>
                       </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-accent">
-                          ${pricing.total > 0 ? Math.round(pricing.total * 0.5).toLocaleString() : "—"}
+                      <div className="flex items-center gap-4 text-center">
+                        <div>
+                          <div className="text-sm font-bold text-accent">{pricing.total > 0 ? `${Math.ceil(pricing.total / 2000)} mo` : "—"}</div>
+                          <div className="text-text-muted text-[9px]">Payback</div>
                         </div>
-                        <div className="text-text-muted text-xs mt-1">Potential monthly savings</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-accent">
-                          ${pricing.total > 0 ? Math.round(pricing.total * 0.5 * 12 - pricing.total).toLocaleString() : "—"}
+                        <div>
+                          <div className="text-sm font-bold text-accent">${pricing.total > 0 ? Math.round(pricing.total * 0.5).toLocaleString() : "—"}</div>
+                          <div className="text-text-muted text-[9px]">Monthly savings</div>
                         </div>
-                        <div className="text-text-muted text-xs mt-1">Year 1 net return</div>
+                        <div>
+                          <div className="text-sm font-bold text-accent">${pricing.total > 0 ? Math.round(pricing.total * 0.5 * 12 - pricing.total).toLocaleString() : "—"}</div>
+                          <div className="text-text-muted text-[9px]">Year 1 return</div>
+                        </div>
                       </div>
                     </div>
-                    <p className="text-text-muted text-xs mt-4 leading-relaxed">
-                      Businesses using custom software save an average of $2,000-5,000/mo by eliminating third-party fees,
-                      reducing manual work, and increasing order volume. Most clients see full ROI within 2-4 months.
-                    </p>
                   </div>
 
                   <div className="glass-card p-4 mt-4 flex items-start gap-3 border-accent/10 bg-accent/[0.02]">
@@ -1105,9 +1098,9 @@ export default function PricingPage() {
                       <div className="space-y-4">
                         <h3 className="text-sm font-semibold flex items-center gap-2">
                           <Shield className="w-4 h-4 text-accent" />
-                          Save Your Quote
+                          Start Your Project
                         </h3>
-                        <p className="text-text-muted text-xs">Enter your details and we&apos;ll lock this price with a quote number you can reference anytime.</p>
+                        <p className="text-text-muted text-xs">Enter your details to lock this price and create your project portal.</p>
                         <div className="grid sm:grid-cols-2 gap-3">
                           <input value={saveName} onChange={(e) => setSaveName(e.target.value)} placeholder="Your name *" className="px-3 py-2.5 bg-bg-primary/50 border border-border rounded-lg text-sm placeholder:text-text-muted focus:outline-none focus:border-accent/30" />
                           <input value={saveEmail} onChange={(e) => setSaveEmail(e.target.value)} placeholder="Email address *" type="email" className="px-3 py-2.5 bg-bg-primary/50 border border-border rounded-lg text-sm placeholder:text-text-muted focus:outline-none focus:border-accent/30" />
@@ -1160,7 +1153,7 @@ export default function PricingPage() {
                             className="inline-flex items-center gap-2 px-5 py-2.5 bg-cta text-cta-text font-semibold rounded-lg hover:bg-cta-hover transition-all text-sm disabled:opacity-40"
                           >
                             {saveLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
-                            {saveLoading ? "Saving..." : "Save & Get Quote Number"}
+                            {saveLoading ? "Setting up..." : "Start Your Project Journey"}
                           </button>
                         </div>
                       </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Rocket, ArrowRight, Mail, Lock, User, Building, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
@@ -9,6 +9,8 @@ import { signUp } from "@/lib/auth";
 
 export default function SignupPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const quoteId = searchParams.get("quoteId");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [company, setCompany] = useState("");
@@ -38,7 +40,7 @@ export default function SignupPage() {
     setSuccess(true);
     setLoading(false);
     // Auto-redirect after 2 seconds
-    setTimeout(() => router.push("/dashboard"), 2000);
+    setTimeout(() => router.push(quoteId ? `/dashboard?quoteId=${quoteId}` : "/dashboard"), 2000);
   };
 
   return (

@@ -197,7 +197,7 @@ export function Hero() {
                   className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-cta text-cta-text font-semibold rounded-xl hover:bg-cta-hover transition-all text-base relative overflow-hidden btn-glow"
                 >
                   <span className="relative z-10 flex items-center gap-2">
-                    Get Your Exact Price
+                    Build With Us
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Link>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0a0a0f;color:#e4e4e7;width:1280px;height:800px;overflow:hidden}
+.w{width:1280px;height:800px;display:grid;grid-template-columns:200px 1fr 300px}
+.s{background:#111118;border-right:1px solid rgba(255,255,255,.06);padding:20px 14px}
+.logo{display:flex;align-items:center;gap:8px;padding:8px 10px;margin-bottom:24px;font-weight:700;font-size:14px;color:#3b82f6}
+.logo i{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#1d4ed8,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;font-style:normal}
+.ni{padding:9px 10px;border-radius:7px;font-size:12.5px;color:#52525b;display:flex;align-items:center;gap:8px;margin-bottom:2px}
+.ni.a{background:rgba(59,130,246,.1);color:#3b82f6}
+.dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+.m{padding:22px 24px;display:flex;flex-direction:column;gap:14px;overflow:hidden}
+.hdr{display:flex;justify-content:space-between;align-items:center}
+.hdr h1{font-size:20px;font-weight:600}
+.b{padding:7px 14px;border-radius:7px;font-size:11px;font-weight:600;border:none}
+.bp{background:#3b82f6;color:#fff}
+.bg{background:rgba(255,255,255,.05);color:#a1a1aa;border:1px solid rgba(255,255,255,.08)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.sc{background:#111118;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:14px}
+.sl{font-size:10px;color:#52525b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.sv{font-size:22px;font-weight:700}
+.sch{font-size:10px;margin-top:2px}
+/* Products grid */
+.products{flex:1;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+.products-h{font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;flex:1;overflow:hidden}
+.prod{background:#111118;border:1px solid rgba(255,255,255,.06);border-radius:10px;overflow:hidden}
+.prod-img{height:100px;display:flex;align-items:center;justify-content:center;font-size:32px}
+.prod-body{padding:10px}
+.prod-name{font-size:12px;font-weight:600;margin-bottom:2px}
+.prod-cat{font-size:10px;color:#52525b;margin-bottom:6px}
+.prod-row{display:flex;justify-content:space-between;align-items:center}
+.prod-price{font-size:14px;font-weight:700;color:#3b82f6}
+.prod-stock{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:600}
+/* Cart sidebar */
+.right{background:#111118;border-left:1px solid rgba(255,255,255,.06);padding:16px;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+.rt{font-size:13px;font-weight:600;margin-bottom:4px}
+.cart-item{display:flex;gap:10px;padding:10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:8px}
+.cart-emoji{font-size:24px;display:flex;align-items:center}
+.cart-info{flex:1}
+.cart-name{font-size:11px;font-weight:600;margin-bottom:2px}
+.cart-qty{font-size:10px;color:#71717a}
+.cart-price{font-size:12px;font-weight:700;color:#3b82f6;display:flex;align-items:center}
+.cart-total{margin-top:auto;padding-top:10px;border-top:1px solid rgba(255,255,255,.06)}
+.cart-row{display:flex;justify-content:space-between;font-size:12px;padding:4px 0}
+.cart-row.total{font-weight:700;font-size:14px;color:#e4e4e7;padding-top:8px;border-top:1px solid rgba(255,255,255,.06);margin-top:4px}
+.checkout-btn{width:100%;padding:12px;border-radius:8px;background:#3b82f6;color:#fff;font-weight:700;font-size:13px;border:none;margin-top:10px;text-align:center}
+.recent{margin-top:12px}
+.recent-h{font-size:11px;font-weight:600;color:#52525b;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.recent-item{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:11px}
+.recent-status{font-size:9px;padding:2px 6px;border-radius:3px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="w">
+<div class="s">
+<div class="logo"><i>🛒</i>ShopFlow</div>
+<div class="ni a"><div class="dot"></div>Products</div>
+<div class="ni"><div class="dot"></div>Orders</div>
+<div class="ni"><div class="dot"></div>Customers</div>
+<div class="ni"><div class="dot"></div>Analytics</div>
+<div class="ni"><div class="dot"></div>Inventory</div>
+<div class="ni"><div class="dot"></div>Discounts</div>
+<div class="ni"><div class="dot"></div>Settings</div>
+</div>
+<div class="m">
+<div class="hdr"><h1>Products</h1><div style="display:flex;gap:8px"><button class="b bg">Import</button><button class="b bp">+ Add Product</button></div></div>
+<div class="stats">
+<div class="sc"><div class="sl">Revenue Today</div><div class="sv" style="color:#3b82f6">$3,847</div><div class="sch" style="color:#34d399">↑ 14% vs yesterday</div></div>
+<div class="sc"><div class="sl">Orders Today</div><div class="sv" style="color:#34d399">67</div><div class="sch" style="color:#34d399">↑ 8% vs yesterday</div></div>
+<div class="sc"><div class="sl">Conversion</div><div class="sv" style="color:#a78bfa">3.2%</div><div class="sch" style="color:#34d399">↑ 0.4% this week</div></div>
+<div class="sc"><div class="sl">Avg. Order</div><div class="sv" style="color:#fbbf24">$57.40</div><div class="sch" style="color:#34d399">↑ $3.20 vs last week</div></div>
+</div>
+<div class="products">
+<div class="products-h"><span>Top Products</span><span style="font-size:10px;color:#52525b">24 active</span></div>
+<div class="pgrid">
+<div class="prod"><div class="prod-img" style="background:linear-gradient(135deg,#1e1b4b,#312e81)">🎧</div><div class="prod-body"><div class="prod-name">Wireless Pro Earbuds</div><div class="prod-cat">Electronics</div><div class="prod-row"><div class="prod-price">$129.00</div><div class="prod-stock" style="background:rgba(52,211,153,.1);color:#34d399">In Stock</div></div></div></div>
+<div class="prod"><div class="prod-img" style="background:linear-gradient(135deg,#1c1917,#292524)">⌚</div><div class="prod-body"><div class="prod-name">Smart Watch Ultra</div><div class="prod-cat">Wearables</div><div class="prod-row"><div class="prod-price">$299.00</div><div class="prod-stock" style="background:rgba(251,191,36,.1);color:#fbbf24">Low Stock</div></div></div></div>
+<div class="prod"><div class="prod-img" style="background:linear-gradient(135deg,#0c4a6e,#0369a1)">🔊</div><div class="prod-body"><div class="prod-name">Portable Speaker X</div><div class="prod-cat">Audio</div><div class="prod-row"><div class="prod-price">$79.00</div><div class="prod-stock" style="background:rgba(52,211,153,.1);color:#34d399">In Stock</div></div></div></div>
+<div class="prod"><div class="prod-img" style="background:linear-gradient(135deg,#134e4a,#115e59)">💻</div><div class="prod-body"><div class="prod-name">Laptop Stand Pro</div><div class="prod-cat">Accessories</div><div class="prod-row"><div class="prod-price">$49.00</div><div class="prod-stock" style="background:rgba(52,211,153,.1);color:#34d399">In Stock</div></div></div></div>
+<div class="prod"><div class="prod-img" style="background:linear-gradient(135deg,#3b0764,#581c87)">📱</div><div class="prod-body"><div class="prod-name">USB-C Hub 7-in-1</div><div class="prod-cat">Accessories</div><div class="prod-row"><div class="prod-price">$45.00</div><div class="prod-stock" style="background:rgba(248,113,113,.1);color:#f87171">2 left</div></div></div></div>
+<div class="prod"><div class="prod-img" style="background:linear-gradient(135deg,#1e3a5f,#1e40af)">🎒</div><div class="prod-body"><div class="prod-name">Tech Backpack</div><div class="prod-cat">Bags</div><div class="prod-row"><div class="prod-price">$89.00</div><div class="prod-stock" style="background:rgba(52,211,153,.1);color:#34d399">In Stock</div></div></div></div>
+</div>
+</div>
+</div>
+<div class="right">
+<div class="rt">🛒 Live Cart (3 items)</div>
+<div class="cart-item"><div class="cart-emoji">🎧</div><div class="cart-info"><div class="cart-name">Wireless Pro Earbuds</div><div class="cart-qty">Qty: 1</div></div><div class="cart-price">$129</div></div>
+<div class="cart-item"><div class="cart-emoji">💻</div><div class="cart-info"><div class="cart-name">Laptop Stand Pro</div><div class="cart-qty">Qty: 2</div></div><div class="cart-price">$98</div></div>
+<div class="cart-item"><div class="cart-emoji">🔊</div><div class="cart-info"><div class="cart-name">Portable Speaker X</div><div class="cart-qty">Qty: 1</div></div><div class="cart-price">$79</div></div>
+<div class="cart-total">
+<div class="cart-row"><span style="color:#71717a">Subtotal</span><span>$306.00</span></div>
+<div class="cart-row"><span style="color:#71717a">Shipping</span><span style="color:#34d399">Free</span></div>
+<div class="cart-row"><span style="color:#71717a">Tax</span><span>$24.48</span></div>
+<div class="cart-row total"><span>Total</span><span style="color:#3b82f6">$330.48</span></div>
+</div>
+<button class="checkout-btn">Checkout →</button>
+<div class="recent">
+<div class="recent-h">Recent Orders</div>
+<div class="recent-item"><span>#ORD-1284</span><span>$127.50</span><span class="recent-status" style="background:rgba(52,211,153,.1);color:#34d399">Shipped</span></div>
+<div class="recent-item"><span>#ORD-1283</span><span>$89.00</span><span class="recent-status" style="background:rgba(96,165,250,.1);color:#60a5fa">Processing</span></div>
+<div class="recent-item"><span>#ORD-1282</span><span>$245.00</span><span class="recent-status" style="background:rgba(52,211,153,.1);color:#34d399">Delivered</span></div>
+<div class="recent-item"><span>#ORD-1281</span><span>$67.80</span><span class="recent-status" style="background:rgba(52,211,153,.1);color:#34d399">Delivered</span></div>
+</div>
+</div>
+</div>
+</body>
+</html>

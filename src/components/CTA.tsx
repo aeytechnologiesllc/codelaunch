@@ -55,13 +55,13 @@ export function CTA() {
                   <Calculator className="w-6 h-6 text-accent-secondary" />
                 </div>
                 <h3 className="text-lg font-bold mb-2 group-hover:text-accent-secondary transition-colors">
-                  Get Instant Pricing
+                  Build Your Vision
                 </h3>
                 <p className="text-text-secondary text-sm leading-relaxed mb-5">
-                  Pick your project type, choose features, and see real-time pricing. No call needed.
+                  Pick your project type, choose features, and see real-time pricing. Start building today.
                 </p>
                 <span className="inline-flex items-center gap-2 text-accent-secondary font-semibold text-sm group-hover:gap-3 transition-all">
-                  Try the Calculator <ArrowRight className="w-4 h-4" />
+                  Start Building <ArrowRight className="w-4 h-4" />
                 </span>
               </div>
             </Link>

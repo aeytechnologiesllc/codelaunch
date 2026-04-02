@@ -66,7 +66,7 @@ export function Navbar() {
                 href="/pricing"
                 className="px-5 py-2.5 bg-cta text-cta-text font-semibold text-sm rounded-xl btn-glow hover:bg-cta-hover transition-all"
               >
-                Get a Quote
+                Build With Us
               </Link>
             </MagneticButton>
           </div>
@@ -105,7 +105,7 @@ export function Navbar() {
                 onClick={() => setMobileOpen(false)}
                 className="px-8 py-3 bg-cta text-cta-text font-semibold rounded-xl btn-glow text-lg"
               >
-                Get a Quote
+                Build With Us
               </Link>
             </motion.div>
           </motion.div>
