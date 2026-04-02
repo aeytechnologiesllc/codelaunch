@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Rocket, ArrowRight, Mail, Lock, User, Building, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
@@ -8,6 +8,14 @@ import Link from "next/link";
 import { signUp } from "@/lib/auth";
 
 export default function SignupPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-bg-primary flex items-center justify-center text-text-muted">Loading...</div>}>
+      <SignupContent />
+    </Suspense>
+  );
+}
+
+function SignupContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const quoteId = searchParams.get("quoteId");

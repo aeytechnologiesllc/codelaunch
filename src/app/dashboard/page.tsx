@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -101,6 +102,14 @@ const welcomeSteps = [
 ];
 
 export default function DashboardPage() {
+  return (
+    <Suspense fallback={<div className="max-w-5xl mx-auto p-8 text-center text-text-muted">Loading...</div>}>
+      <DashboardContent />
+    </Suspense>
+  );
+}
+
+function DashboardContent() {
   const searchParams = useSearchParams();
   const quoteId = searchParams.get("quoteId");
 
