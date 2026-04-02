@@ -192,7 +192,7 @@ export default function WorkPage() {
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.2 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative glass-card max-w-4xl w-full max-h-[90vh] overflow-y-auto overscroll-contain"
+              className="relative glass-card max-w-4xl w-full max-h-[95vh] overflow-y-auto overscroll-contain"
             >
               {/* Screenshot in modal */}
               <div className="relative aspect-[16/8] overflow-hidden rounded-t-2xl">
@@ -214,7 +214,7 @@ export default function WorkPage() {
                 <X className="w-4 h-4" />
               </button>
 
-              <div className="p-8 sm:p-10 -mt-16 relative z-10">
+              <div className="p-4 sm:p-8 lg:p-10 -mt-10 sm:-mt-16 relative z-10">
                 {/* Header */}
                 <p className="text-accent text-xs font-medium uppercase tracking-wider mb-1">{selectedProject.category}</p>
                 <h2 className="text-2xl sm:text-3xl font-bold mb-2">{selectedProject.title}</h2>

@@ -19,7 +19,7 @@ export function FloatingChat() {
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="mb-3 w-72 glass-card p-5 shadow-2xl"
+            className="mb-3 w-[calc(100vw-3rem)] sm:w-72 glass-card p-4 sm:p-5 shadow-2xl"
           >
             <div className="mb-4">
               <h3 className="font-semibold text-sm mb-1">Quick Question?</h3>

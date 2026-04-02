@@ -142,7 +142,7 @@ export function Hero() {
     ));
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Aurora background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 grid-bg" />

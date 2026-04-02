@@ -46,7 +46,7 @@ function TiltCard({ children, className = "" }: { children: React.ReactNode; cla
   const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!ref.current) return;
+    if (!ref.current || window.innerWidth < 768) return;
     const { left, top, width, height } = ref.current.getBoundingClientRect();
     const x = (e.clientX - left) / width;
     const y = (e.clientY - top) / height;

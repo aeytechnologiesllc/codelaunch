@@ -505,7 +505,7 @@ export default function PricingPage() {
               exit={{ height: 0, opacity: 0 }}
               className="overflow-hidden"
             >
-              <div className="ml-8 space-y-1.5 py-2">
+              <div className="ml-4 sm:ml-8 space-y-1.5 py-2">
                 <p className="text-[10px] text-accent uppercase tracking-wider font-semibold flex items-center gap-1.5 mb-2">
                   <Zap className="w-3 h-3" /> Add Automations
                 </p>

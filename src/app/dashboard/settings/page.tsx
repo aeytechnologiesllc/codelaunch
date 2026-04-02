@@ -14,7 +14,7 @@ export default function SettingsPage() {
       {/* Profile */}
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-card p-6 space-y-5">
         <h2 className="text-sm font-semibold flex items-center gap-2"><User className="w-4 h-4 text-accent" /> Profile</h2>
-        <div className="grid sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="text-xs text-text-muted mb-1.5 block">Full Name</label>
             <input defaultValue="David Barth" className="w-full px-3 py-2.5 bg-bg-primary/50 border border-border rounded-lg text-sm focus:outline-none focus:border-accent/30" />

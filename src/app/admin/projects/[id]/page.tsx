@@ -176,7 +176,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ id: st
           </div>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-border">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-4 border-t border-border">
           <div>
             <div className="text-text-muted text-[10px] uppercase tracking-wider mb-0.5">Project Type</div>
             <div className="text-sm font-medium">{quote.project_type || "—"}</div>

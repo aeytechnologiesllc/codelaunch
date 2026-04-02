@@ -92,7 +92,7 @@ export function FAQ() {
                 >
                   <div className="flex items-center gap-3 sm:gap-4">
                     {/* Number */}
-                    <span className="text-text-muted/30 text-xs font-mono font-bold flex-shrink-0 w-6 text-right">
+                    <span className="hidden sm:block text-text-muted/30 text-xs font-mono font-bold flex-shrink-0 w-6 text-right">
                       {String(i + 1).padStart(2, "0")}
                     </span>
 

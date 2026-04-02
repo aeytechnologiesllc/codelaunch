@@ -24,7 +24,7 @@
 }
 
 /* ── Smooth scroll override (Lenis handles this) ── */
-html { scroll-behavior: auto; }
+html { scroll-behavior: auto; overflow-x: hidden; }
 
 body {
   background: var(--color-bg-primary);
@@ -155,7 +155,10 @@ body {
 /* ── Ambient background — persistent drifting orbs ── */
 .ambient-bg {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   z-index: 5;
   pointer-events: none;
   overflow: hidden;

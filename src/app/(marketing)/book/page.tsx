@@ -101,9 +101,9 @@ export default function BookPage() {
 
         {/* Form */}
         <ScrollReveal delay={0.15}>
-          <div className="glass-card p-8 sm:p-10">
+          <div className="glass-card p-5 sm:p-8 lg:p-10">
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid sm:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className={labelClasses}>
                     Name <span className="text-accent">*</span>
@@ -152,7 +152,7 @@ export default function BookPage() {
                 />
               </div>
 
-              <div className="grid sm:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="date" className={labelClasses}>
                     Preferred Date <span className="text-accent">*</span>

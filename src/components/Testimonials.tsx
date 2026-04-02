@@ -90,7 +90,7 @@ export function Testimonials() {
         </div>
 
         {/* Mobile: carousel */}
-        <div className="md:hidden">
+        <div className="md:hidden overflow-hidden">
           <div className="relative max-w-lg mx-auto">
             <AnimatePresence mode="wait">
               <motion.div

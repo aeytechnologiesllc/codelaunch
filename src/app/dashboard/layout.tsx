@@ -174,12 +174,12 @@ export default function DashboardLayout({
           </div>
 
           <div className="flex items-center gap-3">
-            <button className="w-8 h-8 rounded-lg bg-white/[0.03] border border-border flex items-center justify-center text-text-muted hover:text-text-primary transition-colors relative">
+            <button className="w-10 h-10 rounded-lg bg-white/[0.03] border border-border flex items-center justify-center text-text-muted hover:text-text-primary transition-colors relative">
               <Bell className="w-4 h-4" />
             </button>
             <button
               onClick={handleSignOut}
-              className="w-8 h-8 rounded-lg bg-white/[0.03] border border-border flex items-center justify-center text-text-muted hover:text-red-400 transition-colors"
+              className="w-10 h-10 rounded-lg bg-white/[0.03] border border-border flex items-center justify-center text-text-muted hover:text-red-400 transition-colors"
               title="Sign Out"
             >
               <LogOut className="w-4 h-4" />

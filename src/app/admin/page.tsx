@@ -72,7 +72,7 @@ export default function AdminOverview() {
       </motion.div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { label: "Total Quotes", value: stats.totalQuotes, icon: Package, color: "text-accent" },
           { label: "Active Projects", value: stats.activeProjects, icon: Clock, color: "text-amber-400" },

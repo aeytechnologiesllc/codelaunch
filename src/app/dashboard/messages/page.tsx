@@ -35,7 +35,7 @@ export default function MessagesPage() {
             }`}>
               {msg.initials}
             </div>
-            <div className={`max-w-[80%] ${msg.isTeam ? "" : "text-right"}`}>
+            <div className={`max-w-[88%] sm:max-w-[75%] ${msg.isTeam ? "" : "text-right"}`}>
               <div className={`glass-card p-4 ${
                 msg.isTeam ? "" : "bg-accent/5 border-accent/10"
               }`}>
