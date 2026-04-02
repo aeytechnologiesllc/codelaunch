@@ -40,8 +40,13 @@ Respond ONLY with valid JSON:
 If tooComplex: set reasonable estimates but explain this needs a dedicated discovery session to scope properly.`;
 
 export async function POST(req: NextRequest) {
+  let description = "";
+  let projectType = "";
+
   try {
-    const { description, projectType } = await req.json();
+    const body = await req.json();
+    description = body.description;
+    projectType = body.projectType;
 
     if (!description || typeof description !== "string") {
       return NextResponse.json({ error: "Description is required" }, { status: 400 });
@@ -112,7 +117,7 @@ export async function POST(req: NextRequest) {
         priceMin: parsed.priceMin || 15000,
         priceMax: parsed.priceMax || 50000,
         timeWeeks: parsed.timeWeeks || 12,
-        explanation: parsed.explanation || "This is an enterprise-level project that needs a dedicated discovery session to scope properly. Book a call for exact pricing.",
+        explanation: parsed.explanation || "This is an enterprise-level project that needs a dedicated discovery session to scope properly. Send your intake through the portal for exact pricing.",
       });
     }
 
@@ -141,7 +146,7 @@ function getFallbackEstimate(description: string) {
       description,
       complexity: "complex" as const,
       priceMin: 0, priceMax: 0, timeWeeks: 0,
-      explanation: "This is outside the scope of what we typically build. Please book a call to discuss.",
+      explanation: "This is outside the scope of what we typically build. Send your intake through the portal if you want us to review it manually.",
     };
   }
 
@@ -178,6 +183,6 @@ function getFallbackEstimate(description: string) {
     priceMin: prices.min,
     priceMax: prices.max,
     timeWeeks: prices.weeks,
-    explanation: `This appears to be a ${complexity}-complexity feature. This estimate covers architecture, development, testing, and deployment. Book a free call for exact pricing based on your specific requirements.`,
+    explanation: `This appears to be a ${complexity}-complexity feature. This estimate covers architecture, development, testing, and deployment. Continue through the portal for exact pricing based on your specific requirements.`,
   };
 }

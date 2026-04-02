@@ -86,7 +86,7 @@ export default function ServicesPage() {
         </ScrollReveal>
 
         <div className="space-y-16">
-          {services.map((s, i) => (
+          {services.map((s) => (
             <ScrollReveal key={s.id} delay={0.1}>
               <div id={s.id} className="glass-card p-8 lg:p-12 scroll-mt-28">
                 <div className="grid lg:grid-cols-2 gap-10">

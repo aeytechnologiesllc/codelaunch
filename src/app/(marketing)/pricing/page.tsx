@@ -1,17 +1,17 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Globe, Smartphone, Brain, Plug,
   Check, ArrowRight, Calculator, Clock, RefreshCw, Sparkles,
-  Zap, Shield, AlertTriangle, ChevronDown, ChevronUp, Users,
+  Zap, Shield, ChevronDown, ChevronUp,
   UtensilsCrossed, Wrench, Lightbulb, MessageSquare, Loader2,
-  TrendingUp, Star, Upload,
+  TrendingUp, Star,
 } from "lucide-react";
 import Link from "next/link";
-import { getTemplatesForContext, type DesignTemplate } from "@/components/DesignTemplates";
+import { getTemplatesForContext } from "@/components/DesignTemplates";
 
 /* ───────────────────────── Types ───────────────────────── */
 
@@ -249,7 +249,6 @@ export default function PricingPage() {
 
   // Save quote
   const [saveNotes, setSaveNotes] = useState("");
-  const [saveFiles, setSaveFiles] = useState<File[]>([]);
   const [saveName, setSaveName] = useState("");
   const [saveEmail, setSaveEmail] = useState("");
   const [savePhone, setSavePhone] = useState("");
@@ -314,7 +313,7 @@ export default function PricingPage() {
           priceMin: 500,
           priceMax: 2000,
           timeWeeks: 1,
-          explanation: "We couldn't analyze this automatically. This is a rough estimate — book a free call for exact pricing.",
+          explanation: "We couldn't analyze this automatically. This is a rough estimate — continue through the portal for an exact scope review.",
         });
       } else {
         setCustomEstimate(data);
@@ -326,44 +325,48 @@ export default function PricingPage() {
         priceMin: 500,
         priceMax: 2000,
         timeWeeks: 1,
-        explanation: "We couldn't analyze this automatically. This is a rough estimate — book a free call for exact pricing.",
+        explanation: "We couldn't analyze this automatically. This is a rough estimate — continue through the portal for an exact scope review.",
       });
     }
     setCustomLoading(false);
   }, [customText, projectType]);
 
-  const pricing = useMemo(() => {
-    if (!currentType) return { total: 0, weeks: 0, monthly: 0 };
+  let pricing = { total: 0, weeks: 0, monthly: 0 };
 
+  if (currentType) {
     const featureCost = selectedFeatures.reduce((sum, id) => {
-      const f = features.find((feat) => feat.id === id);
-      return sum + (f?.price || 0);
+      const feature = features.find((feat) => feat.id === id);
+      return sum + (feature?.price || 0);
     }, 0);
     const featureWeeks = selectedFeatures.reduce((sum, id) => {
-      const f = features.find((feat) => feat.id === id);
-      return sum + (f?.timeWeeks || 0);
+      const feature = features.find((feat) => feat.id === id);
+      return sum + (feature?.timeWeeks || 0);
     }, 0);
     const automationCost = selectedAutomations.reduce((sum, id) => {
-      for (const f of features) {
-        const auto = f.automations?.find((a) => a.id === id);
+      for (const feature of features) {
+        const auto = feature.automations?.find((automation) => automation.id === id);
         if (auto) return sum + auto.price;
       }
       return sum;
     }, 0);
     const automationWeeks = selectedAutomations.reduce((sum, id) => {
-      for (const f of features) {
-        const auto = f.automations?.find((a) => a.id === id);
+      for (const feature of features) {
+        const auto = feature.automations?.find((automation) => automation.id === id);
         if (auto) return sum + auto.timeWeeks;
       }
       return sum;
     }, 0);
 
-    const designCost = designOptions.find((d) => d.id === design)?.price || 0;
-    const revisionCost = revisionOptions.find((r) => r.id === revisions)?.price || 0;
-    const customCost = customAdded && customEstimate ? Math.round((customEstimate.priceMin + customEstimate.priceMax) / 2) : 0;
+    const designCost = designOptions.find((option) => option.id === design)?.price || 0;
+    const revisionCost = revisionOptions.find((option) => option.id === revisions)?.price || 0;
+    const customCost =
+      customAdded && customEstimate
+        ? Math.round((customEstimate.priceMin + customEstimate.priceMax) / 2)
+        : 0;
     const customWeeks = customAdded && customEstimate ? customEstimate.timeWeeks : 0;
 
-    let subtotal = currentType.basePrice + featureCost + automationCost + designCost + revisionCost + customCost;
+    let subtotal =
+      currentType.basePrice + featureCost + automationCost + designCost + revisionCost + customCost;
     let weeks = Math.ceil(currentType.baseWeeks + featureWeeks + automationWeeks + customWeeks);
 
     if (rushDelivery) {
@@ -371,9 +374,9 @@ export default function PricingPage() {
       weeks = Math.max(1, Math.ceil(weeks * 0.6));
     }
 
-    const monthly = maintenancePlans.find((m) => m.id === maintenance)?.price || 0;
-    return { total: subtotal, weeks, monthly };
-  }, [currentType, selectedFeatures, selectedAutomations, features, design, revisions, rushDelivery, maintenance, customAdded, customEstimate]);
+    const monthly = maintenancePlans.find((plan) => plan.id === maintenance)?.price || 0;
+    pricing = { total: subtotal, weeks, monthly };
+  }
 
   const saveQuote = async () => {
     if (!saveName.trim() || !saveEmail.trim() || !currentType) return;
@@ -390,6 +393,7 @@ export default function PricingPage() {
           projectType: currentType.id,
           selectedFeatures,
           selectedAutomations,
+          additionalNotes: saveNotes,
           customFeatureDescription: customText || null,
           customFeaturePrice: customAdded && customEstimate ? Math.round((customEstimate.priceMin + customEstimate.priceMax) / 2) : 0,
           designLevel: design,
@@ -1042,7 +1046,7 @@ export default function PricingPage() {
                         <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                       </div>
                       <h4 className="text-xs font-semibold mb-1">Free Project Brief</h4>
-                      <p className="text-text-muted text-[10px] leading-relaxed">After our call, you get a detailed project brief with wireframes — free, even if you don&apos;t proceed.</p>
+                      <p className="text-text-muted text-[10px] leading-relaxed">After your intake is reviewed, you get a detailed project brief with wireframes — free, even if you don&apos;t proceed.</p>
                     </div>
                     <div className="glass-card p-4 text-center">
                       <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-2">
@@ -1114,7 +1118,6 @@ export default function PricingPage() {
                           <input value={saveCompany} onChange={(e) => setSaveCompany(e.target.value)} placeholder="Company name" className="px-3 py-2.5 bg-bg-primary/50 border border-border rounded-lg text-sm placeholder:text-text-muted focus:outline-none focus:border-accent/30" />
                           <input value={savePhone} onChange={(e) => setSavePhone(e.target.value)} placeholder="Phone (optional)" className="px-3 py-2.5 bg-bg-primary/50 border border-border rounded-lg text-sm placeholder:text-text-muted focus:outline-none focus:border-accent/30" />
                         </div>
-                        {/* Optional notes + file upload */}
                         <div className="space-y-3 pt-2">
                           <div>
                             <label className="text-xs text-text-muted mb-1.5 block">Additional details (optional)</label>
@@ -1126,32 +1129,9 @@ export default function PricingPage() {
                               className="w-full px-3 py-2.5 bg-bg-primary/50 border border-border rounded-lg text-sm placeholder:text-text-muted focus:outline-none focus:border-accent/30 resize-none"
                             />
                           </div>
-                          <div>
-                            <label className="text-xs text-text-muted mb-1.5 block">Reference files (optional)</label>
-                            <label className="flex items-center gap-3 px-3 py-3 bg-bg-primary/50 border border-dashed border-border rounded-lg cursor-pointer hover:border-accent/20 transition-colors">
-                              <Upload className="w-4 h-4 text-text-muted" />
-                              <span className="text-xs text-text-muted">
-                                {saveFiles.length > 0 ? `${saveFiles.length} file${saveFiles.length > 1 ? "s" : ""} selected` : "Drop files or click — logos, screenshots, inspiration"}
-                              </span>
-                              <input
-                                type="file"
-                                multiple
-                                className="hidden"
-                                onChange={(e) => setSaveFiles(Array.from(e.target.files || []))}
-                                accept="image/*,.pdf,.doc,.docx,.fig,.sketch,.zip"
-                              />
-                            </label>
-                            {saveFiles.length > 0 && (
-                              <div className="mt-2 space-y-1">
-                                {saveFiles.map((f, i) => (
-                                  <div key={i} className="flex items-center justify-between text-xs text-text-muted bg-bg-primary/30 rounded px-2 py-1">
-                                    <span className="truncate">{f.name}</span>
-                                    <button onClick={() => setSaveFiles((prev) => prev.filter((_, j) => j !== i))} className="text-text-muted hover:text-text-primary ml-2 flex-shrink-0">&times;</button>
-                                  </div>
-                                ))}
-                              </div>
-                            )}
-                          </div>
+                          <p className="text-[11px] text-text-muted">
+                            File uploads open inside the portal after the workspace is created, so nothing gets lost before kickoff.
+                          </p>
                         </div>
                         <div className="flex gap-3">
                           <button
@@ -1172,17 +1152,17 @@ export default function PricingPage() {
                         <h3 className="text-lg font-bold">Quote Saved!</h3>
                         <div className="text-2xl font-bold gradient-text">{savedQuoteNumber}</div>
                         <p className="text-text-muted text-sm">
-                          Reference this number when you book a call. Your configuration and price are locked.
+                          Your configuration and price are locked. Create your portal access with this email to continue.
                         </p>
-                        <Link href="/contact" className="group inline-flex items-center gap-2 px-7 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-accent hover:bg-cta-hover transition-all text-sm">
-                          Book Your Free Call <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        <Link href={`/portal/signup?email=${encodeURIComponent(saveEmail)}&quote=${encodeURIComponent(savedQuoteNumber)}`} className="group inline-flex items-center gap-2 px-7 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-accent hover:bg-cta-hover transition-all text-sm">
+                          Create Portal Access <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </Link>
                       </div>
                     )}
                   </div>
 
                   <div className="mt-4 text-center">
-                    <button onClick={() => { setStep(0); setProjectType(null); setSelectedFeatures([]); setSelectedAutomations([]); setSelectedTemplate(null); setDesign("standard"); setRevisions("2"); setMaintenance("none"); setRushDelivery(false); setPaymentPlan("full"); setCustomEstimate(null); setCustomAdded(false); setCustomText(""); setSavedQuoteNumber(null); setSaveName(""); setSaveEmail(""); setSavePhone(""); setSaveCompany(""); setSaveNotes(""); setSaveFiles([]); }}
+                    <button onClick={() => { setStep(0); setProjectType(null); setSelectedFeatures([]); setSelectedAutomations([]); setSelectedTemplate(null); setDesign("standard"); setRevisions("2"); setMaintenance("none"); setRushDelivery(false); setPaymentPlan("full"); setCustomEstimate(null); setCustomAdded(false); setCustomText(""); setSavedQuoteNumber(null); setSaveName(""); setSaveEmail(""); setSavePhone(""); setSaveCompany(""); setSaveNotes(""); }}
                       className="inline-flex items-center gap-2 text-text-muted text-sm hover:text-text-primary transition-all">
                       <RefreshCw className="w-3.5 h-3.5" /> Start Over
                     </button>
@@ -1253,13 +1233,13 @@ export default function PricingPage() {
                       <div className="text-[10px] text-text-muted mb-1">Your Quote</div>
                       <div className="text-sm font-bold text-accent">{savedQuoteNumber}</div>
                     </div>
-                    <Link href="/contact" className="block w-full text-center px-6 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-accent hover:bg-cta-hover transition-all text-sm">
-                      Book Free Call
+                    <Link href={`/portal/signup?email=${encodeURIComponent(saveEmail)}&quote=${encodeURIComponent(savedQuoteNumber)}`} className="block w-full text-center px-6 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-accent hover:bg-cta-hover transition-all text-sm">
+                      Create Portal Access
                     </Link>
                   </>
                 ) : (
                   <div className="pt-3 border-t border-border text-center">
-                    <p className="text-text-muted text-[10px]">Save your quote to book a call</p>
+                    <p className="text-text-muted text-[10px]">Save your quote to continue in the portal</p>
                   </div>
                 )}
               </div>

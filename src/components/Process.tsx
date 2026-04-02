@@ -7,22 +7,22 @@ const steps = [
   {
     number: "01",
     icon: MessageSquare,
-    title: "Discovery",
-    description: "30-minute call. We listen to your problems, not pitch our solutions. If we can't help, we'll tell you.",
-    duration: "Free · 30 min",
+    title: "Intake",
+    description: "You send your requirements once. We review them, ask clear portal-based follow-up questions, and keep the scope organized from day one.",
+    duration: "Same day start",
   },
   {
     number: "02",
     icon: Palette,
     title: "Design",
-    description: "We design every screen and walk you through it. You don't pay for code until you love the design.",
+    description: "We design the screens, share them in the portal, and collect feedback there so approvals stay crystal clear.",
     duration: "1-2 weeks",
   },
   {
     number: "03",
     icon: Code2,
     title: "Build",
-    description: "Weekly demos. You see progress every 7 days. Change your mind? We adjust. No surprises.",
+    description: "You see progress through portal updates, milestone check-ins, and deliverables tied to the real project workspace.",
     duration: "4-8 weeks",
   },
   {

@@ -12,11 +12,18 @@ export default function SignupPage() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [company, setCompany] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(() => {
+    if (typeof window === "undefined") return "";
+    return new URLSearchParams(window.location.search).get("email") || "";
+  });
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [linkedQuote] = useState<string | null>(() => {
+    if (typeof window === "undefined") return null;
+    return new URLSearchParams(window.location.search).get("quote");
+  });
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,7 +67,10 @@ export default function SignupPage() {
             </span>
           </Link>
           <h1 className="text-2xl font-bold mb-2">Create Your Account</h1>
-          <p className="text-text-muted text-sm">Track your project, upload files, and chat with your team</p>
+          <p className="text-text-muted text-sm">Track your project, review updates, and keep everything in one portal thread.</p>
+          {linkedQuote ? (
+            <p className="text-accent text-xs mt-2">We&apos;ll connect quote {linkedQuote} after you sign in.</p>
+          ) : null}
         </div>
 
         <div className="glass-card p-8">

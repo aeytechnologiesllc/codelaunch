@@ -9,7 +9,10 @@ import { signIn } from "@/lib/auth";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(() => {
+    if (typeof window === "undefined") return "";
+    return new URLSearchParams(window.location.search).get("email") || "";
+  });
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -50,7 +53,7 @@ export default function LoginPage() {
             </span>
           </Link>
           <h1 className="text-2xl font-bold mb-2">Welcome Back</h1>
-          <p className="text-text-muted text-sm">Log in to track your project progress</p>
+          <p className="text-text-muted text-sm">Log in to track your project progress and keep the conversation in the portal.</p>
         </div>
 
         <div className="glass-card p-8">

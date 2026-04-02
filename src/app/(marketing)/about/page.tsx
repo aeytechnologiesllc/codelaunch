@@ -1,7 +1,7 @@
 "use client";
 
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { Code2, Zap, Heart, Shield, MapPin, Building, Calendar, Users, Award, CheckCircle2 } from "lucide-react";
+import { Code2, Zap, Heart, Shield, MapPin, Building, Calendar, Award, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
 const values = [

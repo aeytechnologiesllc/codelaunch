@@ -1,125 +1,264 @@
-"use client";
+import { Download, FolderOpen, MessageSquareText, Receipt } from "lucide-react";
+import Link from "next/link";
+import { AdminFileUploader } from "@/components/dashboard/admin/AdminForms";
+import {
+  AdminEmptyState,
+  AdminPageIntro,
+  AdminPanel,
+  AdminStatusBadge,
+} from "@/components/dashboard/admin/AdminPrimitives";
+import { getAdminWorkspaceData, requireAdminWorkspace } from "@/lib/admin-data";
+import { getClientPortalData, requireCurrentUserContext } from "@/lib/portal-data";
+import { formatFileSize, formatRelativeTime, formatShortDate } from "@/lib/format";
 
-import { motion } from "framer-motion";
-import { Upload, FileImage, FileText, File, Download, Trash2, FolderOpen } from "lucide-react";
-
-const files = [
-  { name: "brand-guidelines.pdf", type: "pdf", size: "2.4 MB", uploaded: "Mar 10, 2026", by: "You", category: "References" },
-  { name: "logo-full-color.png", type: "image", size: "840 KB", uploaded: "Mar 10, 2026", by: "You", category: "Brand Assets" },
-  { name: "logo-white.svg", type: "image", size: "12 KB", uploaded: "Mar 10, 2026", by: "You", category: "Brand Assets" },
-  { name: "menu-items-spreadsheet.xlsx", type: "document", size: "156 KB", uploaded: "Mar 11, 2026", by: "You", category: "Content" },
-  { name: "competitor-screenshots.zip", type: "archive", size: "8.2 MB", uploaded: "Mar 12, 2026", by: "You", category: "References" },
-  { name: "wireframes-v1.fig", type: "document", size: "3.1 MB", uploaded: "Mar 14, 2026", by: "CodeLaunch", category: "Design" },
-  { name: "design-concept-A.fig", type: "document", size: "5.8 MB", uploaded: "Mar 16, 2026", by: "CodeLaunch", category: "Design" },
-  { name: "design-concept-B.fig", type: "document", size: "5.4 MB", uploaded: "Mar 16, 2026", by: "CodeLaunch", category: "Design" },
-  { name: "approved-design-final.fig", type: "document", size: "6.2 MB", uploaded: "Mar 18, 2026", by: "CodeLaunch", category: "Design" },
-  { name: "checkout-flow-v2.fig", type: "document", size: "2.1 MB", uploaded: "Mar 26, 2026", by: "CodeLaunch", category: "Design" },
-  { name: "weekly-demo-recording-1.mp4", type: "video", size: "48 MB", uploaded: "Mar 21, 2026", by: "CodeLaunch", category: "Demos" },
-  { name: "weekly-demo-recording-2.mp4", type: "video", size: "52 MB", uploaded: "Mar 28, 2026", by: "CodeLaunch", category: "Demos" },
-];
-
-const categories = ["All", "References", "Brand Assets", "Content", "Design", "Demos"];
-
-function FileIcon({ type }: { type: string }) {
-  switch (type) {
-    case "image": return <FileImage className="w-5 h-5 text-accent" />;
-    case "pdf": return <FileText className="w-5 h-5 text-red-400" />;
-    default: return <File className="w-5 h-5 text-text-muted" />;
-  }
+interface FilesPageProps {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }
 
-export default function FilesPage() {
-  return (
-    <div className="max-w-5xl mx-auto space-y-6">
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-xl sm:text-2xl font-bold mb-1">Files & Uploads</h1>
-        <p className="text-text-muted text-sm">Upload references, brand assets, and content. Download deliverables from the team.</p>
-      </motion.div>
+function firstValue(value?: string | string[]) {
+  return Array.isArray(value) ? value[0] : value;
+}
 
-      {/* Upload area */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-        className="glass-card p-8 text-center border-dashed border-2 border-border hover:border-accent/30 transition-colors cursor-pointer group"
-      >
-        <Upload className="w-10 h-10 text-text-muted mx-auto mb-3 group-hover:text-accent transition-colors" />
-        <p className="text-sm font-medium mb-1">Drop files here or click to upload</p>
-        <p className="text-text-muted text-xs">PNG, JPG, PDF, DOCX, ZIP up to 50MB</p>
-      </motion.div>
+export default async function FilesPage({ searchParams }: FilesPageProps) {
+  const context = await requireCurrentUserContext();
 
-      {/* Filter tabs */}
-      <div className="flex gap-2 overflow-x-auto pb-2">
-        {categories.map((cat, i) => (
-          <button
-            key={cat}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
-              i === 0 ? "bg-accent/10 text-accent" : "text-text-muted hover:text-text-primary hover:bg-white/[0.03]"
-            }`}
+  if (context.isAdmin) {
+    const adminContext = await requireAdminWorkspace();
+    const workspace = await getAdminWorkspaceData(adminContext.profile.id);
+    const resolvedSearchParams = searchParams ? await searchParams : {};
+    const projectId = firstValue(resolvedSearchParams.project);
+    const selectedProject =
+      workspace.projects.find((project) => project.id === projectId) ?? workspace.projects[0] ?? null;
+
+    const projectFiles = workspace.files.filter((file) => file.project_id === selectedProject?.id);
+
+    return (
+      <div className="space-y-8">
+        <AdminPageIntro
+          eyebrow="Files"
+          title="Keep project assets, exports, and deliverables attached to the real workspace."
+          description="Upload directly into the project, then give the client one clean place to review what was shared."
+        />
+
+        <div className="grid gap-6 xl:grid-cols-[0.84fr_1.16fr]">
+          <AdminPanel
+            title="Project library"
+            description="Choose the workspace whose files you want to manage."
           >
-            {cat}
-          </button>
-        ))}
-      </div>
+            {workspace.projects.length > 0 ? (
+              <div className="space-y-3">
+                {workspace.projects.map((project) => {
+                  const isSelected = project.id === selectedProject?.id;
 
-      {/* File list */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="glass-card overflow-hidden"
-      >
-        {/* Header */}
-        <div className="hidden sm:grid grid-cols-12 gap-4 px-5 py-3 border-b border-border text-xs text-text-muted font-medium">
-          <div className="col-span-5">File</div>
-          <div className="col-span-2">Category</div>
-          <div className="col-span-2">Uploaded</div>
-          <div className="col-span-1">Size</div>
-          <div className="col-span-2 text-right">Actions</div>
-        </div>
-
-        {/* Rows */}
-        {files.map((file, i) => (
-          <div
-            key={file.name}
-            className={`grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-4 px-5 py-3.5 items-center hover:bg-white/[0.02] transition-colors ${
-              i < files.length - 1 ? "border-b border-border" : ""
-            }`}
-          >
-            <div className="sm:col-span-5 flex items-center gap-3">
-              <FileIcon type={file.type} />
-              <div>
-                <div className="text-sm font-medium truncate">{file.name}</div>
-                <div className="sm:hidden text-[10px] text-text-muted">{file.category} · {file.size} · {file.by}</div>
+                  return (
+                    <Link
+                      key={project.id}
+                      href={`/dashboard/files?project=${project.id}`}
+                      className={`block rounded-[24px] border px-4 py-4 transition ${
+                        isSelected
+                          ? "border-[#8ae3b4]/25 bg-[linear-gradient(135deg,rgba(138,227,180,0.16),rgba(131,214,255,0.05))]"
+                          : "border-white/8 bg-white/[0.02] hover:border-white/16 hover:bg-white/[0.05]"
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <div className="text-sm font-medium text-white">{project.name}</div>
+                          <div className="mt-1 text-xs uppercase tracking-[0.2em] text-[#7d8795]">
+                            {project.project_number}
+                          </div>
+                        </div>
+                        <AdminStatusBadge value={project.status} />
+                      </div>
+                      <div className="mt-3 flex items-center justify-between gap-3 text-xs text-[#7f8794]">
+                        <span>{project.fileCount} files</span>
+                        <span>{formatRelativeTime(project.lastActivityAt || project.updated_at)}</span>
+                      </div>
+                    </Link>
+                  );
+                })}
               </div>
-            </div>
-            <div className="hidden sm:block sm:col-span-2">
-              <span className="text-xs text-text-muted bg-bg-primary/50 px-2 py-0.5 rounded">{file.category}</span>
-            </div>
-            <div className="hidden sm:block sm:col-span-2 text-xs text-text-muted">
-              <div>{file.uploaded}</div>
-              <div className="text-[10px]">by {file.by}</div>
-            </div>
-            <div className="hidden sm:block sm:col-span-1 text-xs text-text-muted">{file.size}</div>
-            <div className="hidden sm:flex sm:col-span-2 justify-end gap-2">
-              <button className="p-1.5 rounded-lg hover:bg-white/[0.05] text-text-muted hover:text-accent transition-colors">
-                <Download className="w-3.5 h-3.5" />
-              </button>
-              {file.by === "You" && (
-                <button className="p-1.5 rounded-lg hover:bg-white/[0.05] text-text-muted hover:text-red-400 transition-colors">
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
-              )}
-            </div>
-          </div>
-        ))}
-      </motion.div>
+            ) : (
+              <AdminEmptyState
+                title="No projects yet"
+                description="Create a project workspace first, then file management will open automatically."
+              />
+            )}
+          </AdminPanel>
 
-      {/* Storage info */}
-      <div className="flex items-center gap-3 text-xs text-text-muted">
-        <FolderOpen className="w-4 h-4" />
-        <span>{files.length} files · ~134 MB used</span>
+          <div className="space-y-6">
+            <AdminPanel
+              title={selectedProject ? selectedProject.name : "File workspace"}
+              description={
+                selectedProject
+                  ? "Upload files into this project and make them immediately visible in the client portal."
+                  : "Choose a project to manage its files."
+              }
+              action={
+                selectedProject ? (
+                  <div className="flex flex-wrap gap-2">
+                    <Link
+                      href={`/dashboard/messages?project=${selectedProject.id}`}
+                      className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-[#d5dbe3] transition hover:bg-white/[0.06] hover:text-white"
+                    >
+                      <MessageSquareText className="h-3.5 w-3.5" />
+                      Messages
+                    </Link>
+                    <Link
+                      href={`/dashboard/invoices?project=${selectedProject.id}`}
+                      className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-xs text-[#d5dbe3] transition hover:bg-white/[0.06] hover:text-white"
+                    >
+                      <Receipt className="h-3.5 w-3.5" />
+                      Invoices
+                    </Link>
+                  </div>
+                ) : null
+              }
+            >
+              {selectedProject ? (
+                <div className="space-y-6">
+                  <div className="grid gap-4 md:grid-cols-3">
+                    <div className="rounded-[22px] border border-white/8 bg-white/[0.03] px-5 py-4">
+                      <div className="text-[11px] uppercase tracking-[0.18em] text-[#7d8795]">Client</div>
+                      <div className="mt-2 text-sm font-medium text-white">
+                        {selectedProject.client_name || selectedProject.client_email || "Client pending"}
+                      </div>
+                    </div>
+                    <div className="rounded-[22px] border border-white/8 bg-white/[0.03] px-5 py-4">
+                      <div className="text-[11px] uppercase tracking-[0.18em] text-[#7d8795]">Files</div>
+                      <div className="mt-2 text-sm font-medium text-white">{projectFiles.length}</div>
+                    </div>
+                    <div className="rounded-[22px] border border-white/8 bg-white/[0.03] px-5 py-4">
+                      <div className="text-[11px] uppercase tracking-[0.18em] text-[#7d8795]">Last upload</div>
+                      <div className="mt-2 text-sm font-medium text-white">
+                        {formatRelativeTime(projectFiles[0]?.created_at)}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="rounded-[26px] border border-white/10 bg-[linear-gradient(180deg,rgba(18,21,28,0.96),rgba(10,12,16,0.98))] px-5 py-5 shadow-[0_18px_45px_rgba(0,0,0,0.28)]">
+                    <div className="mb-5">
+                      <div className="text-[11px] uppercase tracking-[0.22em] text-[#7d8795]">Upload</div>
+                      <h2 className="mt-2 text-xl font-semibold text-white">
+                        Add files directly to the client workspace.
+                      </h2>
+                    </div>
+                    <AdminFileUploader projectId={selectedProject.id} />
+                  </div>
+
+                  {projectFiles.length > 0 ? (
+                    <div className="space-y-3">
+                      {projectFiles.map((file) => (
+                        <div
+                          key={file.id}
+                          className="flex flex-col gap-4 rounded-[24px] border border-white/8 bg-white/[0.02] px-5 py-5 md:flex-row md:items-center md:justify-between"
+                        >
+                          <div>
+                            <div className="text-sm font-medium text-white">{file.name}</div>
+                            <div className="mt-2 text-sm text-[#9fa8b5]">
+                              {file.category || "General"} · {formatFileSize(file.size_bytes)} ·{" "}
+                              {file.uploaded_by_label || "CodeLaunch Team"}
+                            </div>
+                            <div className="mt-2 text-xs text-[#7f8794]">{formatShortDate(file.created_at)}</div>
+                          </div>
+                          {file.download_url ? (
+                            <Link
+                              href={file.download_url}
+                              target="_blank"
+                              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-[#d4dae3] transition hover:bg-white/[0.06] hover:text-white"
+                            >
+                              <Download className="h-4 w-4" />
+                              Open file
+                            </Link>
+                          ) : (
+                            <div className="text-sm text-[#7f8794]">Link not available</div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <AdminEmptyState
+                      title="No files on this project yet"
+                      description="Upload the first asset, export, or deliverable and it will appear here and in the client portal."
+                    />
+                  )}
+                </div>
+              ) : (
+                <AdminEmptyState
+                  title="No project selected"
+                  description="Choose a project from the left rail to upload and review files."
+                />
+              )}
+            </AdminPanel>
+          </div>
+        </div>
       </div>
+    );
+  }
+
+  const portal = await getClientPortalData(context.profile.id);
+
+  return (
+    <div className="mx-auto max-w-5xl space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold">Files & Uploads</h1>
+        <p className="mt-1 text-sm text-text-muted">
+          Shared assets, exports, and delivery files appear here once your workspace is active.
+        </p>
+      </div>
+
+      {portal.latestProject ? (
+        portal.files.length > 0 ? (
+          <div className="space-y-3">
+            {portal.files.map((file) => (
+              <div
+                key={file.id}
+                className="flex flex-col gap-4 rounded-2xl border border-border p-5 sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div>
+                  <div className="text-sm font-medium">{file.name}</div>
+                  <div className="mt-2 text-sm text-text-secondary">
+                    {file.category || "General"} · {formatFileSize(file.size_bytes)} ·{" "}
+                    {file.uploaded_by_label || "Project team"}
+                  </div>
+                  <div className="mt-2 text-xs text-text-muted">{formatShortDate(file.created_at)}</div>
+                </div>
+                {file.download_url ? (
+                  <Link
+                    href={file.download_url}
+                    target="_blank"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-border px-4 py-2.5 text-sm text-text-secondary transition hover:bg-white/[0.03] hover:text-text-primary"
+                  >
+                    <Download className="h-4 w-4" />
+                    Open file
+                  </Link>
+                ) : (
+                  <div className="text-sm text-text-muted">Link not available</div>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="glass-card p-8 text-center">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-accent/10">
+              <FolderOpen className="h-5 w-5 text-accent" />
+            </div>
+            <h2 className="mt-4 text-lg font-semibold">No files yet</h2>
+            <p className="mt-2 text-sm text-text-muted">
+              Files will appear here as soon as your team shares assets or deliverables in the portal.
+            </p>
+          </div>
+        )
+      ) : (
+        <div className="glass-card p-8 text-center">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-accent/10">
+            <FolderOpen className="h-5 w-5 text-accent" />
+          </div>
+          <h2 className="mt-4 text-lg font-semibold">Workspace not active yet</h2>
+          <p className="mt-2 text-sm text-text-muted">
+            We open file sharing when the project workspace is created, so the portal stays clean and focused.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
