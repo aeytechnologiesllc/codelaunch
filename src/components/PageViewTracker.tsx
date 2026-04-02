@@ -19,6 +19,17 @@ export function PageViewTracker() {
 
   useEffect(() => {
     if (!pathname) return;
+    const hostname = window.location.hostname.toLowerCase();
+
+    // Keep analytics focused on the real site. Preview deployments can sit
+    // behind Vercel protection, which makes the beacon look like a broken app.
+    if (
+      hostname === "localhost" ||
+      hostname === "127.0.0.1" ||
+      hostname.endsWith(".vercel.app")
+    ) {
+      return;
+    }
 
     const payload = {
       path: pathname,
