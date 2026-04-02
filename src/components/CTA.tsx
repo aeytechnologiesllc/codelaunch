@@ -31,7 +31,7 @@ export function CTA() {
         <ScrollReveal delay={0.2}>
           <div className="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
             {/* Option 1: Talk to us */}
-            <Link href="/contact">
+            <Link href="/book">
               <div className="glass-card p-8 text-left group hover:border-accent/20 transition-all duration-300 h-full">
                 <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-5 group-hover:bg-accent/20 transition-colors">
                   <Zap className="w-6 h-6 text-accent" />

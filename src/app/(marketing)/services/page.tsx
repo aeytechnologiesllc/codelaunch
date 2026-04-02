@@ -131,7 +131,7 @@ export default function ServicesPage() {
               <Link href="/pricing" className="px-7 py-3.5 bg-cta text-cta-text font-semibold rounded-xl glow-green hover:bg-cta-hover transition-all">
                 Try the Pricing Calculator
               </Link>
-              <Link href="/contact" className="px-7 py-3.5 bg-glass border border-glass-border rounded-xl text-text-secondary hover:text-text-primary transition-all font-medium">
+              <Link href="/book" className="px-7 py-3.5 bg-glass border border-glass-border rounded-xl text-text-secondary hover:text-text-primary transition-all font-medium">
                 Book a Free Call
               </Link>
             </div>

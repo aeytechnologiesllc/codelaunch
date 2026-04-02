@@ -40,7 +40,6 @@ export function Footer() {
                 { label: "About Us", href: "/about" },
                 { label: "Pricing", href: "/pricing" },
                 { label: "Book a Call", href: "/book" },
-                { label: "Contact", href: "/contact" },
               ].map((l) => (
                 <li key={l.label}><Link href={l.href} className="footer-link text-text-muted hover:text-text-primary transition-colors text-sm">{l.label}</Link></li>
               ))}

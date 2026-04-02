@@ -1167,7 +1167,7 @@ export default function PricingPage() {
                         <p className="text-text-muted text-sm">
                           Reference this number when you book a call. Your configuration and price are locked.
                         </p>
-                        <Link href="/contact" className="group inline-flex items-center gap-2 px-7 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-accent hover:bg-cta-hover transition-all text-sm">
+                        <Link href="/book" className="group inline-flex items-center gap-2 px-7 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-accent hover:bg-cta-hover transition-all text-sm">
                           Book Your Free Call <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </Link>
                       </div>
@@ -1246,7 +1246,7 @@ export default function PricingPage() {
                       <div className="text-[10px] text-text-muted mb-1">Your Quote</div>
                       <div className="text-sm font-bold text-accent">{savedQuoteNumber}</div>
                     </div>
-                    <Link href="/contact" className="block w-full text-center px-6 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-accent hover:bg-cta-hover transition-all text-sm">
+                    <Link href="/book" className="block w-full text-center px-6 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-accent hover:bg-cta-hover transition-all text-sm">
                       Book Free Call
                     </Link>
                   </>

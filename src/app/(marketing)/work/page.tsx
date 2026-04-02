@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, X, Check, ExternalLink } from "lucide-react";
+import { ArrowUpRight, X, Check } from "lucide-react";
 import Image from "next/image";
 
 const projects = [
@@ -90,6 +90,16 @@ const projects = [
 export default function WorkPage() {
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [selectedProject]);
+
   return (
     <div className="pt-28 pb-20">
       <div className="max-w-7xl mx-auto px-6">
@@ -171,7 +181,7 @@ export default function WorkPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
             onClick={() => setSelectedProject(null)}
           >
             <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
@@ -182,7 +192,7 @@ export default function WorkPage() {
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.2 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative glass-card max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+              className="relative glass-card max-w-4xl w-full max-h-[90vh] overflow-y-auto overscroll-contain"
             >
               {/* Screenshot in modal */}
               <div className="relative aspect-[16/8] overflow-hidden rounded-t-2xl">
@@ -249,18 +259,12 @@ export default function WorkPage() {
                   </div>
 
                   {/* CTA */}
-                  <div className="pt-6 border-t border-border flex flex-wrap gap-4">
-                    <a
-                      href="/contact"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-cta text-cta-text font-semibold rounded-xl btn-glow hover:bg-cta-hover transition-all text-sm"
-                    >
-                      Want Something Like This? <ExternalLink className="w-4 h-4" />
-                    </a>
+                  <div className="pt-6 border-t border-border">
                     <a
                       href="/pricing"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-glass border border-glass-border rounded-xl text-text-secondary hover:text-text-primary transition-all text-sm font-medium"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-cta text-cta-text font-semibold rounded-xl btn-glow hover:bg-cta-hover transition-all text-sm"
                     >
-                      See Pricing
+                      I Want Something Like This <ArrowUpRight className="w-4 h-4" />
                     </a>
                   </div>
                 </div>
