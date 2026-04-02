@@ -4,8 +4,9 @@ import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  CheckCircle2, FileText, Sparkles, Rocket, Mail, MessageSquare, Star,
+  CheckCircle2, Circle, Clock, FileText, Sparkles, Rocket, Mail, MessageSquare, Star,
 } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 const welcomeSteps = [
   { title: "Project Received", description: "We've saved your configuration and pricing.", icon: CheckCircle2, done: true },
@@ -23,6 +24,14 @@ export default function DashboardPage() {
   );
 }
 
+interface ProjectData {
+  id: string;
+  name: string;
+  status: string;
+  progress: number;
+  milestones: { id: string; title: string; status: string; completed_at: string | null; sort_order: number }[];
+}
+
 function DashboardContent() {
   const searchParams = useSearchParams();
   const quoteId = searchParams.get("quoteId");
@@ -30,6 +39,8 @@ function DashboardContent() {
     if (typeof window === "undefined") return false;
     return !sessionStorage.getItem("cl_celebrated");
   });
+  const [project, setProject] = useState<ProjectData | null>(null);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   // Show celebration once per session, then never again
   useEffect(() => {
@@ -41,6 +52,35 @@ function DashboardContent() {
       return () => clearTimeout(timer);
     }
   }, [showCelebration]);
+
+  // Fetch real project data from Supabase
+  useEffect(() => {
+    const fetchProject = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { setDataLoaded(true); return; }
+
+      // Find project belonging to this user
+      const { data: projects } = await supabase
+        .from("projects")
+        .select("*, milestones(*)")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(1);
+
+      if (projects && projects.length > 0) {
+        const p = projects[0];
+        setProject({
+          id: p.id,
+          name: p.name,
+          status: p.status,
+          progress: p.progress,
+          milestones: (p.milestones || []).sort((a: { sort_order: number }, b: { sort_order: number }) => a.sort_order - b.sort_order),
+        });
+      }
+      setDataLoaded(true);
+    };
+    fetchProject();
+  }, []);
 
   return (
     <>
@@ -132,9 +172,74 @@ function DashboardContent() {
       </AnimatePresence>
 
       {/* Dashboard content */}
-      {quoteId ? (
+      {!dataLoaded ? (
+        <div className="flex items-center justify-center h-40 text-text-muted text-sm">Loading your projects...</div>
+      ) : project ? (
+        /* Real project with milestones from Supabase */
+        <div className="max-w-3xl mx-auto space-y-6">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+            <h1 className="text-xl sm:text-2xl font-bold mb-1">{project.name}</h1>
+            <p className="text-text-muted text-sm capitalize">{project.status.replace("_", " ")}</p>
+          </motion.div>
+
+          {/* Progress bar */}
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="glass-card p-5">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-semibold">Project Progress</span>
+              <span className="text-accent font-bold text-lg">{project.progress}%</span>
+            </div>
+            <div className="w-full h-2.5 bg-bg-elevated rounded-full overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: `${project.progress}%` }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                className="h-full bg-gradient-to-r from-accent to-accent-hover rounded-full"
+              />
+            </div>
+          </motion.div>
+
+          {/* Milestones */}
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-card p-6">
+            <h2 className="text-sm font-semibold mb-5">Milestones</h2>
+            <div className="space-y-3">
+              {project.milestones.map((m, i) => (
+                <div key={m.id} className="flex items-start gap-4">
+                  <div className="flex flex-col items-center">
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                      m.status === "completed" ? "bg-accent/15 text-accent"
+                        : m.status === "in_progress" ? "bg-amber-400/15 text-amber-400"
+                        : "bg-bg-elevated text-text-muted"
+                    }`}>
+                      {m.status === "completed" ? <CheckCircle2 className="w-4 h-4" />
+                        : m.status === "in_progress" ? <Clock className="w-4 h-4" />
+                        : <Circle className="w-4 h-4" />}
+                    </div>
+                    {i < project.milestones.length - 1 && (
+                      <div className={`w-px h-5 mt-1 ${m.status === "completed" ? "bg-accent/30" : "bg-border"}`} />
+                    )}
+                  </div>
+                  <div className="pt-1.5">
+                    <h3 className={`text-sm font-semibold ${
+                      m.status === "completed" ? "text-accent"
+                        : m.status === "in_progress" ? "text-text-primary"
+                        : "text-text-muted"
+                    }`}>
+                      {m.title}
+                      {m.status === "completed" && <span className="ml-2 text-[9px] text-accent bg-accent/10 px-1.5 py-0.5 rounded">Done</span>}
+                      {m.status === "in_progress" && <span className="ml-2 text-[9px] text-amber-400 bg-amber-400/10 px-1.5 py-0.5 rounded animate-pulse">In Progress</span>}
+                    </h3>
+                    {m.completed_at && (
+                      <p className="text-text-muted text-[10px] mt-0.5">Completed {new Date(m.completed_at).toLocaleDateString()}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      ) : quoteId ? (
         <div className="max-w-3xl mx-auto space-y-8">
-          {/* Quote flow — project received */}
+          {/* Quote flow — project received but not started yet */}
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center">
             <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mx-auto mb-4">
               <Rocket className="w-8 h-8 text-accent" />
