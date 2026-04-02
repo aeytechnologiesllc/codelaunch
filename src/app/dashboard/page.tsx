@@ -4,15 +4,15 @@ import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  CheckCircle2, FileText, Sparkles, Rocket, Mail, MessageSquare, Phone, Star,
+  CheckCircle2, FileText, Sparkles, Rocket, Mail, MessageSquare, Star,
 } from "lucide-react";
 
 const welcomeSteps = [
   { title: "Project Received", description: "We've saved your configuration and pricing.", icon: CheckCircle2, done: true },
   { title: "Team Review", description: "Our team is reviewing your requirements.", icon: FileText, done: false, active: true },
-  { title: "Kickoff Call", description: "We'll schedule a call to discuss your project in detail.", icon: Phone, done: false },
+  { title: "We Reach Out", description: "We'll email you with next steps, questions, and a project brief.", icon: Mail, done: false },
   { title: "Design Phase", description: "We create wireframes and designs for your approval.", icon: Sparkles, done: false },
-  { title: "Development Begins", description: "Your software gets built with weekly progress demos.", icon: Rocket, done: false },
+  { title: "Development", description: "We start building your project. You'll track progress right here in your dashboard.", icon: Rocket, done: false },
 ];
 
 export default function DashboardPage() {
@@ -179,8 +179,8 @@ function DashboardContent() {
               <div>
                 <h3 className="text-sm font-semibold mb-1">Check Your Email</h3>
                 <p className="text-text-muted text-xs leading-relaxed">
-                  You&apos;ll hear from us within 24 hours to schedule your kickoff call.
-                  We&apos;ll also send you a detailed project brief and next steps via email and in-app message.
+                  You&apos;ll hear from us within 24 hours with next steps, questions about your project, and a detailed project brief.
+                  All communication happens via email and right here in your dashboard.
                 </p>
               </div>
             </div>
@@ -234,7 +234,7 @@ function DashboardContent() {
                 <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0 text-accent text-xs font-bold">2</div>
                 <div>
                   <h3 className="text-sm font-semibold">We Review & Kick Off</h3>
-                  <p className="text-text-muted text-xs mt-0.5">Our team reviews your configuration and schedules a kickoff call within 24 hours.</p>
+                  <p className="text-text-muted text-xs mt-0.5">Our team reviews your configuration and reaches out via email within 24 hours.</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
