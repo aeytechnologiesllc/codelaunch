@@ -86,7 +86,7 @@ export default function ServicesPage() {
         </ScrollReveal>
 
         <div className="space-y-16">
-          {services.map((s, i) => (
+          {services.map((s) => (
             <ScrollReveal key={s.id} delay={0.1}>
               <div id={s.id} className="glass-card p-8 lg:p-12 scroll-mt-28">
                 <div className="grid lg:grid-cols-2 gap-10">
@@ -132,7 +132,7 @@ export default function ServicesPage() {
                 Try the Pricing Calculator
               </Link>
               <Link href="/book" className="px-7 py-3.5 bg-glass border border-glass-border rounded-xl text-text-secondary hover:text-text-primary transition-all font-medium">
-                Book a Free Call
+                Start in the Portal
               </Link>
             </div>
           </div>

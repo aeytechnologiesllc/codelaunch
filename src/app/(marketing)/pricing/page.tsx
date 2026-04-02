@@ -2,17 +2,18 @@
 
 import { useState, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Globe, Smartphone, Brain, Plug,
   Check, ArrowRight, Calculator, Clock, RefreshCw, Sparkles,
-  Zap, Shield, AlertTriangle, ChevronDown, ChevronUp, Users,
+  Zap, Shield, ChevronDown, ChevronUp,
   UtensilsCrossed, Wrench, Lightbulb, MessageSquare, Loader2,
   TrendingUp, Star, Upload,
 } from "lucide-react";
 import Link from "next/link";
-import { getTemplatesForContext, type DesignTemplate } from "@/components/DesignTemplates";
+import { getTemplatesForContext } from "@/components/DesignTemplates";
 import { supabase } from "@/lib/supabase";
 
 /* ───────────────────────── Types ───────────────────────── */
@@ -267,7 +268,7 @@ export default function PricingPage() {
   const [customAdded, setCustomAdded] = useState(false);
 
   const currentType = projectTypes.find((p) => p.id === projectType);
-  const features = projectType ? featuresByType[projectType] : [];
+  const features = useMemo(() => (projectType ? featuresByType[projectType] : []), [projectType]);
   const includedFeatures = features.filter((f) => f.included);
   const standardAddons = features.filter((f) => !f.included && !f.premium);
   const premiumAddons = features.filter((f) => f.premium);
@@ -317,7 +318,7 @@ export default function PricingPage() {
           priceMin: 500,
           priceMax: 2000,
           timeWeeks: 1,
-          explanation: "We couldn't analyze this automatically. This is a rough estimate — book a free call for exact pricing.",
+          explanation: "We couldn't analyze this automatically. This is a rough estimate — save it to the portal and we will review the exact scope there.",
         });
       } else {
         setCustomEstimate(data);
@@ -329,7 +330,7 @@ export default function PricingPage() {
         priceMin: 500,
         priceMax: 2000,
         timeWeeks: 1,
-        explanation: "We couldn't analyze this automatically. This is a rough estimate — book a free call for exact pricing.",
+        explanation: "We couldn't analyze this automatically. This is a rough estimate — save it to the portal and we will review the exact scope there.",
       });
     }
     setCustomLoading(false);
@@ -753,7 +754,13 @@ export default function PricingPage() {
                         )}
                         {/* Screenshot */}
                         <div className="relative aspect-[16/10] overflow-hidden">
-                          <img src={tmpl.image} alt={tmpl.name} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" />
+                          <Image
+                            src={tmpl.image}
+                            alt={tmpl.name}
+                            fill
+                            sizes="(min-width: 1280px) 16rem, (min-width: 640px) 33vw, 50vw"
+                            className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                          />
                           {selectedTemplate === tmpl.id && (
                             <div className="absolute inset-0 bg-accent/10 flex items-center justify-center">
                               <span className="flex items-center gap-1 px-2.5 py-1 bg-accent rounded-full text-[10px] text-cta-text font-bold">
@@ -1173,10 +1180,10 @@ export default function PricingPage() {
                         <h3 className="text-lg font-bold">Quote Saved!</h3>
                         <div className="text-2xl font-bold gradient-text">{savedQuoteNumber}</div>
                         <p className="text-text-muted text-sm">
-                          Reference this number when you book a call. Your configuration and price are locked.
+                          Reference this number in the portal. Your configuration and price are locked.
                         </p>
                         <Link href="/book" className="group inline-flex items-center gap-2 px-7 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-accent hover:bg-cta-hover transition-all text-sm">
-                          Book Your Free Call <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                          Continue in Portal <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </Link>
                       </div>
                     )}
@@ -1255,12 +1262,12 @@ export default function PricingPage() {
                       <div className="text-sm font-bold text-accent">{savedQuoteNumber}</div>
                     </div>
                     <Link href="/book" className="block w-full text-center px-6 py-3 bg-cta text-cta-text font-semibold rounded-xl glow-accent hover:bg-cta-hover transition-all text-sm">
-                      Book Free Call
+                      Continue in Portal
                     </Link>
                   </>
                 ) : (
                   <div className="pt-3 border-t border-border text-center">
-                    <p className="text-text-muted text-[10px]">Save your quote to book a call</p>
+                    <p className="text-text-muted text-[10px]">Save your quote to continue in the portal</p>
                   </div>
                 )}
               </div>

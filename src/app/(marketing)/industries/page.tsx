@@ -64,7 +64,7 @@ export default function IndustriesPage() {
         </ScrollReveal>
 
         <div className="space-y-16">
-          {industries.map((ind, i) => (
+          {industries.map((ind) => (
             <ScrollReveal key={ind.id}>
               <div id={ind.id} className="glass-card p-8 lg:p-12 scroll-mt-28">
                 <div className="flex items-center gap-3 mb-6">

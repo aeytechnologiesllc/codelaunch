@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Rocket } from "lucide-react";
 import Link from "next/link";
 import { MagneticButton } from "./MagneticButton";
-import { supabase } from "@/lib/supabase";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
 const navLinks = [
   { href: "/services", label: "Services" },
@@ -20,22 +20,24 @@ export function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
+    const supabase = createSupabaseBrowserClient();
     const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", onScroll);
 
     // Check auth state
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setIsLoggedIn(!!user);
-    });
+    void (async () => {
+      const result = await supabase.auth.getUser();
+      setIsLoggedIn(!!result.data.user);
+    })();
 
     // Listen for auth changes (login/logout)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+    const authSubscription = supabase.auth.onAuthStateChange((event: string) => {
       setIsLoggedIn(event === "SIGNED_IN" || event === "TOKEN_REFRESHED");
     });
 
     return () => {
       window.removeEventListener("scroll", onScroll);
-      subscription.unsubscribe();
+      authSubscription.data.subscription.unsubscribe();
     };
   }, []);
 

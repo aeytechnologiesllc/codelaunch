@@ -24,26 +24,26 @@ export function CTA() {
 
           <p className="text-text-secondary text-lg max-w-2xl mx-auto mb-12 leading-relaxed">
             Not sure what you need? That&apos;s fine — most of our clients weren&apos;t either.
-            Start with a free call or try our instant pricing tool.
+            Start with a portal intake or try our instant pricing tool.
           </p>
         </ScrollReveal>
 
         <ScrollReveal delay={0.2}>
           <div className="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
-            {/* Option 1: Talk to us */}
+            {/* Option 1: Portal intake */}
             <Link href="/book">
               <div className="glass-card p-8 text-left group hover:border-accent/20 transition-all duration-300 h-full">
                 <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-5 group-hover:bg-accent/20 transition-colors">
                   <Zap className="w-6 h-6 text-accent" />
                 </div>
                 <h3 className="text-lg font-bold mb-2 group-hover:text-accent transition-colors">
-                  Book a Free Call
+                  Start in the Portal
                 </h3>
                 <p className="text-text-secondary text-sm leading-relaxed mb-5">
-                  30 minutes. No sales pitch. We listen to your problem and tell you honestly if we can help.
+                  Send your project details once, and we will keep every question, file, and update inside your portal workspace.
                 </p>
                 <span className="inline-flex items-center gap-2 text-accent font-semibold text-sm group-hover:gap-3 transition-all">
-                  Schedule Now <ArrowRight className="w-4 h-4" />
+                  Open Intake <ArrowRight className="w-4 h-4" />
                 </span>
               </div>
             </Link>

@@ -1,7 +1,7 @@
 "use client";
 
 import { ScrollReveal } from "./ScrollReveal";
-import { AlertCircle, Calendar } from "lucide-react";
+import { Calendar } from "lucide-react";
 import Link from "next/link";
 
 export function Scarcity() {

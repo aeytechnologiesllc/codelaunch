@@ -37,7 +37,7 @@ Respond ONLY with valid JSON:
   "explanation": "2-3 sentence explanation of what's involved, what drives the cost, and why"
 }
 
-If tooComplex: set reasonable estimates but explain this needs a dedicated discovery session to scope properly.`;
+If tooComplex: set reasonable estimates but explain this needs a dedicated portal intake review to scope properly.`;
 
 export async function POST(req: NextRequest) {
   try {
@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
         priceMin: parsed.priceMin || 15000,
         priceMax: parsed.priceMax || 50000,
         timeWeeks: parsed.timeWeeks || 12,
-        explanation: parsed.explanation || "This is an enterprise-level project that needs a dedicated discovery session to scope properly. Book a call for exact pricing.",
+        explanation: parsed.explanation || "This is an enterprise-level project that needs a dedicated portal intake review to scope properly.",
       });
     }
 
@@ -136,12 +136,12 @@ function getFallbackEstimate(description: string) {
 
   const outOfScopeTerms = ["game", "blockchain", "crypto", "nft", "dating app", "social media platform", "hardware"];
   if (outOfScopeTerms.some((t) => lower.includes(t))) {
-    return {
-      outOfScope: true,
-      description,
-      complexity: "complex" as const,
-      priceMin: 0, priceMax: 0, timeWeeks: 0,
-      explanation: "This is outside the scope of what we typically build. Please book a call to discuss.",
+      return {
+        outOfScope: true,
+        description,
+        complexity: "complex" as const,
+        priceMin: 0, priceMax: 0, timeWeeks: 0,
+      explanation: "This is outside the scope of what we typically build. Send it through the portal and we can confirm whether it is a fit.",
     };
   }
 
@@ -178,6 +178,6 @@ function getFallbackEstimate(description: string) {
     priceMin: prices.min,
     priceMax: prices.max,
     timeWeeks: prices.weeks,
-    explanation: `This appears to be a ${complexity}-complexity feature. This estimate covers architecture, development, testing, and deployment. Book a free call for exact pricing based on your specific requirements.`,
+    explanation: `This appears to be a ${complexity}-complexity feature. This estimate covers architecture, development, testing, and deployment. Save it to the portal and we will review the exact scope there.`,
   };
 }
