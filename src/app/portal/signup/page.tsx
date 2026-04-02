@@ -34,7 +34,7 @@ function SignupContent() {
     setLoading(true);
     setError("");
 
-    const { error: authError } = await signUp(email, password, {
+    const { data, error: authError } = await signUp(email, password, {
       full_name: `${firstName} ${lastName}`.trim(),
       company,
     });
@@ -45,10 +45,18 @@ function SignupContent() {
       return;
     }
 
+    // If no session (email confirmation required), show message
+    if (!data.session) {
+      setSuccess(true);
+      setLoading(false);
+      setError("Check your email to confirm your account, then log in.");
+      return;
+    }
+
     setSuccess(true);
     setLoading(false);
-    // Auto-redirect after 2 seconds
-    setTimeout(() => router.push(quoteId ? `/dashboard?quoteId=${quoteId}` : "/dashboard"), 2000);
+    // Session exists — redirect to dashboard
+    setTimeout(() => router.push(quoteId ? `/dashboard?quoteId=${quoteId}` : "/dashboard"), 1500);
   };
 
   return (

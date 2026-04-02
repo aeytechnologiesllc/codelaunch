@@ -29,10 +29,17 @@ export default function DashboardLayout({
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userInitials, setUserInitials] = useState("U");
+  const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        // Not authenticated — redirect to login
+        router.push("/portal/login");
+        return;
+      }
+      setAuthChecked(true);
       if (user) {
         const name = user.user_metadata?.full_name || user.email?.split("@")[0] || "User";
         setUserName(name);
@@ -42,12 +49,26 @@ export default function DashboardLayout({
       }
     };
     getUser();
-  }, []);
+  }, [router]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     router.push("/");
   };
+
+  // Show loading while checking auth
+  if (!authChecked) {
+    return (
+      <div className="min-h-screen bg-bg-primary flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-3">
+            <Rocket className="w-5 h-5 text-accent" />
+          </div>
+          <p className="text-text-muted text-sm">Loading your dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-bg-primary flex">
