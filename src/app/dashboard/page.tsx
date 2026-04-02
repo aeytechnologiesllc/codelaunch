@@ -26,13 +26,21 @@ export default function DashboardPage() {
 function DashboardContent() {
   const searchParams = useSearchParams();
   const quoteId = searchParams.get("quoteId");
-  const [showCelebration, setShowCelebration] = useState(true);
+  const [showCelebration, setShowCelebration] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return !sessionStorage.getItem("cl_celebrated");
+  });
 
-  // Show celebration for 3 seconds on first load
+  // Show celebration once per session, then never again
   useEffect(() => {
-    const timer = setTimeout(() => setShowCelebration(false), 3000);
-    return () => clearTimeout(timer);
-  }, []);
+    if (showCelebration) {
+      const timer = setTimeout(() => {
+        setShowCelebration(false);
+        sessionStorage.setItem("cl_celebrated", "1");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showCelebration]);
 
   return (
     <>
