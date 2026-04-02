@@ -83,7 +83,8 @@ function SignupContent() {
               <p className="text-text-muted text-sm">Redirecting to your dashboard...</p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <>
+            <div className="space-y-4 mb-4">
               {/* Google Sign Up */}
               <button
                 type="button"
@@ -158,6 +159,7 @@ function SignupContent() {
                 {!loading && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
               </button>
             </form>
+            </>
           )}
 
           {!success && (
