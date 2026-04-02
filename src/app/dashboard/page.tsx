@@ -189,6 +189,55 @@ function DashboardContent() {
     );
   }
 
+  // No quoteId — user signed up directly without going through pricing
+  return (
+    <div className="max-w-3xl mx-auto space-y-8">
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center">
+        <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mx-auto mb-4">
+          <Rocket className="w-8 h-8 text-accent" />
+        </div>
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2">Welcome to CodeLaunch!</h1>
+        <p className="text-text-secondary text-base mb-8">You&apos;re all set. Let&apos;s get your project started.</p>
+
+        <a
+          href="/pricing"
+          className="inline-flex items-center gap-2 px-8 py-4 bg-cta text-cta-text font-semibold rounded-xl btn-glow hover:bg-cta-hover transition-all text-base"
+        >
+          <Sparkles className="w-5 h-5" />
+          Start Your Project
+        </a>
+      </motion.div>
+
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-card p-6 sm:p-8">
+        <h2 className="text-lg font-semibold mb-4">How It Works</h2>
+        <div className="space-y-4">
+          <div className="flex items-start gap-4">
+            <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0 text-accent text-xs font-bold">1</div>
+            <div>
+              <h3 className="text-sm font-semibold">Configure Your Project</h3>
+              <p className="text-text-muted text-xs mt-0.5">Use our pricing calculator to pick your project type, features, and design. See exact pricing in real-time.</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-4">
+            <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0 text-accent text-xs font-bold">2</div>
+            <div>
+              <h3 className="text-sm font-semibold">We Review & Kick Off</h3>
+              <p className="text-text-muted text-xs mt-0.5">Our team reviews your configuration and schedules a kickoff call within 24 hours.</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-4">
+            <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0 text-accent text-xs font-bold">3</div>
+            <div>
+              <h3 className="text-sm font-semibold">Track Everything Here</h3>
+              <p className="text-text-muted text-xs mt-0.5">Once your project starts, this dashboard becomes your command center — progress, files, invoices, and messaging all in one place.</p>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+
+  /* Original mock dashboard below — will be used when real project data exists */
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       {/* Project header */}
