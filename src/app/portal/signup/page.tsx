@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Rocket, ArrowRight, Mail, Lock, User, Building, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { signUp, signInWithGoogle } from "@/lib/auth";
+import { supabase } from "@/lib/supabase";
 
 export default function SignupPage() {
   return (
@@ -19,6 +20,7 @@ function SignupContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const quoteId = searchParams.get("quoteId");
+  const [authChecking, setAuthChecking] = useState(true);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [company, setCompany] = useState("");
@@ -27,6 +29,17 @@ function SignupContent() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+
+  // If already logged in, redirect to dashboard
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) {
+        router.push(quoteId ? `/dashboard?quoteId=${quoteId}` : "/dashboard");
+      } else {
+        setAuthChecking(false);
+      }
+    });
+  }, [router, quoteId]);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,6 +71,10 @@ function SignupContent() {
     // Session exists — redirect to dashboard
     setTimeout(() => router.push(quoteId ? `/dashboard?quoteId=${quoteId}` : "/dashboard"), 1500);
   };
+
+  if (authChecking) {
+    return <div className="min-h-screen bg-bg-primary flex items-center justify-center text-text-muted text-sm">Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-bg-primary flex items-center justify-center px-4 py-12">

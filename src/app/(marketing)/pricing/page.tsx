@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { getTemplatesForContext, type DesignTemplate } from "@/components/DesignTemplates";
+import { supabase } from "@/lib/supabase";
 
 /* ───────────────────────── Types ───────────────────────── */
 
@@ -407,8 +408,15 @@ export default function PricingPage() {
       });
       const data = await res.json();
       if (data.quoteId) {
-        // Redirect to signup with quote ID
-        router.push(`/portal/signup?quoteId=${data.quoteId}`);
+        // Check if user is already logged in
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          // Already authenticated — go straight to dashboard
+          router.push(`/dashboard?quoteId=${data.quoteId}`);
+        } else {
+          // Not authenticated — go to signup
+          router.push(`/portal/signup?quoteId=${data.quoteId}`);
+        }
         return;
       }
       if (data.quoteNumber) setSavedQuoteNumber(data.quoteNumber);

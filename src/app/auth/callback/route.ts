@@ -6,11 +6,16 @@ export async function GET(req: NextRequest) {
   const code = searchParams.get("code");
   const redirect = searchParams.get("redirect") || "/dashboard";
 
+  if (!code) {
+    // No code — redirect to login with error
+    const loginUrl = new URL("/portal/login", req.url);
+    return NextResponse.redirect(loginUrl);
+  }
+
   const redirectUrl = new URL(redirect, req.url);
+  const response = NextResponse.redirect(redirectUrl);
 
-  if (code) {
-    const response = NextResponse.redirect(redirectUrl);
-
+  try {
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -28,9 +33,15 @@ export async function GET(req: NextRequest) {
       }
     );
 
-    await supabase.auth.exchangeCodeForSession(code);
-    return response;
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    if (error) {
+      console.error("Auth callback error:", error.message);
+      return NextResponse.redirect(new URL("/portal/login", req.url));
+    }
+  } catch (err) {
+    console.error("Auth callback exception:", err);
+    return NextResponse.redirect(new URL("/portal/login", req.url));
   }
 
-  return NextResponse.redirect(redirectUrl);
+  return response;
 }

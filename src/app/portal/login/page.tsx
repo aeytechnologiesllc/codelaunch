@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Rocket, ArrowRight, Mail, Lock, Loader2, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { signIn, signInWithGoogle } from "@/lib/auth";
+import { supabase } from "@/lib/supabase";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -13,6 +14,18 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [authChecking, setAuthChecking] = useState(true);
+
+  // If already logged in, redirect to dashboard
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) {
+        router.push("/dashboard");
+      } else {
+        setAuthChecking(false);
+      }
+    });
+  }, [router]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,6 +43,10 @@ export default function LoginPage() {
 
     router.push("/dashboard");
   };
+
+  if (authChecking) {
+    return <div className="min-h-screen bg-bg-primary flex items-center justify-center text-text-muted text-sm">Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-bg-primary flex items-center justify-center px-4">
