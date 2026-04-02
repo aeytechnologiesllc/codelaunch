@@ -1,96 +1,88 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@supabase/ssr";
+import { createReferenceNumber } from "@/lib/reference";
+import { getCurrentUserContext } from "@/lib/portal-data";
+import { createSupabaseServiceClient } from "@/lib/supabase/service";
 
-function getSupabase(req: NextRequest) {
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return req.cookies.getAll(); },
-        setAll() {},
-      },
-    }
-  );
+function toNumber(value: unknown, fallback = 0) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
 }
 
-async function checkAdmin(req: NextRequest) {
-  const supabase = getSupabase(req);
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
-  const { data } = await supabase.from("admin_users").select("id").eq("user_id", user.id).single();
-  return data ? user : null;
-}
-
-// GET all quotes (admin sees everything)
-export async function GET(req: NextRequest) {
-  const user = await checkAdmin(req);
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-
-  const supabase = getSupabase(req);
-  const { data: quotes, error } = await supabase
-    .from("quotes")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-
-  // Also get projects linked to quotes
-  const { data: projects } = await supabase
-    .from("projects")
-    .select("*, milestones(*)");
-
-  return NextResponse.json({ quotes: quotes || [], projects: projects || [] });
-}
-
-// POST create project from a quote
 export async function POST(req: NextRequest) {
-  const user = await checkAdmin(req);
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+  try {
+    const context = await getCurrentUserContext();
 
-  const body = await req.json();
-  const { quoteId, name, description, userId } = body;
+    if (!context || !context.isAdmin) {
+      return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+    }
 
-  if (!quoteId || !name) {
-    return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    const body = await req.json();
+    const service = createSupabaseServiceClient();
+
+    const totalCost = toNumber(body.totalCost);
+    const paidAmount = toNumber(body.paidAmount);
+    const remainingAmount = Math.max(totalCost - paidAmount, 0);
+
+    const projectNumber = createReferenceNumber("PRJ");
+    const status = typeof body.status === "string" && body.status.trim() ? body.status.trim() : "planning";
+    const phase = typeof body.phase === "string" && body.phase.trim() ? body.phase.trim() : "scope_review";
+
+    const insertPayload = {
+      project_number: projectNumber,
+      quote_id: typeof body.quoteId === "string" && body.quoteId ? body.quoteId : null,
+      intake_id: typeof body.intakeId === "string" && body.intakeId ? body.intakeId : null,
+      client_profile_id:
+        typeof body.clientProfileId === "string" && body.clientProfileId ? body.clientProfileId : null,
+      client_email: typeof body.clientEmail === "string" ? body.clientEmail.trim() : null,
+      client_name: typeof body.clientName === "string" ? body.clientName.trim() : null,
+      company_name: typeof body.companyName === "string" ? body.companyName.trim() : null,
+      name: typeof body.name === "string" ? body.name.trim() : "New Client Project",
+      project_type: typeof body.projectType === "string" ? body.projectType.trim() : "Custom",
+      status,
+      phase,
+      progress_percentage: toNumber(body.progressPercentage),
+      start_date: typeof body.startDate === "string" && body.startDate ? body.startDate : new Date().toISOString(),
+      estimated_completion:
+        typeof body.estimatedCompletion === "string" && body.estimatedCompletion
+          ? body.estimatedCompletion
+          : null,
+      total_cost: totalCost,
+      paid_amount: paidAmount,
+      remaining_amount: remainingAmount,
+      summary: typeof body.summary === "string" ? body.summary.trim() : null,
+    };
+
+    const { data, error } = await service
+      .from("projects")
+      .insert(insertPayload)
+      .select("id, project_number")
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    if (insertPayload.intake_id) {
+      await service
+        .from("intake_requests")
+        .update({ status: "workspace_created" })
+        .eq("id", insertPayload.intake_id);
+    }
+
+    if (insertPayload.quote_id) {
+      await service
+        .from("quotes")
+        .update({ status: "converted" })
+        .eq("id", insertPayload.quote_id);
+    }
+
+    return NextResponse.json({
+      success: true,
+      projectId: data.id,
+      projectNumber: data.project_number,
+    });
+  } catch (error) {
+    console.error("Failed to create admin project:", error);
+    return NextResponse.json({ error: "Failed to create project." }, { status: 500 });
   }
-
-  const supabase = getSupabase(req);
-
-  // Create project
-  const { data: project, error } = await supabase
-    .from("projects")
-    .insert({
-      quote_id: quoteId,
-      user_id: userId,
-      name,
-      description: description || null,
-      status: "discovery",
-      progress: 0,
-    })
-    .select()
-    .single();
-
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-
-  // Create default milestones
-  const milestones = [
-    "Project Received",
-    "Requirements Review",
-    "Design",
-    "Frontend Development",
-    "Backend Development",
-    "Integration & Testing",
-    "Client Review",
-    "Launch",
-  ].map((title, i) => ({
-    project_id: project.id,
-    title,
-    status: i === 0 ? "completed" : "pending",
-    sort_order: i,
-  }));
-
-  await supabase.from("milestones").insert(milestones);
-
-  return NextResponse.json({ project });
 }

@@ -1,5 +1,6 @@
 import { Rocket, Mail, MapPin, Building } from "lucide-react";
 import Link from "next/link";
+import { appVersionLabel } from "@/lib/version";
 
 export function Footer() {
   return (
@@ -35,14 +36,14 @@ export function Footer() {
           <div>
             <h4 className="text-sm font-semibold uppercase tracking-wider text-text-secondary mb-4">Company</h4>
             <ul className="space-y-3">
-              {[
-                { label: "Our Work", href: "/work" },
-                { label: "About Us", href: "/about" },
-                { label: "Pricing", href: "/pricing" },
-                { label: "Book a Call", href: "/book" },
-              ].map((l) => (
-                <li key={l.label}><Link href={l.href} className="footer-link text-text-muted hover:text-text-primary transition-colors text-sm">{l.label}</Link></li>
-              ))}
+                {[
+                  { label: "Our Work", href: "/work" },
+                  { label: "About Us", href: "/about" },
+                  { label: "Pricing", href: "/pricing" },
+                  { label: "Portal Intake", href: "/book" },
+                ].map((l) => (
+                  <li key={l.label}><Link href={l.href} className="footer-link text-text-muted hover:text-text-primary transition-colors text-sm">{l.label}</Link></li>
+                ))}
             </ul>
           </div>
           <div>
@@ -54,7 +55,12 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-text-muted text-xs">&copy; {new Date().getFullYear()} Southern Digital Technologies LLC. All rights reserved.</p>
+          <div className="flex flex-col items-center gap-2 text-center sm:items-start sm:text-left">
+            <p className="text-text-muted text-xs">&copy; {new Date().getFullYear()} Southern Digital Technologies LLC. All rights reserved.</p>
+            <p className="text-[11px] uppercase tracking-[0.22em] text-text-muted/80">
+              Live Version {appVersionLabel}
+            </p>
+          </div>
           <div className="flex gap-6">
             <Link href="/privacy" className="footer-link text-text-muted hover:text-text-primary text-xs transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="footer-link text-text-muted hover:text-text-primary text-xs transition-colors">Terms of Service</Link>

@@ -13,8 +13,8 @@ const steps = [
     number: "01",
     icon: MessageSquare,
     title: "Discovery",
-    description: "30-minute call. We listen to your problems, not pitch our solutions. If we can't help, we'll tell you.",
-    duration: "Free \u00b7 30 min",
+    description: "Portal-first intake. You send the details once, we review the scope, and we keep every question and update in one organized workspace.",
+    duration: "Free \u00b7 same day review",
   },
   {
     number: "02",
@@ -44,15 +44,16 @@ export function Process() {
 
   useEffect(() => {
     if (!lineRef.current) return;
+    const lineElement = lineRef.current;
 
     gsap.fromTo(
-      lineRef.current,
+      lineElement,
       { scaleY: 0 },
       {
         scaleY: 1,
         ease: "none",
         scrollTrigger: {
-          trigger: lineRef.current,
+          trigger: lineElement,
           start: "top 80%",
           end: "bottom 40%",
           scrub: 1,
@@ -62,7 +63,7 @@ export function Process() {
 
     return () => {
       ScrollTrigger.getAll().forEach((st) => {
-        if (st.trigger === lineRef.current) st.kill();
+        if (st.trigger === lineElement) st.kill();
       });
     };
   }, []);

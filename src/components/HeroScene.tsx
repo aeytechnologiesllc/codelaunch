@@ -1,8 +1,13 @@
 "use client";
 
 import { useRef, useMemo } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+
+function seededNoise(seed: number) {
+  const value = Math.sin(seed * 12.9898) * 43758.5453123;
+  return value - Math.floor(value);
+}
 
 function GlowingSphere() {
   const mesh = useRef<THREE.Mesh>(null);
@@ -73,20 +78,17 @@ function OrbitRing({ radius, speed, tilt, opacity }: { radius: number; speed: nu
 function Particles({ count = 120 }: { count?: number }) {
   const mesh = useRef<THREE.Points>(null);
 
-  const { positions, sizes } = useMemo(() => {
+  const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
-    const sz = new Float32Array(count);
     for (let i = 0; i < count; i++) {
-      // Distribute in a sphere
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      const r = 1.5 + Math.random() * 2.5;
+      const theta = seededNoise(i + 1) * Math.PI * 2;
+      const phi = Math.acos(2 * seededNoise(i + 101) - 1);
+      const r = 1.5 + seededNoise(i + 1001) * 2.5;
       pos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
       pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
       pos[i * 3 + 2] = r * Math.cos(phi);
-      sz[i] = Math.random() * 0.03 + 0.01;
     }
-    return { positions: pos, sizes: sz };
+    return pos;
   }, [count]);
 
   useFrame((state) => {
@@ -124,15 +126,15 @@ function FloatingOrbs() {
   const orbs = useMemo(() => {
     return Array.from({ length: 6 }, (_, i) => {
       const angle = (i / 6) * Math.PI * 2;
-      const r = 1.7 + Math.random() * 0.2;
+      const radius = 1.7 + seededNoise(i + 2001) * 0.2;
       return {
         position: [
-          Math.cos(angle) * r,
-          (Math.random() - 0.5) * 1.5,
-          Math.sin(angle) * r,
+          Math.cos(angle) * radius,
+          (seededNoise(i + 3001) - 0.5) * 1.5,
+          Math.sin(angle) * radius,
         ] as [number, number, number],
-        scale: 0.04 + Math.random() * 0.04,
-        speed: 0.5 + Math.random() * 1.5,
+        scale: 0.04 + seededNoise(i + 4001) * 0.04,
+        speed: 0.5 + seededNoise(i + 5001) * 1.5,
       };
     });
   }, []);

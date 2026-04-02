@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { createReferenceNumber } from "@/lib/reference";
+import { createSupabaseServiceClient } from "@/lib/supabase/service";
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,6 +14,7 @@ export async function POST(req: NextRequest) {
       projectType,
       selectedFeatures,
       selectedAutomations,
+      additionalNotes,
       customFeatureDescription,
       customFeaturePrice,
       designLevel,
@@ -33,9 +35,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { data, error } = await supabase
+    const service = createSupabaseServiceClient();
+    const quoteNumber = createReferenceNumber("CL");
+
+    const { data, error } = await service
       .from("quotes")
       .insert({
+        quote_number: quoteNumber,
         client_name: clientName,
         client_email: clientEmail,
         client_phone: clientPhone || null,
@@ -43,6 +49,7 @@ export async function POST(req: NextRequest) {
         project_type: projectType,
         selected_features: selectedFeatures || [],
         selected_automations: selectedAutomations || [],
+        additional_notes: additionalNotes || null,
         custom_feature_description: customFeatureDescription || null,
         custom_feature_price: customFeaturePrice || 0,
         design_level: designLevel || "standard",
@@ -66,7 +73,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      quoteNumber: data.quote_number,
+      quoteNumber,
       quoteId: data.id,
     });
   } catch (error) {
