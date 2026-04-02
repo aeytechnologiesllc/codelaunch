@@ -1,18 +1,36 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { createServerClient } from "@supabase/ssr";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const code = searchParams.get("code");
   const redirect = searchParams.get("redirect") || "/dashboard";
 
+  const redirectUrl = new URL(redirect, req.url);
+
   if (code) {
-    const supabase = createClient(
+    const response = NextResponse.redirect(redirectUrl);
+
+    const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return req.cookies.getAll();
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }) => {
+              response.cookies.set(name, value, options);
+            });
+          },
+        },
+      }
     );
+
     await supabase.auth.exchangeCodeForSession(code);
+    return response;
   }
 
-  return NextResponse.redirect(new URL(redirect, req.url));
+  return NextResponse.redirect(redirectUrl);
 }
