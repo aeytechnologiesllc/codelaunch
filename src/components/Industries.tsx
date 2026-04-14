@@ -43,7 +43,7 @@ const industries = [
 
 export function Industries() {
   return (
-    <section id="industries" className="relative py-28 sm:py-32">
+    <section id="industries" className="relative py-28 sm:py-32 overflow-hidden section-ambient">
       <div className="max-w-7xl mx-auto px-6">
         <ScrollReveal>
           <div className="text-center max-w-3xl mx-auto mb-16">

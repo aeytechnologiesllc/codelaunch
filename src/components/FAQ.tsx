@@ -62,7 +62,7 @@ export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section className="relative py-24 sm:py-28">
+    <section className="relative py-24 sm:py-28 overflow-hidden section-ambient">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <ScrollReveal>
           <div className="text-center mb-12">

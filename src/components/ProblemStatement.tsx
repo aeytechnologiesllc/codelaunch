@@ -29,7 +29,7 @@ const problems = [
 
 export function ProblemStatement() {
   return (
-    <section className="relative py-28 sm:py-32 section-fade-top">
+    <section className="relative py-28 sm:py-32 section-fade-top section-ambient-cool overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <ScrollReveal>
           <div className="max-w-3xl mx-auto text-center mb-16">

@@ -10,7 +10,7 @@ export function Scarcity() {
   const nextAvailable = "May 2026";
 
   return (
-    <section className="relative py-12">
+    <section className="relative py-12 section-ambient-warm overflow-hidden">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <ScrollReveal>
           <div className="glass-card p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 border-accent/10 bg-accent/[0.02]">

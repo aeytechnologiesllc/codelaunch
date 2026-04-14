@@ -1,29 +1,50 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #09090b;
-  --color-foreground: #fafafa;
-  --color-bg-primary: #09090b;
-  --color-bg-secondary: #0c0c0e;
-  --color-bg-elevated: #141418;
-  --color-text-primary: #fafafa;
-  --color-text-secondary: #a1a1aa;
-  --color-text-muted: #52525b;
+  /* ── Background scale — violet-tinted darks (Linear/Raycast pattern) ── */
+  --color-background: #0b0b12;
+  --color-bg-void: #070710;
+  --color-bg-primary: #0b0b12;
+  --color-bg-layer-2: #0d0d17;
+  --color-bg-secondary: #0f0f1a;
+  --color-bg-elevated: #16161f;
+  --color-bg-raised: #1b1b26;
+
+  /* ── Text — never pure white (prevents halation on OLED) ── */
+  --color-foreground: #ededf0;
+  --color-text-primary: #ededf0;
+  --color-text-secondary: #b1b1b8;
+  --color-text-muted: #71717a;
+
+  /* ── Accents — cool primary + warm secondary (confidence pairing) ── */
   --color-accent: #a78bfa;
   --color-accent-hover: #c4b5fd;
   --color-accent-secondary: #a78bfa;
   --color-accent-dim: rgba(167, 139, 250, 0.1);
   --color-purple-dim: rgba(167, 139, 250, 0.1);
+
+  /* Warm accent for pricing confidence moments */
+  --color-accent-warm: #fbbf24;
+  --color-accent-warm-dim: rgba(251, 191, 36, 0.08);
+
+  /* Tertiary aurora color */
+  --color-accent-pink: #ec4899;
+
+  /* ── CTA ── */
   --color-cta: #a78bfa;
   --color-cta-hover: #c4b5fd;
-  --color-cta-text: #09090b;
+  --color-cta-text: #0b0b12;
+
+  /* ── Borders — rgba for layer independence ── */
   --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-subtle: rgba(255, 255, 255, 0.05);
+  --color-border-strong: rgba(255, 255, 255, 0.12);
   --color-glass: rgba(255, 255, 255, 0.02);
   --color-glass-border: rgba(255, 255, 255, 0.06);
+
   --font-sans: var(--font-inter);
 }
 
-/* ── Smooth scroll override (Lenis handles this) ── */
 html { scroll-behavior: auto; overflow-x: hidden; }
 
 body {
@@ -53,6 +74,14 @@ body {
 .glow-green:hover { box-shadow: 0 0 35px rgba(167, 139, 250, 0.25); }
 .glow-purple { box-shadow: 0 0 20px rgba(167, 139, 250, 0.15); }
 
+/* ── Warm glow — for pricing confidence moments (amber + violet) ── */
+.glow-warm {
+  box-shadow:
+    0 0 40px rgba(251, 191, 36, 0.12),
+    0 20px 60px -20px rgba(167, 139, 250, 0.25),
+    inset 0 1px 0 rgba(251, 191, 36, 0.15);
+}
+
 /* ── Button glow ── */
 .btn-glow {
   box-shadow:
@@ -80,6 +109,12 @@ body {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+.gradient-text-warm {
+  background: linear-gradient(135deg, #fbbf24, #c4b5fd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
 /* ── Float animation ── */
 @keyframes float {
@@ -98,11 +133,79 @@ body {
 
 /* ── Radial glows ── */
 .radial-glow {
-  background: radial-gradient(ellipse at 50% 0%, rgba(167, 139, 250, 0.06) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 50% 0%, rgba(167, 139, 250, 0.07) 0%, transparent 60%);
 }
 .radial-glow-green {
-  background: radial-gradient(ellipse at 50% 50%, rgba(167, 139, 250, 0.04) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 50% 50%, rgba(167, 139, 250, 0.05) 0%, transparent 60%);
 }
+.radial-glow-warm {
+  background: radial-gradient(ellipse at 50% 0%, rgba(251, 191, 36, 0.06) 0%, transparent 60%);
+}
+
+/* ── Section tint — alternating subtle temperature shift ── */
+.section-cool {
+  background: linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-bg-layer-2) 50%, var(--color-bg-primary) 100%);
+  position: relative;
+}
+.section-warm-accent {
+  position: relative;
+}
+.section-warm-accent::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(251, 191, 36, 0.03), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Section ambient glow — multi-point gradient guaranteed to fill section ── */
+.section-ambient {
+  position: relative;
+}
+.section-ambient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 15% 20%, rgba(167, 139, 250, 0.18), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 80%, rgba(129, 140, 248, 0.15), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.section-ambient > * { position: relative; z-index: 1; }
+
+.section-ambient-warm {
+  position: relative;
+}
+.section-ambient-warm::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(251, 191, 36, 0.08), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 15% 80%, rgba(167, 139, 250, 0.16), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 40%, rgba(236, 72, 153, 0.12), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.section-ambient-warm > * { position: relative; z-index: 1; }
+
+.section-ambient-cool {
+  position: relative;
+}
+.section-ambient-cool::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 25% 30%, rgba(99, 102, 241, 0.18), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 75% 70%, rgba(167, 139, 250, 0.16), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(236, 72, 153, 0.08), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.section-ambient-cool > * { position: relative; z-index: 1; }
 
 /* ── Aurora gradient background ── */
 .aurora-gradient {
@@ -116,7 +219,7 @@ body {
   position: absolute;
   border-radius: 50%;
   filter: blur(120px);
-  opacity: 0.5;
+  opacity: 0.55;
   will-change: transform;
 }
 .aurora-gradient::before {
@@ -124,7 +227,7 @@ body {
   height: 50%;
   top: -10%;
   left: 10%;
-  background: radial-gradient(circle, rgba(167, 139, 250, 0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.1) 0%, transparent 70%);
   animation: aurora-drift-1 25s ease-in-out infinite;
 }
 .aurora-gradient::after {
@@ -132,7 +235,7 @@ body {
   height: 40%;
   bottom: 10%;
   right: 5%;
-  background: radial-gradient(circle, rgba(129, 140, 248, 0.06) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(129, 140, 248, 0.08) 0%, transparent 70%);
   animation: aurora-drift-2 30s ease-in-out infinite;
 }
 
@@ -172,46 +275,46 @@ body {
 }
 
 .ambient-orb-1 {
-  width: 45vw;
-  max-width: 600px;
-  height: 45vw;
-  max-height: 600px;
+  width: 50vw;
+  max-width: 700px;
+  height: 50vw;
+  max-height: 700px;
   top: -10%;
   left: -5%;
-  background: radial-gradient(circle, rgba(167, 139, 250, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.22) 0%, transparent 70%);
   animation: ambient-drift-1 45s ease-in-out infinite;
 }
 
 .ambient-orb-2 {
-  width: 40vw;
-  max-width: 500px;
-  height: 40vw;
-  max-height: 500px;
+  width: 45vw;
+  max-width: 600px;
+  height: 45vw;
+  max-height: 600px;
   bottom: 5%;
   right: -8%;
-  background: radial-gradient(circle, rgba(129, 140, 248, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(129, 140, 248, 0.2) 0%, transparent 70%);
   animation: ambient-drift-2 50s ease-in-out infinite;
 }
 
 .ambient-orb-3 {
-  width: 35vw;
-  max-width: 450px;
-  height: 35vw;
-  max-height: 450px;
+  width: 40vw;
+  max-width: 550px;
+  height: 40vw;
+  max-height: 550px;
   top: 40%;
   right: 10%;
-  background: radial-gradient(circle, rgba(124, 58, 237, 0.09) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.18) 0%, transparent 70%);
   animation: ambient-drift-3 55s ease-in-out infinite;
 }
 
 .ambient-orb-4 {
-  width: 50vw;
-  max-width: 650px;
-  height: 50vw;
-  max-height: 650px;
+  width: 55vw;
+  max-width: 750px;
+  height: 55vw;
+  max-height: 750px;
   bottom: -15%;
   left: 15%;
-  background: radial-gradient(circle, rgba(167, 139, 250, 0.13) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, transparent 70%);
   animation: ambient-drift-4 60s ease-in-out infinite;
 }
 
@@ -247,8 +350,6 @@ body {
   .ambient-orb { animation: none; }
 }
 
-/* ── Animated border is intentionally removed — clean hover only ── */
-
 /* ── Marquee ── */
 @keyframes marquee {
   0% { transform: translateX(0); }
@@ -261,7 +362,7 @@ body {
   animation-play-state: paused;
 }
 
-/* ── Section transition gradients ── */
+/* ── Section fade transitions — eliminate hard edges between sections ── */
 .section-fade-top {
   position: relative;
 }
@@ -271,16 +372,74 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 120px;
+  height: 160px;
   background: linear-gradient(to bottom, var(--color-bg-primary), transparent);
   pointer-events: none;
   z-index: 1;
+}
+
+.section-fade-bottom {
+  position: relative;
+}
+.section-fade-bottom::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 160px;
+  background: linear-gradient(to top, var(--color-bg-primary), transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Soft divider — subtle violet-tinted separator between sections ── */
+.section-divider {
+  position: relative;
+}
+.section-divider::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(167, 139, 250, 0.12) 50%, transparent 100%);
+  pointer-events: none;
+  z-index: 2;
 }
 
 /* ── Dot pattern ── */
 .dot-pattern {
   background-image: radial-gradient(rgba(167, 139, 250, 0.06) 1px, transparent 1px);
   background-size: 24px 24px;
+}
+
+/* ── Premium card — used for highlighted pricing plan & focal elements ── */
+.card-premium {
+  position: relative;
+  background:
+    radial-gradient(ellipse 100% 60% at 50% 0%, rgba(251, 191, 36, 0.06), transparent 70%),
+    linear-gradient(180deg, rgba(167, 139, 250, 0.04) 0%, transparent 100%);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  box-shadow:
+    0 0 0 1px rgba(251, 191, 36, 0.08),
+    0 24px 60px -20px rgba(167, 139, 250, 0.22),
+    inset 0 1px 0 rgba(251, 191, 36, 0.12);
+}
+
+/* ── Conic gradient accent — for focal elements (use sparingly) ── */
+.conic-accent {
+  background:
+    conic-gradient(
+      from 180deg at 50% 50%,
+      rgba(167, 139, 250, 0.14) 0deg,
+      rgba(99, 102, 241, 0.14) 120deg,
+      rgba(251, 191, 36, 0.08) 240deg,
+      rgba(167, 139, 250, 0.14) 360deg
+    );
+  filter: blur(60px);
+  pointer-events: none;
 }
 
 /* ── 3D tilt card ── */
@@ -423,6 +582,6 @@ input[type="submit"], input[type="button"] {
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #09090b; }
-::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+::-webkit-scrollbar-track { background: #0b0b12; }
+::-webkit-scrollbar-thumb { background: #2a2a38; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #3f3f52; }

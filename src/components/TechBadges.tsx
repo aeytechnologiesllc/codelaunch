@@ -45,7 +45,7 @@ const techGroups = [
 
 export function TechBadges() {
   return (
-    <section className="relative py-20 sm:py-24">
+    <section className="relative py-20 sm:py-24 overflow-hidden section-ambient-cool">
       <div className="max-w-5xl mx-auto px-6">
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-12">

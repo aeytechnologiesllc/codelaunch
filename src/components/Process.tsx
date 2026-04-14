@@ -68,7 +68,7 @@ export function Process() {
   }, []);
 
   return (
-    <section id="process" className="relative py-28 sm:py-32">
+    <section id="process" className="relative py-28 sm:py-32 overflow-hidden section-ambient-cool">
       <div className="max-w-7xl mx-auto px-6">
         <ScrollReveal>
           <div className="text-center max-w-3xl mx-auto mb-16">

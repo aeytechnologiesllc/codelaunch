@@ -540,7 +540,7 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="pt-28 pb-20">
+    <div className="pt-28 pb-20 relative section-ambient-warm overflow-hidden">
       <div className="max-w-5xl mx-auto px-6">
         <ScrollReveal>
           <div className="text-center max-w-3xl mx-auto mb-12">
@@ -907,7 +907,7 @@ export default function PricingPage() {
                     <h2 className="text-xl font-bold">Your Quote</h2>
                   </div>
 
-                  <div className="glass-card p-6 space-y-4">
+                  <div className="glass-card card-premium p-6 space-y-4">
                     <div className="flex justify-between items-center pb-4 border-b border-border">
                       <div><h3 className="font-semibold">{currentType.label}</h3><p className="text-green-400 text-[11px] mt-0.5">Includes: auth, dashboard, payments, notifications, responsive, SEO</p></div>
                       <span className="font-semibold">${currentType.basePrice.toLocaleString()}</span>
@@ -978,7 +978,7 @@ export default function PricingPage() {
                     <div className="pt-2 space-y-3">
                       <div className="flex justify-between items-center">
                         <div>
-                          <div className="text-3xl font-bold gradient-text-green">${pricing.total.toLocaleString()}</div>
+                          <div className="text-3xl font-bold gradient-text-warm">${pricing.total.toLocaleString()}</div>
                           <p className="text-text-muted text-xs">One-time project cost</p>
                         </div>
                         <div className="text-right">
@@ -1196,10 +1196,10 @@ export default function PricingPage() {
           {/* ── Sticky Price Card ── */}
           <div className="hidden lg:block">
             <div className="sticky top-28">
-              <div className="glass-card p-6 space-y-4">
-                <div className="flex items-center gap-2 text-accent"><Sparkles className="w-5 h-5" /><h3 className="font-semibold">Your Price</h3></div>
+              <div className="glass-card card-premium p-6 space-y-4">
+                <div className="flex items-center gap-2 text-accent-warm"><Sparkles className="w-5 h-5" /><h3 className="font-semibold text-text-primary">Your Price</h3></div>
                 <div>
-                  <div className="text-4xl font-bold gradient-text-green">${pricing.total.toLocaleString()}</div>
+                  <div className="text-4xl font-bold gradient-text-warm">${pricing.total.toLocaleString()}</div>
                   <p className="text-text-muted text-sm mt-1">One-time cost</p>
                 </div>
                 {/* Included features table */}

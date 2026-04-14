@@ -31,7 +31,7 @@ const projects = [
 
 export function VideoProof() {
   return (
-    <section className="relative py-20 sm:py-24">
+    <section className="relative py-20 sm:py-24 overflow-hidden section-ambient">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <ScrollReveal>
           <div className="text-center mb-10">

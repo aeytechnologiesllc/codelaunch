@@ -20,7 +20,7 @@ export function LeadMagnet() {
   };
 
   return (
-    <section className="relative py-20 sm:py-24">
+    <section className="relative py-20 sm:py-24 overflow-hidden section-ambient-warm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <ScrollReveal>
           <div className="glass-card p-8 sm:p-12 flex flex-col lg:flex-row items-center gap-10">
