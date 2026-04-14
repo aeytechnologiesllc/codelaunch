@@ -191,6 +191,75 @@ body {
 }
 .section-ambient-warm > * { position: relative; z-index: 1; }
 
+/* ── Dashboard ambient — subtle premium mesh for the client portal ── */
+/* Fixed-position background so it follows the viewport (dashboard scrolls internally) */
+.dashboard-ambient {
+  position: relative;
+  background: var(--color-bg-primary);
+}
+.dashboard-ambient::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 85% 0%, rgba(167, 139, 250, 0.10), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 15% 90%, rgba(251, 191, 36, 0.05), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(236, 72, 153, 0.04), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.dashboard-ambient > * { position: relative; z-index: 1; }
+
+/* Grid overlay for added texture — very subtle */
+.dashboard-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  background-position: -1px -1px;
+}
+
+/* Elevated glass card that lifts on hover — used on dashboard */
+.glass-card-lift {
+  background: var(--color-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 1rem;
+  transition: border-color 250ms ease, box-shadow 250ms ease, transform 250ms ease;
+}
+.glass-card-lift:hover {
+  border-color: rgba(255, 255, 255, 0.10);
+  box-shadow: 0 12px 40px -20px rgba(167, 139, 250, 0.25);
+  transform: translateY(-1px);
+}
+
+/* Skeleton shimmer for loading states */
+@keyframes skeleton-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.02) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.8s ease-in-out infinite;
+  border-radius: 0.5rem;
+}
+
+/* Pulsing live dot for in-progress status */
+@keyframes status-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.6); }
+  50% { box-shadow: 0 0 0 8px rgba(251, 191, 36, 0); }
+}
+.status-dot-live {
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
 .section-ambient-cool {
   position: relative;
 }

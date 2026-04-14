@@ -71,10 +71,10 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-bg-primary flex">
+    <div className="min-h-screen dashboard-ambient flex">
       {/* Sidebar - Desktop */}
       <aside
-        className={`hidden md:flex flex-col border-r border-border bg-bg-secondary transition-all duration-300 ${
+        className={`hidden md:flex flex-col border-r border-border bg-bg-secondary/60 backdrop-blur-xl transition-all duration-300 ${
           collapsed ? "w-16" : "w-64"
         }`}
       >
@@ -157,7 +157,7 @@ export default function DashboardLayout({
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top header */}
-        <header className="h-16 flex items-center justify-between px-4 sm:px-6 border-b border-border bg-bg-secondary/50 backdrop-blur-sm">
+        <header className="h-16 flex items-center justify-between px-4 sm:px-6 border-b border-border bg-bg-secondary/40 backdrop-blur-xl">
           <button
             onClick={() => setMobileNavOpen(!mobileNavOpen)}
             className="md:hidden flex items-center gap-2 text-text-secondary"
@@ -221,7 +221,7 @@ export default function DashboardLayout({
         )}
 
         {/* Page content */}
-        <main className="flex-1 p-4 sm:p-6 overflow-y-auto">
+        <main className="flex-1 p-4 sm:p-6 overflow-y-auto dashboard-grid">
           {children}
         </main>
       </div>

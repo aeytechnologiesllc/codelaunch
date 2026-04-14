@@ -53,34 +53,44 @@ function DashboardContent() {
     }
   }, [showCelebration]);
 
-  // Fetch real project data from Supabase
+  // Fetch real project data from Supabase; claim any ?quoteId=... first
   useEffect(() => {
     const fetchProject = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { setDataLoaded(true); return; }
 
-      // Find project belonging to this user
+      // If arriving from the pricing flow with a quoteId, claim it so
+      // the quote + any linked project attach to this profile.
+      if (quoteId) {
+        await supabase.rpc("claim_quote", { target_quote_id: quoteId });
+      }
+
+      // Find projects belonging to this profile (RLS enforces access)
       const { data: projects } = await supabase
         .from("projects")
-        .select("*, milestones(*)")
-        .eq("user_id", user.id)
+        .select("id, name, status, progress, progress_percentage, milestones(id, title, status, completed_at, sort_order)")
+        .eq("client_profile_id", user.id)
         .order("created_at", { ascending: false })
         .limit(1);
 
       if (projects && projects.length > 0) {
         const p = projects[0];
+        // Prefer progress_percentage (newer field) but fall back to progress
+        const progressValue = typeof p.progress_percentage === "number" && p.progress_percentage > 0
+          ? p.progress_percentage
+          : (p.progress ?? 0);
         setProject({
           id: p.id,
           name: p.name,
           status: p.status,
-          progress: p.progress,
+          progress: progressValue,
           milestones: (p.milestones || []).sort((a: { sort_order: number }, b: { sort_order: number }) => a.sort_order - b.sort_order),
         });
       }
       setDataLoaded(true);
     };
     fetchProject();
-  }, []);
+  }, [quoteId]);
 
   return (
     <>
