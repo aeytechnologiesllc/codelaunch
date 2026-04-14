@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,7 +9,7 @@ import {
   Check, ArrowRight, Calculator, Clock, RefreshCw, Sparkles,
   Zap, Shield, AlertTriangle, ChevronDown, ChevronUp, Users,
   UtensilsCrossed, Wrench, Lightbulb, MessageSquare, Loader2,
-  TrendingUp, Star, Upload,
+  TrendingUp, Star, Upload, Maximize2, X, ChevronLeft, ChevronRight,
 } from "lucide-react";
 import Link from "next/link";
 import { getTemplatesForContext, type DesignTemplate } from "@/components/DesignTemplates";
@@ -244,6 +244,7 @@ export default function PricingPage() {
   const [selectedAutomations, setSelectedAutomations] = useState<string[]>([]);
   const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
+  const [previewTemplate, setPreviewTemplate] = useState<DesignTemplate | null>(null);
   const [design, setDesign] = useState("standard");
   const [revisions, setRevisions] = useState("2");
   const [maintenance, setMaintenance] = useState("none");
@@ -298,6 +299,33 @@ export default function PricingPage() {
     setSelectedFeatures(qs.preselect);
     setStep(1);
   };
+
+  // Template preview keyboard navigation (ESC to close, arrows to flip)
+  useEffect(() => {
+    if (!previewTemplate) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setPreviewTemplate(null);
+        return;
+      }
+      if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+        if (!projectType) return;
+        const list = getTemplatesForContext(projectType, selectedFeatures);
+        const idx = list.findIndex((t) => t.id === previewTemplate.id);
+        if (idx === -1) return;
+        const nextIdx = e.key === "ArrowRight" ? (idx + 1) % list.length : (idx - 1 + list.length) % list.length;
+        setPreviewTemplate(list[nextIdx]);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    // Lock body scroll while modal is open
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", handler);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [previewTemplate, projectType, selectedFeatures]);
 
   const analyzeCustomFeature = useCallback(async () => {
     if (!customText.trim()) return;
@@ -540,6 +568,7 @@ export default function PricingPage() {
   };
 
   return (
+    <>
     <div className="pt-28 pb-20 relative section-ambient-warm overflow-hidden">
       <div className="max-w-5xl mx-auto px-6">
         <ScrollReveal>
@@ -738,12 +767,23 @@ export default function PricingPage() {
                   </h3>
                   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
                     {getTemplatesForContext(projectType, selectedFeatures).map((tmpl, i) => (
-                      <button
+                      <div
                         key={tmpl.id}
-                        onClick={() => { setSelectedTemplate(tmpl.id); setDesign("standard"); }}
-                        className={`glass-card overflow-hidden text-left transition-all duration-300 relative group ${
+                        role="button"
+                        tabIndex={0}
+                        aria-pressed={selectedTemplate === tmpl.id}
+                        aria-label={`Select ${tmpl.name} template`}
+                        className={`glass-card overflow-hidden text-left transition-all duration-300 relative group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
                           selectedTemplate === tmpl.id ? "border-accent/40 ring-1 ring-accent/20 shadow-[0_0_20px_rgba(167,139,250,0.1)]" : "hover:border-white/15"
                         }`}
+                        onClick={() => { setSelectedTemplate(tmpl.id); setDesign("standard"); }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            setSelectedTemplate(tmpl.id);
+                            setDesign("standard");
+                          }
+                        }}
                       >
                         {/* Recommended badge */}
                         {i === 0 && (
@@ -751,6 +791,16 @@ export default function PricingPage() {
                             Best Match
                           </div>
                         )}
+                        {/* View larger button */}
+                        <button
+                          type="button"
+                          onClick={(e) => { e.stopPropagation(); setPreviewTemplate(tmpl); }}
+                          className="absolute top-2 left-2 z-10 w-7 h-7 rounded-lg bg-bg-primary/80 backdrop-blur-sm border border-white/10 flex items-center justify-center text-text-secondary hover:text-accent hover:border-accent/40 hover:bg-bg-primary transition-all opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
+                          aria-label={`Preview ${tmpl.name}`}
+                          title="View larger"
+                        >
+                          <Maximize2 className="w-3.5 h-3.5" />
+                        </button>
                         {/* Screenshot */}
                         <div className="relative aspect-[16/10] overflow-hidden">
                           <img src={tmpl.image} alt={tmpl.name} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" />
@@ -761,13 +811,19 @@ export default function PricingPage() {
                               </span>
                             </div>
                           )}
+                          {/* Hover hint - shows on larger screens */}
+                          <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-bg-primary/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none hidden sm:block">
+                            <span className="text-[9px] text-white/80 font-medium flex items-center gap-1">
+                              <Maximize2 className="w-2.5 h-2.5" /> Click icon to preview
+                            </span>
+                          </div>
                         </div>
                         {/* Info */}
                         <div className="p-3">
                           <h4 className="font-semibold text-xs mb-0.5">{tmpl.name}</h4>
                           <p className="text-text-muted text-[10px] leading-relaxed line-clamp-2">{tmpl.description}</p>
                         </div>
-                      </button>
+                      </div>
                     ))}
                   </div>
 
@@ -1269,5 +1325,136 @@ export default function PricingPage() {
         </div>
       </div>
     </div>
+
+      {/* ───────────── Template Preview Lightbox ───────────── */}
+      <AnimatePresence>
+        {previewTemplate && (
+          <motion.div
+            key="tmpl-preview"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8 bg-bg-primary/85 backdrop-blur-md"
+            onClick={() => setPreviewTemplate(null)}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${previewTemplate.name} preview`}
+          >
+            {/* Close button */}
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); setPreviewTemplate(null); }}
+              className="absolute top-4 right-4 sm:top-6 sm:right-6 w-11 h-11 rounded-xl bg-bg-elevated/80 backdrop-blur-sm border border-white/10 flex items-center justify-center text-text-secondary hover:text-text-primary hover:border-white/20 transition-all z-10"
+              aria-label="Close preview"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Arrow nav */}
+            {(() => {
+              if (!projectType) return null;
+              const list = getTemplatesForContext(projectType, selectedFeatures);
+              const idx = list.findIndex((t) => t.id === previewTemplate.id);
+              const goPrev = (e: React.MouseEvent) => {
+                e.stopPropagation();
+                setPreviewTemplate(list[(idx - 1 + list.length) % list.length]);
+              };
+              const goNext = (e: React.MouseEvent) => {
+                e.stopPropagation();
+                setPreviewTemplate(list[(idx + 1) % list.length]);
+              };
+              return (
+                <>
+                  <button
+                    type="button"
+                    onClick={goPrev}
+                    className="hidden sm:flex absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-xl bg-bg-elevated/80 backdrop-blur-sm border border-white/10 items-center justify-center text-text-secondary hover:text-text-primary hover:border-white/20 transition-all z-10"
+                    aria-label="Previous template"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={goNext}
+                    className="hidden sm:flex absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-xl bg-bg-elevated/80 backdrop-blur-sm border border-white/10 items-center justify-center text-text-secondary hover:text-text-primary hover:border-white/20 transition-all z-10"
+                    aria-label="Next template"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </>
+              );
+            })()}
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.96, y: 10 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-6xl max-h-[90vh] flex flex-col bg-bg-elevated border border-white/10 rounded-2xl overflow-hidden shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="flex items-start justify-between gap-4 p-5 sm:p-6 border-b border-white/10">
+                <div className="flex-1 min-w-0 pr-12 sm:pr-0">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <h3 className="text-lg sm:text-xl font-bold truncate">{previewTemplate.name}</h3>
+                    <span className="flex-shrink-0 px-2 py-0.5 bg-accent/15 border border-accent/30 text-accent rounded-full text-[10px] font-semibold">
+                      {previewTemplate.style}
+                    </span>
+                  </div>
+                  <p className="text-text-secondary text-sm leading-relaxed">{previewTemplate.description}</p>
+                </div>
+              </div>
+
+              {/* Large screenshot */}
+              <div className="relative flex-1 overflow-auto bg-bg-primary">
+                <img
+                  src={previewTemplate.image}
+                  alt={previewTemplate.name}
+                  className="w-full h-auto block"
+                />
+              </div>
+
+              {/* Footer CTA */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-4 sm:p-5 border-t border-white/10 bg-bg-elevated">
+                <div className="flex items-center gap-2 text-text-muted text-xs">
+                  <span className="hidden sm:inline-flex items-center gap-1">
+                    <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/10 rounded text-[10px] font-mono">←</kbd>
+                    <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/10 rounded text-[10px] font-mono">→</kbd>
+                    navigate
+                  </span>
+                  <span className="hidden sm:inline-flex items-center gap-1 ml-2">
+                    <kbd className="px-1.5 py-0.5 bg-white/5 border border-white/10 rounded text-[10px] font-mono">esc</kbd>
+                    close
+                  </span>
+                </div>
+                {selectedTemplate === previewTemplate.id ? (
+                  <button
+                    type="button"
+                    onClick={() => setPreviewTemplate(null)}
+                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-accent/15 border border-accent/40 text-accent font-semibold rounded-xl text-sm"
+                  >
+                    <Check className="w-4 h-4" /> Currently Selected
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedTemplate(previewTemplate.id);
+                      setDesign("standard");
+                      setPreviewTemplate(null);
+                    }}
+                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-cta text-cta-text font-semibold rounded-xl glow-accent hover:bg-cta-hover transition-all text-sm"
+                  >
+                    <Check className="w-4 h-4" /> Select This Design
+                  </button>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
