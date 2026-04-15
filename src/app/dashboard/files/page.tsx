@@ -194,6 +194,14 @@ export default function FilesPage() {
             <p className="text-sm font-medium mb-1">Uploading…</p>
             <p className="text-text-muted text-xs">This can take a moment for larger files.</p>
           </>
+        ) : !projectId && !loading ? (
+          <>
+            <Upload className="w-10 h-10 text-text-muted/60 mx-auto mb-3" />
+            <p className="text-sm font-medium mb-1">Upload will activate once your project starts</p>
+            <p className="text-text-muted text-xs">
+              Configure a project in <a href="/pricing" className="text-accent hover:underline">pricing</a> to unlock uploads.
+            </p>
+          </>
         ) : (
           <>
             <Upload className={`w-10 h-10 mx-auto mb-3 transition-colors ${dragActive ? "text-accent" : "text-text-muted group-hover:text-accent"}`} />
