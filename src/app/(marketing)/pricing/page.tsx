@@ -1083,24 +1083,42 @@ export default function PricingPage() {
                           sub: "10% financing fee applies",
                           badge: "Lowest monthly",
                         },
-                      ].map((plan) => (
-                        <button
-                          key={plan.id}
-                          onClick={() => setPaymentPlan(plan.id)}
-                          className={`glass-card p-4 text-left transition-all ${
-                            paymentPlan === plan.id ? "border-accent/30 bg-accent/5" : "hover:bg-white/[0.03]"
-                          }`}
-                        >
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="font-medium text-sm">{plan.label}</span>
-                            {plan.badge && (
-                              <span className="text-[9px] bg-accent/10 text-accent px-1.5 py-0.5 rounded font-semibold">{plan.badge}</span>
+                      ].map((plan) => {
+                        const isSelected = paymentPlan === plan.id;
+                        return (
+                          <button
+                            key={plan.id}
+                            onClick={() => setPaymentPlan(plan.id)}
+                            aria-pressed={isSelected}
+                            className={`glass-card p-4 text-left transition-all duration-200 relative ${
+                              isSelected
+                                ? "border-accent/60 bg-accent/[0.08] ring-2 ring-accent/30 shadow-[0_0_24px_rgba(167,139,250,0.18)]"
+                                : "hover:bg-white/[0.04] hover:border-white/15"
+                            }`}
+                          >
+                            {/* Selected check indicator */}
+                            {isSelected && (
+                              <div className="absolute top-2.5 right-2.5 w-5 h-5 rounded-full bg-accent flex items-center justify-center">
+                                <Check className="w-3 h-3 text-cta-text" strokeWidth={3} />
+                              </div>
                             )}
-                          </div>
-                          <div className="text-lg font-bold text-accent">{plan.detail}</div>
-                          <div className="text-text-muted text-xs mt-0.5">{plan.sub}</div>
-                        </button>
-                      ))}
+                            <div className="flex items-center justify-between mb-1 pr-6">
+                              <span className={`font-semibold text-sm ${isSelected ? "text-accent" : ""}`}>
+                                {plan.label}
+                              </span>
+                              {plan.badge && !isSelected && (
+                                <span className="text-[9px] bg-accent/10 text-accent px-1.5 py-0.5 rounded font-semibold">{plan.badge}</span>
+                              )}
+                            </div>
+                            <div className={`text-lg font-bold ${isSelected ? "text-accent" : "text-text-primary"}`}>
+                              {plan.detail}
+                            </div>
+                            <div className={`text-xs mt-0.5 ${isSelected ? "text-text-secondary" : "text-text-muted"}`}>
+                              {plan.sub}
+                            </div>
+                          </button>
+                        );
+                      })}
                     </div>
                     {paymentPlan === "6mo" && (
                       <p className="text-text-muted text-xs mt-3">
