@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Rocket, ArrowRight, Mail, Lock, Loader2, AlertCircle } from "lucide-react";
 import Link from "next/link";
@@ -9,23 +9,36 @@ import { signIn, signInWithGoogle } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-bg-primary flex items-center justify-center text-text-muted">Loading...</div>}>
+      <LoginContent />
+    </Suspense>
+  );
+}
+
+function LoginContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const quoteId = searchParams.get("quoteId");
+  const dashboardUrl = quoteId ? `/dashboard?quoteId=${quoteId}` : "/dashboard";
+  const signupUrl = quoteId ? `/portal/signup?quoteId=${quoteId}` : "/portal/signup";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [authChecking, setAuthChecking] = useState(true);
 
-  // If already logged in, redirect to dashboard
+  // If already logged in, redirect to dashboard (preserving quoteId)
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (user) {
-        router.push("/dashboard");
+        router.push(dashboardUrl);
       } else {
         setAuthChecking(false);
       }
     });
-  }, [router]);
+  }, [router, dashboardUrl]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,7 +54,7 @@ export default function LoginPage() {
       return;
     }
 
-    router.push("/dashboard");
+    router.push(dashboardUrl);
   };
 
   if (authChecking) {
@@ -70,11 +83,26 @@ export default function LoginPage() {
           <p className="text-text-muted text-sm">Log in to track your project progress</p>
         </div>
 
+        {quoteId && (
+          <div className="mb-4 glass-card p-3 flex items-center gap-3 border-accent/20 bg-accent/[0.03]">
+            <div className="w-8 h-8 rounded-lg bg-accent/15 flex items-center justify-center flex-shrink-0">
+              <Rocket className="w-4 h-4 text-accent" />
+            </div>
+            <p className="text-xs text-text-secondary leading-snug">
+              <span className="text-accent font-semibold">Your quote is saved.</span>{" "}
+              Log in to attach it to your account.
+            </p>
+          </div>
+        )}
+
         <div className="glass-card p-8">
           {/* Google Sign In */}
           <button
             type="button"
-            onClick={() => signInWithGoogle()}
+            onClick={() => {
+              const redirectUrl = `${window.location.origin}/auth/callback?redirect=${encodeURIComponent(dashboardUrl)}`;
+              signInWithGoogle(redirectUrl);
+            }}
             className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white/5 border border-border rounded-xl text-sm font-medium hover:bg-white/10 transition-all mb-4"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24">
@@ -140,7 +168,7 @@ export default function LoginPage() {
 
           <div className="mt-6 text-center">
             <span className="text-text-muted text-xs">Don&apos;t have an account? </span>
-            <Link href="/portal/signup" className="text-accent text-xs font-medium hover:text-accent-hover transition-colors">
+            <Link href={signupUrl} className="text-accent text-xs font-medium hover:text-accent-hover transition-colors">
               Sign up
             </Link>
           </div>

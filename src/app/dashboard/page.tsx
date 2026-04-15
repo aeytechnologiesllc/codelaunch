@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   CheckCircle2, Circle, Clock, FileText, Sparkles, Rocket, Mail, MessageSquare, Star,
+  Globe, Smartphone, Brain, Plug, DollarSign, Calendar, Layers,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
@@ -15,6 +16,30 @@ const welcomeSteps = [
   { title: "Design Phase", description: "We create wireframes and designs for your approval.", icon: Sparkles, done: false },
   { title: "Development", description: "We start building your project. You'll track progress right here in your dashboard.", icon: Rocket, done: false },
 ];
+
+const projectTypeLabels: Record<string, { label: string; icon: typeof Globe }> = {
+  web: { label: "Web Application", icon: Globe },
+  mobile: { label: "Mobile App", icon: Smartphone },
+  ai: { label: "AI Integration", icon: Brain },
+  integration: { label: "Integrations & Bots", icon: Plug },
+};
+
+function prettyProjectType(raw: string | null | undefined) {
+  if (!raw) return { label: "Custom Project", icon: Sparkles };
+  const key = raw.toLowerCase();
+  return projectTypeLabels[key] || { label: raw, icon: Sparkles };
+}
+
+function formatMoney(n: number | string | null | undefined) {
+  if (n == null) return "—";
+  const num = typeof n === "string" ? parseFloat(n) : n;
+  if (!isFinite(num)) return "—";
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(num);
+}
 
 export default function DashboardPage() {
   return (
@@ -32,6 +57,19 @@ interface ProjectData {
   milestones: { id: string; title: string; status: string; completed_at: string | null; sort_order: number }[];
 }
 
+interface QuoteData {
+  id: string;
+  quote_number: string;
+  project_type: string;
+  selected_features: unknown;
+  selected_automations: unknown;
+  design_level: string | null;
+  total_price: number | string;
+  estimated_weeks: number | string | null;
+  payment_plan: string | null;
+  created_at: string;
+}
+
 function DashboardContent() {
   const searchParams = useSearchParams();
   const quoteId = searchParams.get("quoteId");
@@ -40,6 +78,7 @@ function DashboardContent() {
     return !sessionStorage.getItem("cl_celebrated");
   });
   const [project, setProject] = useState<ProjectData | null>(null);
+  const [quote, setQuote] = useState<QuoteData | null>(null);
   const [dataLoaded, setDataLoaded] = useState(false);
 
   // Show celebration once per session, then never again
@@ -53,9 +92,9 @@ function DashboardContent() {
     }
   }, [showCelebration]);
 
-  // Fetch real project data from Supabase; claim any ?quoteId=... first
+  // Fetch real project + quote data from Supabase; claim any ?quoteId=... first
   useEffect(() => {
-    const fetchProject = async () => {
+    const fetchData = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { setDataLoaded(true); return; }
 
@@ -87,9 +126,28 @@ function DashboardContent() {
           milestones: (p.milestones || []).sort((a: { sort_order: number }, b: { sort_order: number }) => a.sort_order - b.sort_order),
         });
       }
+
+      // Also fetch the user's most recent quote so we can show what they
+      // selected in the pricing flow. This covers both the URL param case
+      // (just finished pricing) and returning visits after the param is gone.
+      let quoteQuery = supabase
+        .from("quotes")
+        .select("id, quote_number, project_type, selected_features, selected_automations, design_level, total_price, estimated_weeks, payment_plan, created_at")
+        .order("created_at", { ascending: false })
+        .limit(1);
+      if (quoteId) {
+        quoteQuery = quoteQuery.eq("id", quoteId);
+      } else {
+        quoteQuery = quoteQuery.eq("client_profile_id", user.id);
+      }
+      const { data: quotes } = await quoteQuery;
+      if (quotes && quotes.length > 0) {
+        setQuote(quotes[0] as QuoteData);
+      }
+
       setDataLoaded(true);
     };
-    fetchProject();
+    fetchData();
   }, [quoteId]);
 
   return (
@@ -247,7 +305,7 @@ function DashboardContent() {
             </div>
           </motion.div>
         </div>
-      ) : quoteId ? (
+      ) : (quote || quoteId) ? (
         <div className="max-w-3xl mx-auto space-y-8">
           {/* Quote flow — project received but not started yet */}
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center">
@@ -257,6 +315,105 @@ function DashboardContent() {
             <h1 className="text-2xl sm:text-3xl font-bold mb-2">Welcome to CodeLaunch!</h1>
             <p className="text-text-secondary text-base">We&apos;ve received your project configuration and our team is reviewing it.</p>
           </motion.div>
+
+          {/* Quote Details — what the user selected in the pricing flow */}
+          {quote && (() => {
+            const typeInfo = prettyProjectType(quote.project_type);
+            const ProjectIcon = typeInfo.icon;
+            const features = Array.isArray(quote.selected_features) ? (quote.selected_features as string[]) : [];
+            const automations = Array.isArray(quote.selected_automations) ? (quote.selected_automations as string[]) : [];
+            const weeks = typeof quote.estimated_weeks === "number"
+              ? quote.estimated_weeks
+              : quote.estimated_weeks ? parseFloat(String(quote.estimated_weeks)) : null;
+            return (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.08 }}
+                className="glass-card p-6 sm:p-7 relative overflow-hidden"
+              >
+                {/* Warm ambient corner to echo the pricing "confidence" moment */}
+                <div className="absolute -top-16 -right-16 w-48 h-48 bg-accent-warm/[0.06] rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute -bottom-20 -left-16 w-56 h-56 bg-accent/[0.08] rounded-full blur-3xl pointer-events-none" />
+
+                <div className="relative">
+                  <div className="flex items-start justify-between gap-4 mb-5">
+                    <div>
+                      <div className="flex items-center gap-2 text-[10px] text-accent font-semibold uppercase tracking-wider mb-1">
+                        <Sparkles className="w-3 h-3" /> Your Project Configuration
+                      </div>
+                      <h2 className="text-lg font-semibold">Quote #{quote.quote_number}</h2>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xs text-text-muted">Total</div>
+                      <div className="text-2xl font-bold gradient-text-warm">{formatMoney(quote.total_price)}</div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+                    <div className="glass-card p-3 bg-accent/[0.02]">
+                      <div className="w-7 h-7 rounded-lg bg-accent/10 flex items-center justify-center mb-2">
+                        <ProjectIcon className="w-4 h-4 text-accent" />
+                      </div>
+                      <div className="text-[10px] text-text-muted uppercase tracking-wider mb-0.5">Type</div>
+                      <div className="text-xs font-semibold truncate">{typeInfo.label}</div>
+                    </div>
+                    <div className="glass-card p-3 bg-accent/[0.02]">
+                      <div className="w-7 h-7 rounded-lg bg-accent/10 flex items-center justify-center mb-2">
+                        <Layers className="w-4 h-4 text-accent" />
+                      </div>
+                      <div className="text-[10px] text-text-muted uppercase tracking-wider mb-0.5">Features</div>
+                      <div className="text-xs font-semibold">{features.length + automations.length}</div>
+                    </div>
+                    <div className="glass-card p-3 bg-accent/[0.02]">
+                      <div className="w-7 h-7 rounded-lg bg-accent/10 flex items-center justify-center mb-2">
+                        <Calendar className="w-4 h-4 text-accent" />
+                      </div>
+                      <div className="text-[10px] text-text-muted uppercase tracking-wider mb-0.5">Timeline</div>
+                      <div className="text-xs font-semibold">{weeks ? `~${weeks} weeks` : "TBD"}</div>
+                    </div>
+                    <div className="glass-card p-3 bg-accent/[0.02]">
+                      <div className="w-7 h-7 rounded-lg bg-accent/10 flex items-center justify-center mb-2">
+                        <DollarSign className="w-4 h-4 text-accent" />
+                      </div>
+                      <div className="text-[10px] text-text-muted uppercase tracking-wider mb-0.5">Payment</div>
+                      <div className="text-xs font-semibold capitalize">
+                        {quote.payment_plan === "full" ? "Full" :
+                         quote.payment_plan === "5050" ? "50/50 Split" :
+                         quote.payment_plan === "3mo" ? "3 Months" :
+                         quote.payment_plan === "6mo" ? "6 Months" :
+                         (quote.payment_plan || "—")}
+                      </div>
+                    </div>
+                  </div>
+
+                  {(features.length > 0 || automations.length > 0) && (
+                    <div>
+                      <div className="text-[10px] text-text-muted uppercase tracking-wider mb-2 font-semibold">
+                        What you selected
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {[...features, ...automations].slice(0, 12).map((f) => (
+                          <span
+                            key={f}
+                            className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-bg-primary/60 border border-border text-[11px] text-text-secondary"
+                          >
+                            <CheckCircle2 className="w-2.5 h-2.5 text-accent" />
+                            {String(f).replace(/[-_]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+                          </span>
+                        ))}
+                        {(features.length + automations.length) > 12 && (
+                          <span className="px-2 py-1 rounded-md bg-bg-primary/60 border border-border text-[11px] text-text-muted">
+                            +{features.length + automations.length - 12} more
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            );
+          })()}
 
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-card p-6 sm:p-8">
             <h2 className="text-lg font-semibold mb-6">What Happens Next</h2>
