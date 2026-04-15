@@ -35,8 +35,13 @@ export default function DashboardLayout({
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        // Not authenticated — redirect to login
-        router.push("/portal/login");
+        // Not authenticated — redirect to login, preserving quoteId so the
+        // user can still claim their quote after logging in/signing up.
+        // Read query params directly (avoid useSearchParams Suspense issue in layouts).
+        const search = typeof window !== "undefined" ? window.location.search : "";
+        const params = new URLSearchParams(search);
+        const quoteId = params.get("quoteId");
+        router.push(quoteId ? `/portal/login?quoteId=${quoteId}` : "/portal/login");
         return;
       }
       setAuthChecked(true);
