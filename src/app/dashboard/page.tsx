@@ -4,18 +4,30 @@ import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  CheckCircle2, Circle, Clock, FileText, Sparkles, Rocket, Mail, MessageSquare, Star,
+  CheckCircle2, Circle, Clock, Sparkles, Rocket, Mail, Star,
   Globe, Smartphone, Brain, Plug, DollarSign, Calendar, Layers,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
-const welcomeSteps = [
-  { title: "Project Received", description: "We've saved your configuration and pricing.", icon: CheckCircle2, done: true },
-  { title: "Team Review", description: "Our team is reviewing your requirements.", icon: FileText, done: false, active: true },
-  { title: "We Reach Out", description: "We'll email you with next steps, questions, and a project brief.", icon: Mail, done: false },
-  { title: "Design Phase", description: "We create wireframes and designs for your approval.", icon: Sparkles, done: false },
-  { title: "Development", description: "We start building your project. You'll track progress right here in your dashboard.", icon: Rocket, done: false },
-];
+// Status labels + dot colors — drive every UI element from a single source of truth
+const statusLabels: Record<string, { label: string; color: string; dotClass: string }> = {
+  discovery: { label: "Discovery", color: "text-amber-400", dotClass: "bg-amber-400 status-dot-live" },
+  planning: { label: "Planning", color: "text-amber-400", dotClass: "bg-amber-400 status-dot-live" },
+  in_review: { label: "In Review", color: "text-accent", dotClass: "bg-accent status-dot-live" },
+  active: { label: "Active", color: "text-accent", dotClass: "bg-accent status-dot-live" },
+  design: { label: "Design Phase", color: "text-accent", dotClass: "bg-accent status-dot-live" },
+  development: { label: "In Development", color: "text-accent", dotClass: "bg-accent status-dot-live" },
+  testing: { label: "Testing & Review", color: "text-accent", dotClass: "bg-accent status-dot-live" },
+  launched: { label: "Launched", color: "text-green-400", dotClass: "bg-green-400" },
+  completed: { label: "Completed", color: "text-green-400", dotClass: "bg-green-400" },
+  on_hold: { label: "On Hold", color: "text-text-muted", dotClass: "bg-text-muted" },
+  cancelled: { label: "Cancelled", color: "text-text-muted", dotClass: "bg-text-muted" },
+};
+
+function prettyStatus(raw: string | null | undefined) {
+  if (!raw) return statusLabels.discovery;
+  return statusLabels[raw.toLowerCase()] || { label: raw, color: "text-text-muted", dotClass: "bg-text-muted" };
+}
 
 const projectTypeLabels: Record<string, { label: string; icon: typeof Globe }> = {
   web: { label: "Web Application", icon: Globe },
@@ -201,16 +213,19 @@ function DashboardContent() {
                 </motion.div>
               </div>
 
-              {/* Floating stars */}
-              {[...Array(6)].map((_, i) => (
+              {/* Floating stars — deterministic offsets so React purity is preserved */}
+              {[
+                { y: -110, x: -80 },
+                { y: -90, x: 60 },
+                { y: -130, x: -40 },
+                { y: -100, x: 90 },
+                { y: -80, x: -100 },
+                { y: -120, x: 40 },
+              ].map((offset, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 0, x: 0 }}
-                  animate={{
-                    opacity: [0, 1, 0],
-                    y: -80 - Math.random() * 60,
-                    x: (Math.random() - 0.5) * 200,
-                  }}
+                  animate={{ opacity: [0, 1, 0], y: offset.y, x: offset.x }}
                   transition={{ delay: 0.5 + i * 0.1, duration: 1.5 }}
                   className="absolute left-1/2 top-1/3"
                 >
@@ -241,82 +256,26 @@ function DashboardContent() {
 
       {/* Dashboard content */}
       {!dataLoaded ? (
-        <div className="flex items-center justify-center h-40 text-text-muted text-sm">Loading your projects...</div>
-      ) : project ? (
-        /* Real project with milestones from Supabase */
         <div className="max-w-3xl mx-auto space-y-6">
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-xl sm:text-2xl font-bold mb-1">{project.name}</h1>
-            <p className="text-text-muted text-sm capitalize">{project.status.replace("_", " ")}</p>
-          </motion.div>
-
-          {/* Progress bar */}
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="glass-card p-5">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-semibold">Project Progress</span>
-              <span className="text-accent font-bold text-lg">{project.progress}%</span>
-            </div>
-            <div className="w-full h-2.5 bg-bg-elevated rounded-full overflow-hidden">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${project.progress}%` }}
-                transition={{ duration: 1, ease: "easeOut" }}
-                className="h-full bg-gradient-to-r from-accent to-accent-hover rounded-full"
-              />
-            </div>
-          </motion.div>
-
-          {/* Milestones */}
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-card p-6">
-            <h2 className="text-sm font-semibold mb-5">Milestones</h2>
-            <div className="space-y-3">
-              {project.milestones.map((m, i) => (
-                <div key={m.id} className="flex items-start gap-4">
-                  <div className="flex flex-col items-center">
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                      m.status === "completed" ? "bg-accent/15 text-accent"
-                        : m.status === "in_progress" ? "bg-amber-400/15 text-amber-400"
-                        : "bg-bg-elevated text-text-muted"
-                    }`}>
-                      {m.status === "completed" ? <CheckCircle2 className="w-4 h-4" />
-                        : m.status === "in_progress" ? <Clock className="w-4 h-4" />
-                        : <Circle className="w-4 h-4" />}
-                    </div>
-                    {i < project.milestones.length - 1 && (
-                      <div className={`w-px h-5 mt-1 ${m.status === "completed" ? "bg-accent/30" : "bg-border"}`} />
-                    )}
-                  </div>
-                  <div className="pt-1.5">
-                    <h3 className={`text-sm font-semibold ${
-                      m.status === "completed" ? "text-accent"
-                        : m.status === "in_progress" ? "text-text-primary"
-                        : "text-text-muted"
-                    }`}>
-                      {m.title}
-                      {m.status === "completed" && <span className="ml-2 text-[9px] text-accent bg-accent/10 px-1.5 py-0.5 rounded">Done</span>}
-                      {m.status === "in_progress" && <span className="ml-2 text-[9px] text-amber-400 bg-amber-400/10 px-1.5 py-0.5 rounded animate-pulse">In Progress</span>}
-                    </h3>
-                    {m.completed_at && (
-                      <p className="text-text-muted text-[10px] mt-0.5">Completed {new Date(m.completed_at).toLocaleDateString()}</p>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
+          <div className="skeleton h-6 w-48" />
+          <div className="skeleton h-20 w-full rounded-2xl" />
+          <div className="skeleton h-60 w-full rounded-2xl" />
         </div>
-      ) : (quote || quoteId) ? (
-        <div className="max-w-3xl mx-auto space-y-8">
-          {/* Quote flow — project received but not started yet */}
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center">
-            <div className="w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center mx-auto mb-4">
-              <Rocket className="w-8 h-8 text-accent" />
+      ) : project ? (
+        /* Real project view — always honest, drives every state from DB */
+        <div className="max-w-3xl mx-auto space-y-6">
+          {/* Header: project name + real status pill */}
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+            <div className="flex items-center gap-2 mb-1">
+              <span className={`w-2 h-2 rounded-full ${prettyStatus(project.status).dotClass}`} />
+              <span className={`text-xs font-semibold uppercase tracking-wider ${prettyStatus(project.status).color}`}>
+                {prettyStatus(project.status).label}
+              </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold mb-2">Welcome to CodeLaunch!</h1>
-            <p className="text-text-secondary text-base">We&apos;ve received your project configuration and our team is reviewing it.</p>
+            <h1 className="text-xl sm:text-2xl font-bold">{project.name}</h1>
           </motion.div>
 
-          {/* Quote Details — what the user selected in the pricing flow */}
+          {/* Quote Configuration card — what they selected in the pricing flow */}
           {quote && (() => {
             const typeInfo = prettyProjectType(quote.project_type);
             const ProjectIcon = typeInfo.icon;
@@ -415,63 +374,105 @@ function DashboardContent() {
             );
           })()}
 
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-card p-6 sm:p-8">
-            <h2 className="text-lg font-semibold mb-6">What Happens Next</h2>
-            <div className="space-y-4">
-              {welcomeSteps.map((step, i) => (
-                <div key={step.title} className="flex items-start gap-4">
-                  <div className="flex flex-col items-center">
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                      step.done ? "bg-accent/15 text-accent" : step.active ? "bg-accent/10 text-accent border border-accent/20" : "bg-bg-elevated text-text-muted"
-                    }`}>
-                      <step.icon className="w-5 h-5" />
+          {/* Progress bar — real percentage from the project row */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="glass-card p-5"
+          >
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-semibold">Project Progress</span>
+              <span className="text-accent font-bold text-lg">{project.progress}%</span>
+            </div>
+            <div className="w-full h-2.5 bg-bg-elevated rounded-full overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: `${project.progress}%` }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                className="h-full bg-gradient-to-r from-accent to-accent-hover rounded-full"
+              />
+            </div>
+            {project.progress === 0 && (
+              <p className="text-text-muted text-[11px] mt-3 leading-relaxed">
+                We&apos;ve received your project configuration. Your progress bar will tick up as we complete each phase.
+              </p>
+            )}
+          </motion.div>
+
+          {/* Milestones — always the real ones from the database */}
+          {project.milestones.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="glass-card p-6"
+            >
+              <h2 className="text-sm font-semibold mb-5">Milestones</h2>
+              <div className="space-y-3">
+                {project.milestones.map((m, i) => (
+                  <div key={m.id} className="flex items-start gap-4">
+                    <div className="flex flex-col items-center">
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                        m.status === "completed" ? "bg-accent/15 text-accent"
+                          : m.status === "in_progress" ? "bg-amber-400/15 text-amber-400"
+                          : "bg-bg-elevated text-text-muted"
+                      }`}>
+                        {m.status === "completed" ? <CheckCircle2 className="w-4 h-4" />
+                          : m.status === "in_progress" ? <Clock className="w-4 h-4" />
+                          : <Circle className="w-4 h-4" />}
+                      </div>
+                      {i < project.milestones.length - 1 && (
+                        <div className={`w-px h-5 mt-1 ${m.status === "completed" ? "bg-accent/30" : "bg-border"}`} />
+                      )}
                     </div>
-                    {i < welcomeSteps.length - 1 && (
-                      <div className={`w-px h-6 mt-1 ${step.done ? "bg-accent/30" : "bg-border"}`} />
-                    )}
+                    <div className="pt-1.5">
+                      <h3 className={`text-sm font-semibold ${
+                        m.status === "completed" ? "text-accent"
+                          : m.status === "in_progress" ? "text-text-primary"
+                          : "text-text-muted"
+                      }`}>
+                        {m.title}
+                        {m.status === "completed" && <span className="ml-2 text-[9px] text-accent bg-accent/10 px-1.5 py-0.5 rounded">Done</span>}
+                        {m.status === "in_progress" && <span className="ml-2 text-[9px] text-amber-400 bg-amber-400/10 px-1.5 py-0.5 rounded animate-pulse">In Progress</span>}
+                      </h3>
+                      {m.completed_at && (
+                        <p className="text-text-muted text-[10px] mt-0.5">
+                          Completed {new Date(m.completed_at).toLocaleDateString()}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                  <div className="pt-2">
-                    <h3 className={`text-sm font-semibold ${step.done ? "text-accent" : step.active ? "text-text-primary" : "text-text-muted"}`}>
-                      {step.title}
-                      {step.done && <span className="ml-2 text-[10px] text-accent bg-accent/10 px-1.5 py-0.5 rounded">Done</span>}
-                      {step.active && <span className="ml-2 text-[10px] text-accent bg-accent/10 px-1.5 py-0.5 rounded animate-pulse">In Progress</span>}
-                    </h3>
-                    <p className="text-text-muted text-xs mt-0.5">{step.description}</p>
-                  </div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* Contact card — still useful during discovery */}
+          {(project.status === "discovery" || project.status === "planning" || project.status === "in_review") && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="glass-card p-5 sm:p-6"
+            >
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0">
+                  <Mail className="w-5 h-5 text-accent" />
                 </div>
-              ))}
-            </div>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="glass-card p-6">
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0">
-                <Mail className="w-5 h-5 text-accent" />
+                <div>
+                  <h3 className="text-sm font-semibold mb-1">Check Your Email</h3>
+                  <p className="text-text-muted text-xs leading-relaxed">
+                    You&apos;ll hear from us within 24 hours with next steps and questions. You can also{" "}
+                    <a href="/dashboard/messages" className="text-accent hover:underline">send us a message here</a>
+                    {" "}or{" "}
+                    <a href="/dashboard/files" className="text-accent hover:underline">upload reference files</a>
+                    {" "}— we have everything we need from the quote to get started.
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-sm font-semibold mb-1">Check Your Email</h3>
-                <p className="text-text-muted text-xs leading-relaxed">
-                  You&apos;ll hear from us within 24 hours with next steps, questions about your project, and a detailed project brief.
-                  All communication happens via email and right here in your dashboard.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="glass-card p-6">
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0">
-                <MessageSquare className="w-5 h-5 text-accent" />
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold mb-1">Your Project Portal</h3>
-                <p className="text-text-muted text-xs leading-relaxed">
-                  This dashboard is where you&apos;ll track progress, upload files, view invoices, and message your development team.
-                  Once your project kicks off, everything happens right here.
-                </p>
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          )}
         </div>
       ) : (
         <div className="max-w-3xl mx-auto space-y-8">

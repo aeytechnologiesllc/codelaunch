@@ -19,7 +19,7 @@ export default function SettingsPage() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [savedAt, setSavedAt] = useState<number | null>(null);
+  const [showSaved, setShowSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Form state — initialized once profile loads
@@ -81,7 +81,8 @@ export default function SettingsPage() {
     if (updateErr) {
       setError(updateErr.message);
     } else {
-      setSavedAt(Date.now());
+      setShowSaved(true);
+      setTimeout(() => setShowSaved(false), 3500);
     }
     setSaving(false);
   };
@@ -190,7 +191,7 @@ export default function SettingsPage() {
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
             {saving ? "Saving..." : "Save Changes"}
           </button>
-          {savedAt && Date.now() - savedAt < 3500 && (
+          {showSaved && (
             <motion.span
               initial={{ opacity: 0, x: -6 }}
               animate={{ opacity: 1, x: 0 }}
