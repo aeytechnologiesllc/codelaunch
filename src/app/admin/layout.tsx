@@ -4,13 +4,15 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  LayoutDashboard, Users, Settings, Rocket, LogOut, ChevronLeft, ChevronRight, Shield, Menu, X,
+  LayoutDashboard, Users, Rocket, LogOut, ChevronLeft, ChevronRight, Shield, Menu, X,
+  MessageSquare, BarChart3,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 const navItems = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard },
-  { href: "/admin/projects", label: "Projects", icon: Users },
+  { href: "/admin/messages", label: "Messages", icon: MessageSquare },
+  { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

@@ -119,6 +119,22 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ id: st
     setCreating(false);
   };
 
+  const updateProjectStatus = async (newStatus: string) => {
+    if (!project) return;
+    const prev = project.status;
+    // Optimistic update
+    setProject({ ...project, status: newStatus });
+    const { error } = await supabase
+      .from("projects")
+      .update({ status: newStatus, updated_at: new Date().toISOString() })
+      .eq("id", project.id);
+    if (error) {
+      // Rollback on failure
+      setProject((p) => (p ? { ...p, status: prev } : p));
+      alert(`Failed to update status: ${error.message}`);
+    }
+  };
+
   const updateMilestone = async (milestoneId: string, newStatus: string) => {
     setUpdatingMilestone(milestoneId);
 
@@ -225,10 +241,30 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ id: st
         </motion.div>
       ) : (
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass-card p-6">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-lg font-semibold">{project.name}</h2>
-              <p className="text-text-muted text-xs capitalize">{project.status}</p>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+            <div className="min-w-0">
+              <h2 className="text-lg font-semibold truncate">{project.name}</h2>
+              <div className="flex items-center gap-2 mt-1">
+                <label htmlFor="project-status" className="text-text-muted text-xs">Status:</label>
+                <select
+                  id="project-status"
+                  value={project.status}
+                  onChange={(e) => updateProjectStatus(e.target.value)}
+                  className="bg-bg-elevated border border-border rounded-md px-2 py-1 text-xs font-medium text-text-primary hover:border-accent/30 focus:outline-none focus:border-accent/40 transition-colors capitalize"
+                >
+                  <option value="discovery">Discovery</option>
+                  <option value="planning">Planning</option>
+                  <option value="in_review">In Review</option>
+                  <option value="design">Design</option>
+                  <option value="development">Development</option>
+                  <option value="testing">Testing</option>
+                  <option value="active">Active</option>
+                  <option value="on_hold">On Hold</option>
+                  <option value="launched">Launched</option>
+                  <option value="completed">Completed</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+              </div>
             </div>
             <div className="flex items-center gap-3">
               <div className="w-24 h-2 bg-bg-elevated rounded-full overflow-hidden">
