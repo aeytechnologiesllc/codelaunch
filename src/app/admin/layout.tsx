@@ -11,6 +11,7 @@ import { supabase } from "@/lib/supabase";
 
 const navItems = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard },
+  { href: "/admin/clients", label: "Clients", icon: Users },
   { href: "/admin/messages", label: "Messages", icon: MessageSquare },
   { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
 ];
