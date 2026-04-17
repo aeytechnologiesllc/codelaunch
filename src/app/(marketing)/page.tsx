@@ -7,6 +7,7 @@ import { WhyUs } from "@/components/WhyUs";
 import { TechBadges } from "@/components/TechBadges";
 import { VideoProof } from "@/components/VideoProof";
 import { Process } from "@/components/Process";
+import { Guarantee } from "@/components/Guarantee";
 import { Testimonials } from "@/components/Testimonials";
 import { Scarcity } from "@/components/Scarcity";
 import { FAQ } from "@/components/FAQ";
@@ -25,6 +26,7 @@ export default function Home() {
       <TechBadges />
       <VideoProof />
       <Process />
+      <Guarantee />
       <Scarcity />
       <Testimonials />
       <FAQ />

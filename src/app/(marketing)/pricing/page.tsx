@@ -1228,6 +1228,20 @@ export default function PricingPage() {
                             )}
                           </div>
                         </div>
+                        {/* Risk-free reassurance — right above the commit button */}
+                        <div className="glass-card p-4 flex items-start gap-3 border-accent-warm/20 bg-accent-warm/[0.03]">
+                          <Shield className="w-5 h-5 text-accent-warm flex-shrink-0 mt-0.5" strokeWidth={1.8} />
+                          <div>
+                            <div className="text-sm font-semibold text-accent-warm mb-0.5">
+                              100% Risk-Free — Free Until You Love the Design
+                            </div>
+                            <p className="text-text-secondary text-xs leading-relaxed">
+                              We design your project first, at no cost. You only pay if you approve what you see.
+                              If the design doesn&apos;t feel right, walk away — zero charges.
+                            </p>
+                          </div>
+                        </div>
+
                         <div className="flex gap-3">
                           <button
                             onClick={saveQuote}

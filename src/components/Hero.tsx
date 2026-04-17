@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, Shield } from "lucide-react";
 import Link from "next/link";
 import { gsap } from "gsap";
 import dynamic from "next/dynamic";
@@ -211,6 +211,15 @@ export function Hero() {
                 </Link>
               </MagneticButton>
             </div>
+
+            {/* Risk-free trust badge */}
+            <Link
+              href="#guarantee"
+              className="inline-flex items-center gap-2 text-xs text-accent-warm hover:text-accent-warm/80 transition-colors mt-1"
+            >
+              <Shield className="w-3.5 h-3.5" />
+              <span className="font-medium">Free design phase · Only pay if you love it</span>
+            </Link>
 
             {/* Stats */}
             <div

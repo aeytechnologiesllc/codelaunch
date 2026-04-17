@@ -58,11 +58,29 @@ const faqs: { question: string; answer: string; category: Category }[] = [
   },
 ];
 
+// FAQPage structured data — helps Google surface these as rich results
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: f.answer,
+    },
+  })),
+};
+
 export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <section className="relative py-24 sm:py-28 overflow-hidden section-ambient">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <ScrollReveal>
           <div className="text-center mb-12">
