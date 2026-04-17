@@ -1071,17 +1071,17 @@ export default function PricingPage() {
                         },
                         {
                           id: "3mo" as const,
-                          label: "3 Monthly Payments",
+                          label: "3 Payments",
                           detail: `$${Math.ceil(pricing.total / 3).toLocaleString()}/mo`,
                           sub: "Start → mid-project → delivery",
                           badge: "Popular",
                         },
                         {
                           id: "6mo" as const,
-                          label: "6 Monthly Payments",
+                          label: "6 Payments",
                           detail: `$${Math.ceil(pricing.total * 1.1 / 6).toLocaleString()}/mo`,
                           sub: "10% financing fee applies",
-                          badge: "Lowest monthly",
+                          badge: "Lowest /mo",
                         },
                       ].map((plan) => {
                         const isSelected = paymentPlan === plan.id;
@@ -1102,12 +1102,12 @@ export default function PricingPage() {
                                 <Check className="w-3 h-3 text-cta-text" strokeWidth={3} />
                               </div>
                             )}
-                            <div className="flex items-center justify-between mb-1 pr-6">
-                              <span className={`font-semibold text-sm ${isSelected ? "text-accent" : ""}`}>
+                            <div className="flex items-center justify-between gap-2 mb-1 pr-6">
+                              <span className={`font-semibold text-sm truncate ${isSelected ? "text-accent" : ""}`}>
                                 {plan.label}
                               </span>
                               {plan.badge && !isSelected && (
-                                <span className="text-[9px] bg-accent/10 text-accent px-1.5 py-0.5 rounded font-semibold">{plan.badge}</span>
+                                <span className="flex-shrink-0 whitespace-nowrap text-[9px] bg-accent/10 text-accent px-1.5 py-0.5 rounded font-semibold">{plan.badge}</span>
                               )}
                             </div>
                             <div className={`text-lg font-bold ${isSelected ? "text-accent" : "text-text-primary"}`}>
@@ -1415,9 +1415,9 @@ export default function PricingPage() {
               {/* Header */}
               <div className="flex items-start justify-between gap-4 p-5 sm:p-6 border-b border-white/10">
                 <div className="flex-1 min-w-0 pr-12 sm:pr-0">
-                  <div className="flex items-center gap-2 mb-1.5">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-2 mb-1.5">
                     <h3 className="text-lg sm:text-xl font-bold truncate">{previewTemplate.name}</h3>
-                    <span className="flex-shrink-0 px-2 py-0.5 bg-accent/15 border border-accent/30 text-accent rounded-full text-[10px] font-semibold">
+                    <span className="self-start flex-shrink-0 px-2 py-0.5 bg-accent/15 border border-accent/30 text-accent rounded-full text-[10px] font-semibold">
                       {previewTemplate.style}
                     </span>
                   </div>
