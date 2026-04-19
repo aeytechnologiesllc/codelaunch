@@ -335,13 +335,11 @@ function DashboardContent() {
                       <div className="w-7 h-7 rounded-lg bg-accent/10 flex items-center justify-center mb-2">
                         <DollarSign className="w-4 h-4 text-accent" />
                       </div>
-                      <div className="text-[10px] text-text-muted uppercase tracking-wider mb-0.5">Payment</div>
+                      <div className="text-[10px] text-text-muted uppercase tracking-wider mb-0.5">Design</div>
                       <div className="text-xs font-semibold capitalize">
-                        {quote.payment_plan === "full" ? "Full" :
-                         quote.payment_plan === "5050" ? "50/50 Split" :
-                         quote.payment_plan === "3mo" ? "3 Months" :
-                         quote.payment_plan === "6mo" ? "6 Months" :
-                         (quote.payment_plan || "—")}
+                        {quote.design_level === "premium" ? "Award-Level" :
+                         quote.design_level === "custom" ? "Custom" :
+                         (quote.design_level || "Standard")}
                       </div>
                     </div>
                   </div>

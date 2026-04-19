@@ -891,30 +891,54 @@ export default function PricingPage() {
                   {/* Revisions */}
                   <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wider mb-3">Revisions</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
-                    {revisionOptions.map((r) => (
-                      <button key={r.id} onClick={() => setRevisions(r.id)} className={`flex-1 glass-card p-4 text-center transition-all ${revisions === r.id ? "border-accent/30 bg-accent/5" : "hover:bg-white/[0.03]"}`}>
-                        <div className="font-medium text-sm">{r.label}</div>
-                        <div className="text-accent text-xs font-semibold mt-1">{r.price === 0 ? "Free" : `+$${r.price}`}</div>
-                      </button>
-                    ))}
+                    {revisionOptions.map((r) => {
+                      const isSelected = revisions === r.id;
+                      return (
+                        <button
+                          key={r.id}
+                          onClick={() => setRevisions(r.id)}
+                          aria-pressed={isSelected}
+                          className={`flex-1 glass-card p-4 text-center transition-all duration-200 relative ${
+                            isSelected
+                              ? "border-accent/60 bg-accent/[0.08] ring-2 ring-accent/30 shadow-[0_0_24px_rgba(167,139,250,0.18)]"
+                              : "hover:bg-white/[0.04] hover:border-white/15"
+                          }`}
+                        >
+                          {isSelected && (
+                            <div className="absolute top-2.5 right-2.5 w-5 h-5 rounded-full bg-accent flex items-center justify-center">
+                              <Check className="w-3 h-3 text-cta-text" strokeWidth={3} />
+                            </div>
+                          )}
+                          <div className={`font-semibold text-sm ${isSelected ? "text-accent" : ""}`}>{r.label}</div>
+                          <div className={`text-xs font-semibold mt-1 ${isSelected ? "text-accent" : "text-text-muted"}`}>
+                            {r.price === 0 ? "Free" : `+$${r.price}`}
+                          </div>
+                        </button>
+                      );
+                    })}
                   </div>
 
                   {/* Rush */}
                   <h3 className="text-sm font-semibold text-text-secondary uppercase tracking-wider mb-3">Delivery Speed</h3>
                   <button
                     onClick={() => setRushDelivery(!rushDelivery)}
-                    className={`w-full glass-card p-5 text-left flex items-center gap-4 mb-8 transition-all ${rushDelivery ? "border-orange-400/30 bg-orange-400/5" : "hover:bg-white/[0.03]"}`}
+                    aria-pressed={rushDelivery}
+                    className={`w-full glass-card p-5 text-left flex items-center gap-4 mb-8 transition-all duration-200 ${
+                      rushDelivery
+                        ? "border-orange-400/60 bg-orange-400/[0.08] ring-2 ring-orange-400/30 shadow-[0_0_24px_rgba(251,146,60,0.18)]"
+                        : "hover:bg-white/[0.04] hover:border-white/15"
+                    }`}
                   >
                     <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${rushDelivery ? "border-orange-400 bg-orange-400" : "border-border"}`}>
-                      {rushDelivery && <Check className="w-3 h-3 text-bg-primary" />}
+                      {rushDelivery && <Check className="w-3 h-3 text-bg-primary" strokeWidth={3} />}
                     </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <Zap className="w-4 h-4 text-orange-400" />
-                        <span className="font-medium text-sm">Rush Delivery</span>
-                        <span className="px-1.5 py-0.5 bg-orange-400/15 rounded text-[9px] text-orange-400 font-semibold">40% surcharge · ~40% faster</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <Zap className="w-4 h-4 text-orange-400 flex-shrink-0" />
+                        <span className={`font-semibold text-sm ${rushDelivery ? "text-orange-400" : ""}`}>Rush Delivery</span>
+                        <span className="px-1.5 py-0.5 bg-orange-400/15 rounded text-[9px] text-orange-400 font-semibold whitespace-nowrap">40% surcharge · ~40% faster</span>
                       </div>
-                      <p className="text-text-muted text-xs mt-1">Dedicated team, extended hours, priority in our pipeline.</p>
+                      <p className={`text-xs mt-1 ${rushDelivery ? "text-text-secondary" : "text-text-muted"}`}>Dedicated team, extended hours, priority in our pipeline.</p>
                     </div>
                   </button>
 
@@ -923,20 +947,32 @@ export default function PricingPage() {
                     <Shield className="w-4 h-4" /> Ongoing Maintenance
                   </h3>
                   <div className="space-y-2 mb-8">
-                    {maintenancePlans.map((m) => (
-                      <button key={m.id} onClick={() => setMaintenance(m.id)} className={`w-full glass-card p-4 text-left flex items-center gap-3 transition-all ${maintenance === m.id ? "border-accent/30 bg-accent/5" : "hover:bg-white/[0.03]"}`}>
-                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${maintenance === m.id ? "border-accent" : "border-border"}`}>
-                          {maintenance === m.id && <div className="w-2.5 h-2.5 rounded-full bg-accent" />}
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium text-sm">{m.label}</span>
-                            {m.badge && <span className="text-[9px] bg-accent/10 text-accent px-1.5 py-0.5 rounded font-semibold">{m.badge}</span>}
+                    {maintenancePlans.map((m) => {
+                      const isSelected = maintenance === m.id;
+                      return (
+                        <button
+                          key={m.id}
+                          onClick={() => setMaintenance(m.id)}
+                          aria-pressed={isSelected}
+                          className={`w-full glass-card p-4 text-left flex items-center gap-3 transition-all duration-200 ${
+                            isSelected
+                              ? "border-accent/60 bg-accent/[0.08] ring-2 ring-accent/30 shadow-[0_0_24px_rgba(167,139,250,0.18)]"
+                              : "hover:bg-white/[0.04] hover:border-white/15"
+                          }`}
+                        >
+                          <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${isSelected ? "border-accent bg-accent" : "border-border"}`}>
+                            {isSelected && <Check className="w-3 h-3 text-cta-text" strokeWidth={3} />}
                           </div>
-                          <p className="text-text-muted text-xs mt-0.5">{m.description}</p>
-                        </div>
-                      </button>
-                    ))}
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className={`font-semibold text-sm ${isSelected ? "text-accent" : ""}`}>{m.label}</span>
+                              {m.badge && <span className="text-[9px] bg-accent/10 text-accent px-1.5 py-0.5 rounded font-semibold whitespace-nowrap">{m.badge}</span>}
+                            </div>
+                            <p className={`text-xs mt-0.5 ${isSelected ? "text-text-secondary" : "text-text-muted"}`}>{m.description}</p>
+                          </div>
+                        </button>
+                      );
+                    })}
                   </div>
 
                   {/* AI-specific note about API costs */}
@@ -1050,81 +1086,17 @@ export default function PricingPage() {
                     </div>
                   </div>
 
-                  {/* Payment Plan */}
-                  <div className="glass-card p-6 mt-4">
-                    <h3 className="text-sm font-semibold mb-4">How would you like to pay?</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {[
-                        {
-                          id: "full" as const,
-                          label: "Pay in Full",
-                          detail: `$${pricing.total.toLocaleString()}`,
-                          sub: "One payment, best value",
-                          badge: null,
-                        },
-                        {
-                          id: "5050" as const,
-                          label: "50/50 Split",
-                          detail: `$${Math.ceil(pricing.total / 2).toLocaleString()} × 2`,
-                          sub: "50% to start, 50% on delivery",
-                          badge: null,
-                        },
-                        {
-                          id: "3mo" as const,
-                          label: "3 Payments",
-                          detail: `$${Math.ceil(pricing.total / 3).toLocaleString()}/mo`,
-                          sub: "Start → mid-project → delivery",
-                          badge: "Popular",
-                        },
-                        {
-                          id: "6mo" as const,
-                          label: "6 Payments",
-                          detail: `$${Math.ceil(pricing.total * 1.1 / 6).toLocaleString()}/mo`,
-                          sub: "10% financing fee applies",
-                          badge: "Lowest /mo",
-                        },
-                      ].map((plan) => {
-                        const isSelected = paymentPlan === plan.id;
-                        return (
-                          <button
-                            key={plan.id}
-                            onClick={() => setPaymentPlan(plan.id)}
-                            aria-pressed={isSelected}
-                            className={`glass-card p-4 text-left transition-all duration-200 relative ${
-                              isSelected
-                                ? "border-accent/60 bg-accent/[0.08] ring-2 ring-accent/30 shadow-[0_0_24px_rgba(167,139,250,0.18)]"
-                                : "hover:bg-white/[0.04] hover:border-white/15"
-                            }`}
-                          >
-                            {/* Selected check indicator */}
-                            {isSelected && (
-                              <div className="absolute top-2.5 right-2.5 w-5 h-5 rounded-full bg-accent flex items-center justify-center">
-                                <Check className="w-3 h-3 text-cta-text" strokeWidth={3} />
-                              </div>
-                            )}
-                            <div className="flex items-center justify-between gap-2 mb-1 pr-6">
-                              <span className={`font-semibold text-sm truncate ${isSelected ? "text-accent" : ""}`}>
-                                {plan.label}
-                              </span>
-                              {plan.badge && !isSelected && (
-                                <span className="flex-shrink-0 whitespace-nowrap text-[9px] bg-accent/10 text-accent px-1.5 py-0.5 rounded font-semibold">{plan.badge}</span>
-                              )}
-                            </div>
-                            <div className={`text-lg font-bold ${isSelected ? "text-accent" : "text-text-primary"}`}>
-                              {plan.detail}
-                            </div>
-                            <div className={`text-xs mt-0.5 ${isSelected ? "text-text-secondary" : "text-text-muted"}`}>
-                              {plan.sub}
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
-                    {paymentPlan === "6mo" && (
-                      <p className="text-text-muted text-xs mt-3">
-                        6-month total: ${Math.ceil(pricing.total * 1.1).toLocaleString()} (${pricing.total.toLocaleString()} + 10% financing). First payment starts the project, remaining 5 payments monthly.
+                  {/* Payment — handled after design approval */}
+                  <div className="glass-card p-5 mt-4 flex items-start gap-3 border-accent-warm/15 bg-accent-warm/[0.03]">
+                    <Shield className="w-5 h-5 text-accent-warm flex-shrink-0 mt-0.5" strokeWidth={1.8} />
+                    <div className="flex-1">
+                      <h3 className="text-sm font-semibold mb-1">Payment happens after you love the design</h3>
+                      <p className="text-text-muted text-xs leading-relaxed">
+                        This is a quote, not a bill. We&apos;ll walk you through the design first —
+                        no payment required. Once you approve it, we&apos;ll send a simple invoice
+                        with flexible payment options (pay in full, 50/50 split, or monthly).
                       </p>
-                    )}
+                    </div>
                   </div>
 
                   {/* Trust Guarantees — compact strip */}
@@ -1170,7 +1142,7 @@ export default function PricingPage() {
                   <div className="glass-card p-4 mt-4 flex items-start gap-3 border-accent/10 bg-accent/[0.02]">
                     <Shield className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
                     <p className="text-text-muted text-xs leading-relaxed">
-                      <span className="text-text-secondary font-medium">Price locked.</span> This is your exact price for the current configuration. Change features and the price adjusts. No hidden fees.
+                      <span className="text-text-secondary font-medium">Your quote, locked in.</span> This is your transparent estimate for the current configuration. Change features and it updates instantly. No surprises, no hidden fees.
                     </p>
                   </div>
 
@@ -1318,23 +1290,10 @@ export default function PricingPage() {
                   )}
                 </div>
 
-                {paymentPlan !== "full" && (
-                  <div className="pt-3 border-t border-border">
-                    <div className="text-[10px] text-text-muted mb-0.5">
-                      {paymentPlan === "5050" ? "50/50 Split" : paymentPlan === "3mo" ? "3 Payments" : "6 Payments"}
-                    </div>
-                    <div className="text-lg font-bold text-accent">
-                      {paymentPlan === "5050"
-                        ? `$${Math.ceil(pricing.total / 2).toLocaleString()} × 2`
-                        : paymentPlan === "3mo"
-                        ? `$${Math.ceil(pricing.total / 3).toLocaleString()}/mo`
-                        : `$${Math.ceil(pricing.total * 1.1 / 6).toLocaleString()}/mo`}
-                    </div>
-                  </div>
-                )}
-
                 <div className="pt-3 border-t border-border">
-                  <p className="text-text-muted text-xs">Price locked for this configuration.</p>
+                  <p className="text-text-muted text-xs">
+                    Your quote, locked in. Payment is handled after you approve the design.
+                  </p>
                 </div>
                 {savedQuoteNumber ? (
                   <>
